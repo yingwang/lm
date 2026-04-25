@@ -45,10 +45,10 @@ benchmark/
 | # | Task | Status | Description |
 |---|------|--------|-------------|
 | 01 | hello | PASS | String greeting function |
-| 02 | reverse_string | SKIP | Reverse a string (needs string indexing) |
-| 03 | palindrome | SKIP | Palindrome check (needs string indexing) |
-| 04 | count_vowels | SKIP | Count vowels (needs char operations) |
-| 05 | caesar_cipher | SKIP | Caesar cipher (needs char operations) |
+| 02 | reverse_string | PASS | Reverse a string with character indexing |
+| 03 | palindrome | PASS | Palindrome check with character indexing |
+| 04 | count_vowels | PASS | Count vowels with character operations |
+| 05 | caesar_cipher | PASS | Caesar cipher with character-code operations |
 | 06 | string_repeat | PASS | Repeat string N times with separator |
 
 ### Number/Math (07-12)
@@ -99,8 +99,8 @@ benchmark/
 
 - **30/30 total** tasks defined
 - **30/30 tasks pass**
-- **26/26 runnable** tasks pass
-- **4 skipped** tasks intentionally print `SKIP:` pending string indexing / char operations
+- **30/30 runnable** tasks pass
+- **0 skipped** tasks
 
 ## Methodology for LLM Comparison
 
@@ -138,3 +138,4 @@ Key constraints when writing LM solutions:
 - Function body is a block `{ }` where the last expression is the return value
 - `let x = expr; body` is a let-expression where `body` uses `x`
 - `%` is available for modulo
+- `str_len(s)`, `char_at(s, i)`, `char_code(c)`, and `from_char_code(n)` are available for string-processing tasks

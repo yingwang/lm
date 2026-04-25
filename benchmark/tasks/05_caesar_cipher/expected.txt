@@ -1,1 +1,4 @@
-SKIP: caesar_cipher requires char operations (not yet implemented)
+BCD
+ABC
+URYYB
+C D!

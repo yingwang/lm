@@ -18,4 +18,4 @@ fn is_palindrome(s: String) -> Bool
 ## Notes
 
 - A palindrome reads the same forwards and backwards.
-- This task requires string indexing features not yet available in the current interpreter.
+- Use `str_len(s)` and `char_at(s, i)` for character indexing.

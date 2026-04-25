@@ -1,21 +1,17 @@
-// NOTE: This solution requires character-level string operations (char_at, char_code,
-// from_char_code) which are not yet implemented in the LM interpreter.
-
-// When available:
-// fn caesar_encrypt(text: String, shift: Int) -> String {
-//     fn helper(text: String, shift: Int, i: Int, acc: String) -> String {
-//         if i >= len(text) { acc }
-//         else {
-//             let c = char_code(char_at(text, i));
-//             let new_c = if c >= 65 && c <= 90 {
-//                 from_char_code(((c - 65 + shift) % 26) + 65)
-//             } else { char_at(text, i) };
-//             helper(text, shift, i + 1, acc ++ new_c)
-//         }
-//     }
-//     helper(text, shift, 0, "")
-// }
+fn caesar_encrypt_helper(text: String, shift: Int, i: Int, acc: String) -> String {
+    if i >= str_len(text) { acc }
+    else {
+        let c = char_at(text, i);
+        let code = char_code(c);
+        let new_c = if code >= 65 && code <= 90 {
+            from_char_code(((code - 65 + shift) % 26) + 65)
+        } else {
+            c
+        };
+        caesar_encrypt_helper(text, shift, i + 1, acc ++ new_c)
+    }
+}
 
 fn caesar_encrypt(text: String, shift: Int) -> String {
-    text
+    caesar_encrypt_helper(text, shift, 0, "")
 }

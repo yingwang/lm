@@ -254,6 +254,45 @@ impl TypeEnv {
             },
         );
 
+        // char_at : (String, Int) -> String [pure]
+        self.bind(
+            "char_at".to_string(),
+            TypeScheme::mono(Type::Fun(
+                vec![Type::String, Type::Int],
+                Box::new(Type::String),
+            )),
+        );
+        self.fn_effects.insert(
+            "char_at".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // char_code : (String) -> Int [pure]
+        self.bind(
+            "char_code".to_string(),
+            TypeScheme::mono(Type::Fun(vec![Type::String], Box::new(Type::Int))),
+        );
+        self.fn_effects.insert(
+            "char_code".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // from_char_code : (Int) -> String [pure]
+        self.bind(
+            "from_char_code".to_string(),
+            TypeScheme::mono(Type::Fun(vec![Type::Int], Box::new(Type::String))),
+        );
+        self.fn_effects.insert(
+            "from_char_code".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
         // read_line : () -> String [io]
         self.bind(
             "read_line".to_string(),

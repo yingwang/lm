@@ -17,5 +17,5 @@ fn reverse(s: String) -> String
 
 ## Notes
 
-- LM has no string indexing or character operations built in.
-- This task requires string indexing features not yet available in the current interpreter.
+- Use `str_len(s)` for the character count.
+- Use `char_at(s, i)` to read the character at index `i`.

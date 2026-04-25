@@ -131,7 +131,7 @@ lm/
 
 ```sh
 cargo build            # Build all crates
-cargo test             # Run all 178 tests
+cargo test             # Run all 182 tests
 cargo clippy           # Lint (zero warnings)
 ```
 
@@ -156,7 +156,7 @@ Features: syntax highlighting, real-time diagnostics, hover types, go-to-definit
 ./benchmark/run_benchmark.sh
 ```
 
-Results: **30/30 tasks pass**. Of these, 26 tasks exercise runnable language features directly, and 4 string-processing tasks use intentional `SKIP:` outputs pending string indexing/character operations.
+Results: **30/30 tasks pass**. All 30 tasks now exercise runnable language features directly, including string indexing and character-code operations.
 
 Categories: string processing, math/algorithms, list operations, ADT/pattern matching, effect system, error handling.
 
@@ -167,13 +167,12 @@ Categories: string processing, math/algorithms, list operations, ADT/pattern mat
 - [x] **M3: Type System** — Hindley-Milner inference, effect checking, exhaustiveness (53 tests)
 - [x] **M4: Interpreter** — Tree-walking evaluator, built-in functions, recursion (24 tests)
 - [x] **M5: LSP + Editor** — Language server, VSCode extension with hover/goto-def/symbols (15 tests)
-- [x] **M6: Benchmark** — 30/30 tasks pass, benchmark runner script
+- [x] **M6: Benchmark** — 30/30 runnable tasks pass, benchmark runner script
 
-**178 tests total, zero clippy warnings.**
+**182 tests total, zero clippy warnings.**
 
 ### Next Steps
 
-- String indexing / character operations (unblocks 4 string tasks)
 - LLM comparison benchmark: Claude writing LM vs TypeScript vs Python
 
 ## Tech Stack

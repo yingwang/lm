@@ -1,8 +1,19 @@
-// NOTE: Requires string indexing features not yet implemented.
-// This test is marked as SKIP.
-
-fn count_vowels(s: String) -> Int {
-    0
+fn is_vowel(c: String) -> Bool {
+    c == "a" || c == "e" || c == "i" || c == "o" || c == "u" ||
+    c == "A" || c == "E" || c == "I" || c == "O" || c == "U"
 }
 
-let _ = print("SKIP: count_vowels requires string indexing (not yet implemented)");
+fn count_vowels_helper(s: String, i: Int, count: Int) -> Int {
+    if i >= str_len(s) { count }
+    else if is_vowel(char_at(s, i)) { count_vowels_helper(s, i + 1, count + 1) }
+    else { count_vowels_helper(s, i + 1, count) }
+}
+
+fn count_vowels(s: String) -> Int {
+    count_vowels_helper(s, 0, 0)
+}
+
+let _ = print(int_to_string(count_vowels("hello")));
+let _ = print(int_to_string(count_vowels("aeiou")));
+let _ = print(int_to_string(count_vowels("xyz")));
+let _ = print(int_to_string(count_vowels("")));

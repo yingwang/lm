@@ -1,1 +1,4 @@
-SKIP: reverse_string requires string indexing (not yet implemented)
+olleh
+ba
+
+a

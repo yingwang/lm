@@ -15,6 +15,9 @@ const BUILTINS: &[&str] = &[
     "string_to_int",
     "len",
     "str_len",
+    "char_at",
+    "char_code",
+    "from_char_code",
     "list_get",
     "list_push",
     "list_map",
@@ -41,6 +44,9 @@ pub fn call_builtin(
         "string_to_int" => builtin_string_to_int(args, span),
         "len" => builtin_len(args, span),
         "str_len" => builtin_str_len(args, span),
+        "char_at" => builtin_char_at(args, span),
+        "char_code" => builtin_char_code(args, span),
+        "from_char_code" => builtin_from_char_code(args, span),
         "list_get" => builtin_list_get(args, span),
         "list_push" => builtin_list_push(args, span),
         "list_map" => builtin_list_map(interp, args, span),
@@ -153,7 +159,7 @@ fn builtin_len(args: Vec<Value>, span: Span) -> EvalResult {
     }
     match &args[0] {
         Value::List(items) => Ok(Value::Int(items.len() as i64)),
-        Value::String(s) => Ok(Value::Int(s.len() as i64)),
+        Value::String(s) => Ok(Value::Int(s.chars().count() as i64)),
         _ => Err(runtime_err(
             "E0503",
             "len expects a List or String",
@@ -172,10 +178,93 @@ fn builtin_str_len(args: Vec<Value>, span: Span) -> EvalResult {
         ));
     }
     match &args[0] {
-        Value::String(s) => Ok(Value::Int(s.len() as i64)),
+        Value::String(s) => Ok(Value::Int(s.chars().count() as i64)),
         _ => Err(runtime_err(
             "E0503",
             "str_len expects a String",
+            span,
+        )),
+    }
+}
+
+/// `char_at(s: String, index: Int) -> String`.
+fn builtin_char_at(args: Vec<Value>, span: Span) -> EvalResult {
+    if args.len() != 2 {
+        return Err(runtime_err(
+            "E0503",
+            format!("char_at expects 2 arguments, got {}", args.len()),
+            span,
+        ));
+    }
+    match (&args[0], &args[1]) {
+        (Value::String(s), Value::Int(idx)) => {
+            if *idx < 0 {
+                return Err(runtime_err(
+                    "E0503",
+                    "char_at index must be non-negative",
+                    span,
+                ));
+            }
+            s.chars()
+                .nth(*idx as usize)
+                .map(|c| Value::String(c.to_string()))
+                .ok_or_else(|| runtime_err("E0503", "char_at index out of bounds", span))
+        }
+        _ => Err(runtime_err(
+            "E0503",
+            "char_at expects (String, Int)",
+            span,
+        )),
+    }
+}
+
+/// `char_code(s: String) -> Int`.
+fn builtin_char_code(args: Vec<Value>, span: Span) -> EvalResult {
+    if args.len() != 1 {
+        return Err(runtime_err(
+            "E0503",
+            format!("char_code expects 1 argument, got {}", args.len()),
+            span,
+        ));
+    }
+    match &args[0] {
+        Value::String(s) => {
+            let mut chars = s.chars();
+            match (chars.next(), chars.next()) {
+                (Some(c), None) => Ok(Value::Int(c as i64)),
+                _ => Err(runtime_err(
+                    "E0503",
+                    "char_code expects a single-character String",
+                    span,
+                )),
+            }
+        }
+        _ => Err(runtime_err(
+            "E0503",
+            "char_code expects a String",
+            span,
+        )),
+    }
+}
+
+/// `from_char_code(code: Int) -> String`.
+fn builtin_from_char_code(args: Vec<Value>, span: Span) -> EvalResult {
+    if args.len() != 1 {
+        return Err(runtime_err(
+            "E0503",
+            format!("from_char_code expects 1 argument, got {}", args.len()),
+            span,
+        ));
+    }
+    match &args[0] {
+        Value::Int(code) => u32::try_from(*code)
+            .ok()
+            .and_then(char::from_u32)
+            .map(|c| Value::String(c.to_string()))
+            .ok_or_else(|| runtime_err("E0503", "invalid Unicode scalar value", span)),
+        _ => Err(runtime_err(
+            "E0503",
+            "from_char_code expects an Int",
             span,
         )),
     }
@@ -254,12 +343,11 @@ fn builtin_list_map(interp: &mut Interpreter, args: Vec<Value>, span: Span) -> E
             }
             let mut results = Vec::with_capacity(items.len());
             for item in items {
-                let saved_env = interp.env.clone();
-                interp.env = (**env).clone();
+                let saved_env = std::mem::replace(&mut interp.env, (**env).clone());
                 interp.env.define(params[0].clone(), item.clone());
-                let val = interp.eval_expr(body)?;
+                let val = interp.eval_expr(body);
                 interp.env = saved_env;
-                results.push(val);
+                results.push(val?);
             }
             Ok(Value::List(results))
         }

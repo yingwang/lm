@@ -18,4 +18,4 @@ fn caesar_encrypt(text: String, shift: Int) -> String
 
 - Only shift uppercase A-Z letters; leave other characters unchanged.
 - Wrap around: after Z comes A.
-- This task requires character-level string operations not yet available in the current interpreter.
+- Use `char_code(c)` and `from_char_code(n)` to convert between single-character strings and Unicode scalar values.

@@ -628,3 +628,17 @@ fn test_str_len_type_checks() {
 fn test_str_len_wrong_arg_type() {
     assert_has_error("let n = str_len(42);", "E0200");
 }
+
+#[test]
+fn test_string_character_builtins_type_check() {
+    assert_no_errors(
+        r#"let c = char_at("abc", 1);
+           let n = char_code(c);
+           let d = from_char_code(n);"#,
+    );
+}
+
+#[test]
+fn test_char_at_wrong_index_type() {
+    assert_has_error(r#"let c = char_at("abc", "1");"#, "E0200");
+}

@@ -1,1 +1,4 @@
-SKIP: palindrome requires string indexing (not yet implemented)
+true
+false
+true
+true

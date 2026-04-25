@@ -426,3 +426,20 @@ let n = str_len("");
     let (val, _) = eval_program(src);
     assert_eq!(val, Value::Int(0));
 }
+
+#[test]
+fn test_string_character_builtins() {
+    let src = r#"
+let first = char_at("éclair", 0);
+let code = char_code(first);
+let roundtrip = from_char_code(code);
+"#;
+    let (val, _) = eval_program(src);
+    assert_eq!(val, Value::String("é".to_string()));
+}
+
+#[test]
+fn test_char_at_out_of_bounds_errors() {
+    let code = eval_program_expect_error(r#"let c = char_at("abc", 3);"#);
+    assert_eq!(code, "E0503");
+}

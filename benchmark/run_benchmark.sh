@@ -86,7 +86,11 @@ echo ""
 echo "================================"
 echo "Results: $passed/$total passed"
 echo "  Runnable: $((passed - skipped))/$((total - skipped)) passed"
-echo "  Skipped:  $skipped (missing language features)"
+if [ "$skipped" -gt 0 ]; then
+    echo "  Skipped:  $skipped (missing language features)"
+else
+    echo "  Skipped:  0"
+fi
 if [ -n "$failed_tasks" ]; then
     echo "  Failed:  $failed_tasks"
 fi

@@ -18,4 +18,4 @@ fn count_vowels(s: String) -> Int
 ## Notes
 
 - Count both uppercase and lowercase vowels.
-- This task requires character-level string operations not yet available in the current interpreter.
+- Use `str_len(s)` and `char_at(s, i)` for character iteration.

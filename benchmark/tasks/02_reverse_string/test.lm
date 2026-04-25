@@ -1,8 +1,13 @@
-// NOTE: Requires string indexing features not yet implemented.
-// This test is marked as SKIP - expected to fail until string operations are added.
-
-fn reverse(s: String) -> String {
-    s
+fn reverse_helper(s: String, i: Int, acc: String) -> String {
+    if i < 0 { acc }
+    else { reverse_helper(s, i - 1, acc ++ char_at(s, i)) }
 }
 
-let _ = print("SKIP: reverse_string requires string indexing (not yet implemented)");
+fn reverse(s: String) -> String {
+    reverse_helper(s, str_len(s) - 1, "")
+}
+
+let _ = print(reverse("hello"));
+let _ = print(reverse("ab"));
+let _ = print(reverse(""));
+let _ = print(reverse("a"));

@@ -119,6 +119,16 @@ This is infectious — if you call anything `io`, your function must be `io` too
 
 `+` does NOT work on strings. This is intentional — no ambiguity about what `+` means.
 
+### String helpers
+```lm
+str_len("hello")             // 5
+char_at("hello", 1)          // "e"
+char_code("A")               // 65
+from_char_code(65)           // "A"
+```
+
+`char_at` indexes by Unicode character, not byte offset. `char_code` expects a single-character `String`.
+
 ### Comparison
 ```lm
 3 == 3      // true

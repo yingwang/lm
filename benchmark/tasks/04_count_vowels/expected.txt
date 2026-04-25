@@ -1,1 +1,4 @@
-SKIP: count_vowels requires string indexing (not yet implemented)
+2
+5
+0
+0
