@@ -1,3 +1,6 @@
 /target
 **/*.rs.bk
 Cargo.lock
+node_modules/
+editors/vscode/out/
+editors/vscode/package-lock.json
