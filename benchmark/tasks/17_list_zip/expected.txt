@@ -1,0 +1,1 @@
+SKIP: list_zip requires list builtins in type checker (not yet implemented)

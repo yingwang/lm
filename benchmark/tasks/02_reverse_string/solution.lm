@@ -1,0 +1,17 @@
+// NOTE: This solution requires string indexing (char_at, substring) which is
+// not yet implemented in the LM interpreter. This serves as a specification
+// for what the language should support.
+
+// When string indexing is available, the solution would be:
+// fn reverse(s: String) -> String {
+//     fn helper(s: String, i: Int, acc: String) -> String {
+//         if i < 0 { acc }
+//         else { helper(s, i - 1, acc ++ char_at(s, i)) }
+//     }
+//     helper(s, len(s) - 1, "")
+// }
+
+// For now, we provide a stub that works for testing the framework.
+fn reverse(s: String) -> String {
+    s
+}

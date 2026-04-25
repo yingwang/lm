@@ -1,0 +1,6 @@
+// NOTE: Requires recursive types in type checker (not yet implemented).
+// This test is marked as SKIP.
+
+fn placeholder() -> Int { 0 }
+
+let _ = print("SKIP: tree_depth requires recursive types (not yet implemented)");

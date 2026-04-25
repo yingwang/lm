@@ -1,0 +1,6 @@
+// NOTE: Requires list builtins in type checker (not yet implemented).
+// This test is marked as SKIP.
+
+fn placeholder() -> Int { 0 }
+
+let _ = print("SKIP: list_filter requires list builtins in type checker (not yet implemented)");

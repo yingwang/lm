@@ -1,0 +1,12 @@
+type Shape =
+    | Circle(Float)
+    | Rect(Float, Float)
+    | Triangle(Float, Float)
+
+fn area(s: Shape) -> Float {
+    match s {
+        Circle(r) -> 3.14159 * r * r,
+        Rect(w, h) -> w * h,
+        Triangle(base, height) -> 0.5 * base * height,
+    }
+}

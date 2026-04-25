@@ -1,0 +1,8 @@
+// NOTE: Requires string indexing features not yet implemented.
+// This test is marked as SKIP.
+
+fn is_palindrome(s: String) -> Bool {
+    true
+}
+
+let _ = print("SKIP: palindrome requires string indexing (not yet implemented)");

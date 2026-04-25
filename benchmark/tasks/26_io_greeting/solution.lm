@@ -1,0 +1,9 @@
+fn format_greeting(name: String, age: Int) -> String {
+    "Hello, " ++ name ++ "! You are " ++ to_string(age) ++ " years old."
+}
+
+io fn print_greeting(name: String, age: Int) -> Unit {
+    let _ = print("=== Greeting ===");
+    let _ = print(format_greeting(name, age));
+    print("================")
+}

@@ -1,0 +1,21 @@
+fn mod_int(a: Int, b: Int) -> Int {
+    a - (a / b) * b
+}
+
+fn fizzbuzz(n: Int) -> String {
+    let by3 = mod_int(n, 3) == 0;
+    let by5 = mod_int(n, 5) == 0;
+    if by3 && by5 { "FizzBuzz" }
+    else if by3 { "Fizz" }
+    else if by5 { "Buzz" }
+    else { to_string(n) }
+}
+
+io fn print_fizzbuzz_range(from: Int, to: Int) -> Unit {
+    if from <= to {
+        let _ = print(fizzbuzz(from));
+        print_fizzbuzz_range(from + 1, to)
+    } else {
+        print("")
+    }
+}

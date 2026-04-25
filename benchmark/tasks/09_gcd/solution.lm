@@ -1,0 +1,7 @@
+fn gcd(a: Int, b: Int) -> Int {
+    if b == 0 { a }
+    else {
+        let remainder = a - (a / b) * b;
+        gcd(b, remainder)
+    }
+}

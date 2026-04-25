@@ -1,0 +1,8 @@
+fn collatz_steps(n: Int) -> Int {
+    if n <= 1 { 0 }
+    else {
+        let is_even = n - (n / 2) * 2 == 0;
+        if is_even { 1 + collatz_steps(n / 2) }
+        else { 1 + collatz_steps(3 * n + 1) }
+    }
+}

@@ -1,0 +1,8 @@
+// NOTE: Requires list builtins in type checker (not yet implemented).
+// This test is marked as SKIP.
+
+fn sum_placeholder(a: Int, b: Int, c: Int) -> Int {
+    a + b + c
+}
+
+let _ = print("SKIP: list_sum requires list builtins in type checker (not yet implemented)");

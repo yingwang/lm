@@ -1,0 +1,5 @@
+fn repeat(s: String, n: Int, sep: String) -> String {
+    if n <= 0 { "" }
+    else if n == 1 { s }
+    else { s ++ sep ++ repeat(s, n - 1, sep) }
+}

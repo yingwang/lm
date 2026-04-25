@@ -1,0 +1,18 @@
+fn is_prime(n: Int) -> Bool {
+    if n <= 1 { false }
+    else if n <= 3 { true }
+    else {
+        let mod_n = n - (n / 2) * 2;
+        if mod_n == 0 { false }
+        else { has_no_divisor(n, 3) }
+    }
+}
+
+fn has_no_divisor(n: Int, d: Int) -> Bool {
+    if d * d > n { true }
+    else {
+        let remainder = n - (n / d) * d;
+        if remainder == 0 { false }
+        else { has_no_divisor(n, d + 2) }
+    }
+}

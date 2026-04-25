@@ -1,0 +1,8 @@
+// NOTE: Requires character-level string operations not yet implemented.
+// This test is marked as SKIP.
+
+fn caesar_encrypt(text: String, shift: Int) -> String {
+    text
+}
+
+let _ = print("SKIP: caesar_cipher requires char operations (not yet implemented)");

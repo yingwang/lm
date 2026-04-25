@@ -1,0 +1,8 @@
+// NOTE: Requires string indexing features not yet implemented.
+// This test is marked as SKIP.
+
+fn count_vowels(s: String) -> Int {
+    0
+}
+
+let _ = print("SKIP: count_vowels requires string indexing (not yet implemented)");

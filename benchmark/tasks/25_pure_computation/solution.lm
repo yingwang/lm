@@ -1,0 +1,8 @@
+fn compute(x: Int, y: Int) -> Int {
+    let sum = x + y;
+    sum * sum
+}
+
+io fn show_result(x: Int) -> Unit {
+    print("Result: " ++ to_string(x))
+}

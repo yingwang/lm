@@ -1,0 +1,7 @@
+Ok(42)
+Err(not a number: abc)
+Success: 7
+Error: bad
+Error: bad
+Success: 52
+Error: not a number: abc

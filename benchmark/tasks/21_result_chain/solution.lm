@@ -1,0 +1,13 @@
+fn map_result(r: Result<Int, String>, addend: Int) -> Result<Int, String> {
+    match r {
+        Ok(v) -> Ok(v + addend),
+        Err(e) -> Err(e),
+    }
+}
+
+fn and_then_divide(r: Result<Int, String>, divisor: Int) -> Result<Int, String> {
+    match r {
+        Ok(v) -> if divisor == 0 { Err("division by zero") } else { Ok(v / divisor) },
+        Err(e) -> Err(e),
+    }
+}

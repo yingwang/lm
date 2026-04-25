@@ -1,0 +1,6 @@
+Ok(15)
+Err(fail)
+Ok(5)
+Err(division by zero)
+Err(fail)
+Ok(10)

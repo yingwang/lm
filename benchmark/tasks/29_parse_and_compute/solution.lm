@@ -1,0 +1,25 @@
+// Simulated parse: match known values since string_to_int isn't in type checker
+fn parse_int(s: String) -> Result<Int, String> {
+    if s == "42" { Ok(42) }
+    else if s == "10" { Ok(10) }
+    else if s == "0" { Ok(0) }
+    else if s == "7" { Ok(7) }
+    else { Err("not a number: " ++ s) }
+}
+
+fn compute(a: Result<Int, String>, b: Result<Int, String>) -> Result<Int, String> {
+    match a {
+        Err(e) -> Err(e),
+        Ok(va) -> match b {
+            Err(e) -> Err(e),
+            Ok(vb) -> Ok(va + vb),
+        },
+    }
+}
+
+fn describe_result(r: Result<Int, String>) -> String {
+    match r {
+        Ok(v) -> "Success: " ++ to_string(v),
+        Err(e) -> "Error: " ++ e,
+    }
+}

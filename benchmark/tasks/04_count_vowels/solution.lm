@@ -1,0 +1,21 @@
+// NOTE: This solution requires string indexing (char_at) which is not yet
+// implemented in the LM interpreter.
+
+// When available:
+// fn count_vowels(s: String) -> Int {
+//     fn helper(s: String, i: Int, count: Int) -> Int {
+//         if i >= len(s) { count }
+//         else {
+//             let c = char_at(s, i);
+//             let is_vowel = c == "a" || c == "e" || c == "i" || c == "o" || c == "u"
+//                         || c == "A" || c == "E" || c == "I" || c == "O" || c == "U";
+//             if is_vowel { helper(s, i + 1, count + 1) }
+//             else { helper(s, i + 1, count) }
+//         }
+//     }
+//     helper(s, 0, 0)
+// }
+
+fn count_vowels(s: String) -> Int {
+    0
+}

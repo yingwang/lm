@@ -1,0 +1,21 @@
+// NOTE: This solution requires list builtins (len, list_get) to be registered
+// in the type checker, which is not yet implemented.
+
+// When available:
+// fn sum_helper(lst: List<Int>, i: Int, acc: Int) -> Int {
+//     if i >= len(lst) { acc }
+//     else {
+//         match list_get(lst, i) {
+//             Some(v) -> sum_helper(lst, i + 1, acc + v),
+//             None -> acc,
+//         }
+//     }
+// }
+//
+// fn sum(lst: List<Int>) -> Int {
+//     sum_helper(lst, 0, 0)
+// }
+
+fn sum_placeholder(a: Int, b: Int, c: Int) -> Int {
+    a + b + c
+}

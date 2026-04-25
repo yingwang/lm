@@ -1,0 +1,16 @@
+// NOTE: This solution requires string indexing (char_at) which is not yet
+// implemented in the LM interpreter.
+
+// When available:
+// fn is_palindrome(s: String) -> Bool {
+//     fn check(s: String, lo: Int, hi: Int) -> Bool {
+//         if lo >= hi { true }
+//         else if char_at(s, lo) != char_at(s, hi) { false }
+//         else { check(s, lo + 1, hi - 1) }
+//     }
+//     check(s, 0, len(s) - 1)
+// }
+
+fn is_palindrome(s: String) -> Bool {
+    true
+}

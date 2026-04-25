@@ -1,0 +1,11 @@
+fn fib(n: Int) -> Int {
+    if n <= 0 { 0 }
+    else if n == 1 { 1 }
+    else { fib(n - 1) + fib(n - 2) }
+}
+
+let _ = print(to_string(fib(0)));
+let _ = print(to_string(fib(1)));
+let _ = print(to_string(fib(2)));
+let _ = print(to_string(fib(5)));
+let _ = print(to_string(fib(10)));

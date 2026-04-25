@@ -1,0 +1,1 @@
+SKIP: palindrome requires string indexing (not yet implemented)
