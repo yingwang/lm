@@ -99,6 +99,40 @@ Error code ranges:
 
 Error codes are stable — once assigned, their meaning never changes.
 
+## Quick Start
+
+```sh
+# Build the compiler
+cargo build --release
+
+# Install lmc to your PATH
+cp target/release/lmc /usr/local/bin/
+
+# Run your first program
+lmc run examples/hello.lm
+```
+
+Write a program (`hello.lm`):
+
+```lm
+io fn main() -> Unit {
+    print("Hello, world!")
+}
+
+let _ = main();
+```
+
+Run it:
+
+```sh
+lmc run hello.lm
+```
+
+**Learn LM:**
+- [Quick Start](docs/quickstart.md) — 5-minute guide for programmers
+- [Tutorial](docs/tutorial.md) — Complete language reference
+- [LLM Reference](docs/llm-reference.md) — Cheat sheet for LLM agents
+
 ## CLI (`lmc`)
 
 ```sh
@@ -196,6 +230,24 @@ MIT
 LM 是一门专为大语言模型写代码而设计的编程语言。每一个设计决策都在消除 LLM 写代码时常犯的错误：没有可变性、没有隐式转换、没有 null、没有异常、没有继承。编译器同时输出人类可读和 JSON 两种格式的诊断信息，LLM 代理可以解析错误并自我修正。
 
 **目标：** 在一组标准编程任务上，Claude 用 LM 写代码的一次通过率显著高于 TypeScript / Python。
+
+### 快速开始
+
+```sh
+# 编译
+cargo build --release
+
+# 安装 lmc 到 PATH
+cp target/release/lmc /usr/local/bin/
+
+# 运行程序
+lmc run examples/hello.lm
+```
+
+**学习 LM：**
+- [快速上手](docs/quickstart.md) — 5 分钟入门（对比 Python/JS）
+- [完整教程](docs/tutorial.md) — 语言参考手册
+- [LLM 参考](docs/llm-reference.md) — 给 AI 的速查表
 
 ### 核心规则
 
