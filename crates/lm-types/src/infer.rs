@@ -83,7 +83,19 @@ impl TypeChecker {
     }
 
     /// Register a type definition in the environment.
+    ///
+    /// Uses a two-pass approach: first register the ADT name (with empty variants)
+    /// so that recursive/self-referential types can be resolved, then process the
+    /// variant field types and update the registration.
     fn register_type_def(&mut self, name: &str, type_params: &[String], variants: &[Variant]) {
+        // First: register the ADT name with empty variants so self-references resolve.
+        self.env.register_adt(AdtInfo {
+            name: name.to_string(),
+            type_params: type_params.to_vec(),
+            variants: Vec::new(),
+        });
+
+        // Second: now process variant field types (which may reference this ADT).
         let mut variant_infos = Vec::new();
 
         for variant in variants {
@@ -101,6 +113,7 @@ impl TypeChecker {
             });
         }
 
+        // Third: re-register with the full variant information.
         self.env.register_adt(AdtInfo {
             name: name.to_string(),
             type_params: type_params.to_vec(),
@@ -483,6 +496,8 @@ impl TypeChecker {
 
             ExprKind::Block { exprs } => self.infer_block(exprs),
 
+            ExprKind::ListLiteral { elements } => self.infer_list_literal(elements, expr.span),
+
             ExprKind::VariantConstruct { name, args } => {
                 self.infer_variant_construct(name, args, expr.span)
             }
@@ -528,7 +543,7 @@ impl TypeChecker {
 
         match op {
             // Numeric operators: both operands same numeric type, return same
-            BinOp::Add | BinOp::Sub | BinOp::Mul | BinOp::Div => {
+            BinOp::Add | BinOp::Sub | BinOp::Mul | BinOp::Div | BinOp::Mod => {
                 // Unify lhs and rhs
                 if self.table.unify(&lhs_ty, &rhs_ty, span).is_err() {
                     let resolved_lhs = self.table.deep_resolve(&lhs_ty);
@@ -1202,6 +1217,46 @@ impl TypeChecker {
         ty.clone()
     }
 
+    /// Infer the type of a list literal.
+    fn infer_list_literal(&mut self, elements: &[Expr], span: Span) -> Option<Type> {
+        if elements.is_empty() {
+            // Empty list: List<a> with fresh variable
+            return Some(Type::List(Box::new(self.table.fresh_var())));
+        }
+
+        // Infer element types and unify them all
+        let elem_var = self.table.fresh_var();
+        for elem in elements {
+            if let Some(et) = self.infer_expr(elem) {
+                if self.table.unify(&et, &elem_var, elem.span).is_err() {
+                    let resolved_expected = self.table.deep_resolve(&elem_var);
+                    let resolved_found = self.table.deep_resolve(&et);
+                    self.diagnostics.push(
+                        Diagnostic::error(
+                            "E0200",
+                            format!(
+                                "list elements have incompatible types: `{}` and `{}`",
+                                resolved_expected.display(),
+                                resolved_found.display()
+                            ),
+                            elem.span,
+                        )
+                        .with_label(Label::new(
+                            span,
+                            format!("expected `{}`", resolved_expected.display()),
+                        ))
+                        .with_label(Label::new(
+                            elem.span,
+                            format!("found `{}`", resolved_found.display()),
+                        )),
+                    );
+                }
+            }
+        }
+
+        Some(Type::List(Box::new(self.table.deep_resolve(&elem_var))))
+    }
+
     /// Infer the type of a block expression.
     fn infer_block(&mut self, exprs: &[Expr]) -> Option<Type> {
         if exprs.is_empty() {
@@ -1390,6 +1445,7 @@ fn binop_symbol(op: BinOp) -> &'static str {
         BinOp::Sub => "-",
         BinOp::Mul => "*",
         BinOp::Div => "/",
+        BinOp::Mod => "%",
         BinOp::Concat => "++",
         BinOp::Eq => "==",
         BinOp::Ne => "!=",

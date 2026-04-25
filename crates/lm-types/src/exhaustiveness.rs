@@ -95,6 +95,12 @@ fn check_expr_exhaustiveness(
             }
         }
 
+        ExprKind::ListLiteral { elements } => {
+            for elem in elements {
+                check_expr_exhaustiveness(elem, env, table, diagnostics);
+            }
+        }
+
         ExprKind::Literal { .. } | ExprKind::Ident { .. } | ExprKind::Error => {}
     }
 }

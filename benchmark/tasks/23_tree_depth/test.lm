@@ -1,6 +1,15 @@
-// NOTE: Requires recursive types in type checker (not yet implemented).
-// This test is marked as SKIP.
+type Tree = Leaf(Int) | Node(Tree, Tree)
 
-fn placeholder() -> Int { 0 }
+fn depth(t: Tree) -> Int {
+    match t {
+        Leaf(_) -> 1,
+        Node(left, right) ->
+            let ld = depth(left);
+            let rd = depth(right);
+            if ld > rd { ld + 1 } else { rd + 1 },
+    }
+}
 
-let _ = print("SKIP: tree_depth requires recursive types (not yet implemented)");
+let _ = print(to_string(depth(Leaf(1))));
+let _ = print(to_string(depth(Node(Leaf(1), Leaf(2)))));
+let _ = print(to_string(depth(Node(Node(Leaf(1), Leaf(2)), Leaf(3)))));

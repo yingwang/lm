@@ -1,6 +1,17 @@
-// NOTE: Requires list builtins in type checker (not yet implemented).
-// This test is marked as SKIP.
+fn reverse_helper(lst: List<Int>, i: Int, acc: List<Int>) -> List<Int> {
+    if i < 0 { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> reverse_helper(lst, i - 1, list_push(acc, v)),
+            None -> acc,
+        }
+    }
+}
 
-fn placeholder() -> Int { 0 }
+fn reverse(lst: List<Int>) -> List<Int> {
+    reverse_helper(lst, len(lst) - 1, [])
+}
 
-let _ = print("SKIP: list_reverse requires list builtins in type checker (not yet implemented)");
+let _ = print(to_string(reverse([1, 2, 3])));
+let _ = print(to_string(reverse([])));
+let _ = print(to_string(reverse([1])));

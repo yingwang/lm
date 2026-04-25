@@ -115,6 +115,12 @@ fn check_expr_effects(
             }
         }
 
+        ExprKind::ListLiteral { elements } => {
+            for elem in elements {
+                check_expr_effects(elem, fn_name, env, diagnostics);
+            }
+        }
+
         // These don't perform effects
         ExprKind::Literal { .. } | ExprKind::Ident { .. } | ExprKind::Error => {}
     }

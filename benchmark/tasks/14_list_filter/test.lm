@@ -1,6 +1,24 @@
-// NOTE: Requires list builtins in type checker (not yet implemented).
-// This test is marked as SKIP.
+fn filter_helper(lst: List<Int>, pred: (Int) -> Bool, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> if pred(v) {
+                filter_helper(lst, pred, i + 1, list_push(acc, v))
+            } else {
+                filter_helper(lst, pred, i + 1, acc)
+            },
+            None -> acc,
+        }
+    }
+}
 
-fn placeholder() -> Int { 0 }
+fn filter(lst: List<Int>, pred: (Int) -> Bool) -> List<Int> {
+    filter_helper(lst, pred, 0, [])
+}
 
-let _ = print("SKIP: list_filter requires list builtins in type checker (not yet implemented)");
+fn gt3(x: Int) -> Bool { x > 3 }
+fn is_even(x: Int) -> Bool { x - (x / 2) * 2 == 0 }
+
+let _ = print(to_string(filter([1, 2, 3, 4, 5], gt3)));
+let _ = print(to_string(filter([1, 2, 3], is_even)));
+let _ = print(to_string(filter([], gt3)));

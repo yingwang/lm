@@ -198,6 +198,10 @@ impl<'src> Lexer<'src> {
                 self.advance();
                 Some(self.make_token(TokenKind::Slash, start))
             }
+            b'%' => {
+                self.advance();
+                Some(self.make_token(TokenKind::Percent, start))
+            }
             b'=' => {
                 self.advance();
                 if self.peek() == Some(b'=') {

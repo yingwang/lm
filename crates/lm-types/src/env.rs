@@ -82,7 +82,7 @@ impl TypeEnv {
             },
         );
 
-        // to_string : forall a. (a) -> String
+        // to_string : forall a. (a) -> String [pure]
         let a = table.fresh_var();
         let a_id = match &a {
             Type::Var(id) => *id,
@@ -99,6 +99,154 @@ impl TypeEnv {
             "to_string".to_string(),
             FnEffectInfo {
                 effect: Effect::Pure,
+            },
+        );
+
+        // int_to_string : (Int) -> String [pure]
+        self.bind(
+            "int_to_string".to_string(),
+            TypeScheme::mono(Type::Fun(vec![Type::Int], Box::new(Type::String))),
+        );
+        self.fn_effects.insert(
+            "int_to_string".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // float_to_string : (Float) -> String [pure]
+        self.bind(
+            "float_to_string".to_string(),
+            TypeScheme::mono(Type::Fun(vec![Type::Float], Box::new(Type::String))),
+        );
+        self.fn_effects.insert(
+            "float_to_string".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // string_to_int : (String) -> Result<Int, String> [pure]
+        self.bind(
+            "string_to_int".to_string(),
+            TypeScheme::mono(Type::Fun(
+                vec![Type::String],
+                Box::new(Type::Result(Box::new(Type::Int), Box::new(Type::String))),
+            )),
+        );
+        self.fn_effects.insert(
+            "string_to_int".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // len : forall a. (List<a>) -> Int [pure]
+        let len_a = table.fresh_var();
+        let len_a_id = match &len_a {
+            Type::Var(id) => *id,
+            _ => unreachable!(),
+        };
+        self.bind(
+            "len".to_string(),
+            TypeScheme {
+                vars: vec![len_a_id],
+                ty: Type::Fun(vec![Type::List(Box::new(len_a))], Box::new(Type::Int)),
+            },
+        );
+        self.fn_effects.insert(
+            "len".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // list_get : forall a. (List<a>, Int) -> Option<a> [pure]
+        let lg_a = table.fresh_var();
+        let lg_a_id = match &lg_a {
+            Type::Var(id) => *id,
+            _ => unreachable!(),
+        };
+        self.bind(
+            "list_get".to_string(),
+            TypeScheme {
+                vars: vec![lg_a_id],
+                ty: Type::Fun(
+                    vec![Type::List(Box::new(lg_a.clone())), Type::Int],
+                    Box::new(Type::Option(Box::new(lg_a))),
+                ),
+            },
+        );
+        self.fn_effects.insert(
+            "list_get".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // list_push : forall a. (List<a>, a) -> List<a> [pure]
+        let lp_a = table.fresh_var();
+        let lp_a_id = match &lp_a {
+            Type::Var(id) => *id,
+            _ => unreachable!(),
+        };
+        self.bind(
+            "list_push".to_string(),
+            TypeScheme {
+                vars: vec![lp_a_id],
+                ty: Type::Fun(
+                    vec![Type::List(Box::new(lp_a.clone())), lp_a.clone()],
+                    Box::new(Type::List(Box::new(lp_a))),
+                ),
+            },
+        );
+        self.fn_effects.insert(
+            "list_push".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // list_map : forall a b. (List<a>, (a) -> b) -> List<b> [pure]
+        let lm_a = table.fresh_var();
+        let lm_a_id = match &lm_a {
+            Type::Var(id) => *id,
+            _ => unreachable!(),
+        };
+        let lm_b = table.fresh_var();
+        let lm_b_id = match &lm_b {
+            Type::Var(id) => *id,
+            _ => unreachable!(),
+        };
+        self.bind(
+            "list_map".to_string(),
+            TypeScheme {
+                vars: vec![lm_a_id, lm_b_id],
+                ty: Type::Fun(
+                    vec![
+                        Type::List(Box::new(lm_a.clone())),
+                        Type::Fun(vec![lm_a], Box::new(lm_b.clone())),
+                    ],
+                    Box::new(Type::List(Box::new(lm_b))),
+                ),
+            },
+        );
+        self.fn_effects.insert(
+            "list_map".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // read_line : () -> String [io]
+        self.bind(
+            "read_line".to_string(),
+            TypeScheme::mono(Type::Fun(vec![], Box::new(Type::String))),
+        );
+        self.fn_effects.insert(
+            "read_line".to_string(),
+            FnEffectInfo {
+                effect: Effect::Io,
             },
         );
     }

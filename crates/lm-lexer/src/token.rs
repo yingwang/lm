@@ -46,6 +46,8 @@ pub enum TokenKind {
     Star,
     /// `/`
     Slash,
+    /// `%`
+    Percent,
     /// `++` (string concatenation)
     PlusPlus,
     /// `==`
@@ -121,6 +123,7 @@ impl TokenKind {
             TokenKind::Minus => "-",
             TokenKind::Star => "*",
             TokenKind::Slash => "/",
+            TokenKind::Percent => "%",
             TokenKind::PlusPlus => "++",
             TokenKind::EqEq => "==",
             TokenKind::BangEq => "!=",

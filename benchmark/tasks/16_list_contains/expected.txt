@@ -1,1 +1,3 @@
-SKIP: list_contains requires list builtins in type checker (not yet implemented)
+true
+false
+false

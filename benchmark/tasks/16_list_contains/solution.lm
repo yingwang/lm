@@ -1,18 +1,13 @@
-// NOTE: Requires list builtins in type checker (not yet implemented).
+fn contains_helper(lst: List<Int>, target: Int, i: Int) -> Bool {
+    if i >= len(lst) { false }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> if v == target { true } else { contains_helper(lst, target, i + 1) },
+            None -> false,
+        }
+    }
+}
 
-// When available:
-// fn contains_helper(lst: List<Int>, target: Int, i: Int) -> Bool {
-//     if i >= len(lst) { false }
-//     else {
-//         match list_get(lst, i) {
-//             Some(v) -> if v == target { true } else { contains_helper(lst, target, i + 1) },
-//             None -> false,
-//         }
-//     }
-// }
-//
-// fn contains(lst: List<Int>, target: Int) -> Bool {
-//     contains_helper(lst, target, 0)
-// }
-
-fn placeholder() -> Int { 0 }
+fn contains(lst: List<Int>, target: Int) -> Bool {
+    contains_helper(lst, target, 0)
+}

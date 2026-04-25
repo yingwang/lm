@@ -172,6 +172,11 @@ pub enum ExprKind {
         /// The expressions in the block, where the last is the value.
         exprs: Vec<Expr>,
     },
+    /// A list literal: `[1, 2, 3]` or `[]`.
+    ListLiteral {
+        /// The elements of the list.
+        elements: Vec<Expr>,
+    },
     /// Constructing an ADT variant: `Circle(5.0)`, `None`, `Ok(42)`.
     VariantConstruct {
         /// The variant name.
@@ -208,6 +213,8 @@ pub enum BinOp {
     Mul,
     /// `/`
     Div,
+    /// `%`
+    Mod,
     /// `++` (string concatenation)
     Concat,
     /// `==`

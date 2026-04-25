@@ -1,6 +1,17 @@
-// NOTE: Requires list builtins in type checker (not yet implemented).
-// This test is marked as SKIP.
+fn contains_helper(lst: List<Int>, target: Int, i: Int) -> Bool {
+    if i >= len(lst) { false }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> if v == target { true } else { contains_helper(lst, target, i + 1) },
+            None -> false,
+        }
+    }
+}
 
-fn placeholder() -> Int { 0 }
+fn contains(lst: List<Int>, target: Int) -> Bool {
+    contains_helper(lst, target, 0)
+}
 
-let _ = print("SKIP: list_contains requires list builtins in type checker (not yet implemented)");
+let _ = print(to_string(contains([1, 2, 3], 2)));
+let _ = print(to_string(contains([1, 2, 3], 4)));
+let _ = print(to_string(contains([], 1)));

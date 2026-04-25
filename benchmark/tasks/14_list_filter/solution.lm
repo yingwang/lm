@@ -1,19 +1,17 @@
-// NOTE: This solution requires list builtins (len, list_get, list_push) and
-// higher-order functions in the type checker, which is not yet implemented.
+fn filter_helper(lst: List<Int>, pred: (Int) -> Bool, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> if pred(v) {
+                filter_helper(lst, pred, i + 1, list_push(acc, v))
+            } else {
+                filter_helper(lst, pred, i + 1, acc)
+            },
+            None -> acc,
+        }
+    }
+}
 
-// When available:
-// fn filter_helper(lst: List<Int>, pred: (Int) -> Bool, i: Int, acc: List<Int>) -> List<Int> {
-//     if i >= len(lst) { acc }
-//     else {
-//         match list_get(lst, i) {
-//             Some(v) -> if pred(v) {
-//                 filter_helper(lst, pred, i + 1, list_push(acc, v))
-//             } else {
-//                 filter_helper(lst, pred, i + 1, acc)
-//             },
-//             None -> acc,
-//         }
-//     }
-// }
-
-fn placeholder() -> Int { 0 }
+fn filter(lst: List<Int>, pred: (Int) -> Bool) -> List<Int> {
+    filter_helper(lst, pred, 0, [])
+}

@@ -372,6 +372,11 @@ fn walk_expr_for_defs(
                 walk_expr_for_defs(arg, scope, def_map, index);
             }
         }
+        ExprKind::ListLiteral { elements } => {
+            for elem in elements {
+                walk_expr_for_defs(elem, scope, def_map, index);
+            }
+        }
         ExprKind::Literal { .. } | ExprKind::Error => {}
     }
 }

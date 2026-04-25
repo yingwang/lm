@@ -75,7 +75,7 @@ fn infix_bp(kind: TokenKind) -> Option<Bp> {
         }
         TokenKind::PlusPlus => Some(left_assoc(10)),
         TokenKind::Plus | TokenKind::Minus => Some(left_assoc(12)),
-        TokenKind::Star | TokenKind::Slash => Some(left_assoc(14)),
+        TokenKind::Star | TokenKind::Slash | TokenKind::Percent => Some(left_assoc(14)),
         _ => None,
     }
 }
@@ -95,6 +95,7 @@ fn token_to_binop(kind: TokenKind) -> Option<BinOp> {
         TokenKind::Minus => Some(BinOp::Sub),
         TokenKind::Star => Some(BinOp::Mul),
         TokenKind::Slash => Some(BinOp::Div),
+        TokenKind::Percent => Some(BinOp::Mod),
         TokenKind::PlusPlus => Some(BinOp::Concat),
         TokenKind::EqEq => Some(BinOp::Eq),
         TokenKind::BangEq => Some(BinOp::Ne),
@@ -893,6 +894,9 @@ impl Parser {
             // Match expression
             TokenKind::Match => self.parse_match(),
 
+            // List literal: `[1, 2, 3]` or `[]`
+            TokenKind::LBracket => self.parse_list_literal(),
+
             // Block expression: `{ ... }`
             TokenKind::LBrace => self.parse_block_expr(),
 
@@ -1006,6 +1010,34 @@ impl Parser {
                 callee: Box::new(callee),
                 args,
             },
+            span,
+        })
+    }
+
+    /// Parse a list literal: `[expr, expr, ...]` or `[]`.
+    fn parse_list_literal(&mut self) -> Option<Expr> {
+        let start = self.current_span();
+        self.advance(); // eat `[`
+
+        let mut elements = Vec::new();
+        while !self.check(TokenKind::RBracket) && !self.at_eof() {
+            if let Some(elem) = self.parse_expr() {
+                elements.push(elem);
+            }
+            if !self.eat(TokenKind::Comma) {
+                break;
+            }
+        }
+
+        self.expect(
+            TokenKind::RBracket,
+            "E0104",
+            "unclosed `[` in list literal",
+        );
+        let span = start.merge(self.previous().span);
+
+        Some(Expr {
+            kind: ExprKind::ListLiteral { elements },
             span,
         })
     }

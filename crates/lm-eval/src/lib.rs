@@ -268,6 +268,14 @@ impl Interpreter {
                 Ok(result)
             }
 
+            ExprKind::ListLiteral { elements } => {
+                let mut items = Vec::with_capacity(elements.len());
+                for elem in elements {
+                    items.push(self.eval_expr(elem)?);
+                }
+                Ok(Value::List(items))
+            }
+
             ExprKind::VariantConstruct { name, args } => {
                 // Check if this is a known constructor in the environment
                 if let Some(Value::Constructor { variant, arity }) = self.env.get(name) {
@@ -427,6 +435,21 @@ impl Interpreter {
                 )),
                 (Value::Float(a), Value::Float(b)) => Ok(Value::Float(a / b)),
                 _ => Err(runtime_err("E0503", "type error in division", span)),
+            },
+            BinOp::Mod => match (&l, &r) {
+                (Value::Int(_), Value::Int(0)) => Err(runtime_err(
+                    "E0500",
+                    "division by zero",
+                    span,
+                )),
+                (Value::Int(a), Value::Int(b)) => Ok(Value::Int(a % b)),
+                (Value::Float(_), Value::Float(b)) if *b == 0.0 => Err(runtime_err(
+                    "E0500",
+                    "division by zero",
+                    span,
+                )),
+                (Value::Float(a), Value::Float(b)) => Ok(Value::Float(a % b)),
+                _ => Err(runtime_err("E0503", "type error in modulo", span)),
             },
             BinOp::Concat => match (&l, &r) {
                 (Value::String(a), Value::String(b)) => {
