@@ -3,9 +3,10 @@
 //! # Commands
 //!
 //! - `lmc tokenize <file>` — Lex a `.lm` file and print the token stream.
-//! - `lmc parse <file>` — Parse a `.lm` file (not yet implemented).
-//! - `lmc check <file>` — Type-check a `.lm` file (not yet implemented).
-//! - `lmc run <file>` — Execute a `.lm` file (not yet implemented).
+//! - `lmc parse <file>` — Parse a `.lm` file and print the AST.
+//! - `lmc check <file>` — Type-check a `.lm` file.
+//! - `lmc run <file>` — Execute a `.lm` file.
+//! - `lmc lsp` — Start the language server on stdin/stdout.
 
 use clap::{Parser, Subcommand, ValueEnum};
 use lm_diagnostics::DiagnosticBag;
@@ -56,6 +57,8 @@ enum Command {
         /// Path to the `.lm` source file.
         file: String,
     },
+    /// Start the language server (LSP) on stdin/stdout.
+    Lsp,
 }
 
 fn main() {
@@ -66,6 +69,7 @@ fn main() {
         Command::Parse { file } => cmd_parse(&file, cli.format),
         Command::Check { file } => cmd_check(&file, cli.format),
         Command::Run { file } => cmd_run(&file, cli.format),
+        Command::Lsp => cmd_lsp(),
     }
 }
 
@@ -321,6 +325,20 @@ fn cmd_run(path: &str, format: OutputFormat) {
             process::exit(1);
         }
     }
+}
+
+/// Start the language server on stdin/stdout.
+fn cmd_lsp() {
+    let rt = tokio::runtime::Runtime::new().expect("failed to create tokio runtime");
+    rt.block_on(async {
+        let stdin = tokio::io::stdin();
+        let stdout = tokio::io::stdout();
+        let (service, socket) =
+            tower_lsp::LspService::new(lm_lsp::LmLanguageServer::new);
+        tower_lsp::Server::new(stdin, stdout, socket)
+            .serve(service)
+            .await;
+    });
 }
 
 /// Report diagnostics to stderr in the requested format.

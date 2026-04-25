@@ -1,0 +1,62 @@
+{
+  "name": "lm-lang",
+  "displayName": "LM Language",
+  "description": "Language support for the LM programming language",
+  "version": "0.1.0",
+  "publisher": "lm-lang",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:lm"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "lm",
+        "aliases": [
+          "LM",
+          "lm"
+        ],
+        "extensions": [
+          ".lm"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "lm",
+        "scopeName": "source.lm",
+        "path": "./syntaxes/lm.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "LM Language",
+      "properties": {
+        "lm.serverPath": {
+          "type": "string",
+          "default": "lmc",
+          "description": "Path to the lmc binary (the LM compiler). The LSP server is started via `lmc lsp`."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.0.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}
