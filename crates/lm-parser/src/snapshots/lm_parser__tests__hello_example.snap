@@ -338,11 +338,60 @@ expression: result
         "start": 193,
         "end": 211
       }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "_",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "greet"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 220,
+                "end": 225
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "String",
+                    "value": "world"
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 226,
+                  "end": 233
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 220,
+            "end": 234
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 212,
+        "end": 235
+      }
     }
   ],
   "span": {
     "file_id": 0,
     "start": 61,
-    "end": 212
+    "end": 236
   }
 }

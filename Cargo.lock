@@ -261,6 +261,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "lm-diagnostics",
+ "lm-eval",
  "lm-lexer",
  "lm-parser",
  "lm-types",
@@ -280,6 +281,9 @@ name = "lm-eval"
 version = "0.1.0"
 dependencies = [
  "lm-diagnostics",
+ "lm-lexer",
+ "lm-parser",
+ "lm-types",
 ]
 
 [[package]]

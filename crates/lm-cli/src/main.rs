@@ -65,7 +65,7 @@ fn main() {
         Command::Tokenize { file } => cmd_tokenize(&file, cli.format),
         Command::Parse { file } => cmd_parse(&file, cli.format),
         Command::Check { file } => cmd_check(&file, cli.format),
-        Command::Run { file } => cmd_placeholder("run", &file),
+        Command::Run { file } => cmd_run(&file, cli.format),
     }
 }
 
@@ -271,13 +271,82 @@ fn cmd_check(path: &str, format: OutputFormat) {
     }
 }
 
-/// Placeholder for not-yet-implemented commands.
-fn cmd_placeholder(name: &str, path: &str) {
-    // Verify the file exists at least
-    if !std::path::Path::new(path).exists() {
-        eprintln!("error: could not find `{}`", path);
+/// Run a source file: lex -> parse -> type check -> evaluate.
+fn cmd_run(path: &str, format: OutputFormat) {
+    let source = match std::fs::read_to_string(path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: could not read `{}`: {}", path, e);
+            process::exit(1);
+        }
+    };
+
+    let (tokens, lex_diagnostics) = Lexer::new(&source, 0).tokenize();
+    let (program, parse_diagnostics) = lm_parser::Parser::new(tokens).parse();
+
+    // Collect lex + parse diagnostics
+    let mut bag = DiagnosticBag::new();
+    for d in lex_diagnostics {
+        bag.add(d);
+    }
+    for d in parse_diagnostics {
+        bag.add(d);
+    }
+
+    if bag.has_errors() {
+        report_diagnostics(&bag, &source, path, format);
         process::exit(1);
     }
-    eprintln!("lmc {}: not yet implemented", name);
-    process::exit(2);
+
+    // Type check
+    let type_diagnostics = lm_types::TypeChecker::new().check(&program);
+    for d in type_diagnostics {
+        bag.add(d);
+    }
+
+    if bag.has_errors() {
+        report_diagnostics(&bag, &source, path, format);
+        process::exit(1);
+    }
+
+    // Evaluate
+    let mut interp = lm_eval::Interpreter::new();
+    match interp.eval_program(&program) {
+        Ok(_) => {
+            // Program executed successfully. Output already went to stdout via print().
+        }
+        Err(runtime_err) => {
+            bag.add(runtime_err.diagnostic.clone());
+            report_diagnostics(&bag, &source, path, format);
+            process::exit(1);
+        }
+    }
+}
+
+/// Report diagnostics to stderr in the requested format.
+fn report_diagnostics(bag: &DiagnosticBag, source: &str, path: &str, format: OutputFormat) {
+    match format {
+        OutputFormat::Human => {
+            if !bag.is_empty() {
+                eprint!("{}", bag.render_all(source, path));
+            }
+            let error_count = bag
+                .iter()
+                .filter(|d| d.severity == lm_diagnostics::Severity::Error)
+                .count();
+            let warning_count = bag
+                .iter()
+                .filter(|d| d.severity == lm_diagnostics::Severity::Warning)
+                .count();
+            if error_count > 0 || warning_count > 0 {
+                eprintln!("\n{} error(s), {} warning(s)", error_count, warning_count);
+            }
+        }
+        OutputFormat::Json => {
+            let output = serde_json::json!({
+                "diagnostics": bag.iter().collect::<Vec<_>>(),
+            });
+            eprintln!("{}", serde_json::to_string_pretty(&output).unwrap());
+        }
+    }
 }

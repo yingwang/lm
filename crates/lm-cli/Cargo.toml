@@ -13,5 +13,6 @@ lm-diagnostics = { path = "../lm-diagnostics" }
 lm-lexer = { path = "../lm-lexer" }
 lm-parser = { path = "../lm-parser" }
 lm-types = { path = "../lm-types" }
+lm-eval = { path = "../lm-eval" }
 clap = { workspace = true }
 serde_json = { workspace = true }

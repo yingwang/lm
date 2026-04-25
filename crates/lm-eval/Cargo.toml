@@ -2,7 +2,12 @@
 name = "lm-eval"
 version = "0.1.0"
 edition = "2021"
-description = "Evaluator for the LM programming language (skeleton)"
+description = "Tree-walking interpreter for the LM programming language"
 
 [dependencies]
 lm-diagnostics = { path = "../lm-diagnostics" }
+lm-parser = { path = "../lm-parser" }
+
+[dev-dependencies]
+lm-lexer = { path = "../lm-lexer" }
+lm-types = { path = "../lm-types" }
