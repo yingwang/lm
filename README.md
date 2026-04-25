@@ -1,5 +1,7 @@
 # LM — A Programming Language Optimized for LLM Code Generation
 
+[中文版](#中文)
+
 LM is a programming language designed so that LLMs write correct code on the first try. Every design decision eliminates a category of bugs that LLMs commonly produce: no mutation, no implicit conversions, no null, no exceptions, no inheritance. The compiler speaks both human and JSON, so LLM agents can parse diagnostics and self-correct.
 
 **Goal:** On a standard set of programming tasks, Claude writing LM should achieve significantly higher first-pass correctness than TypeScript or Python.
@@ -116,11 +118,11 @@ lm/
 ├── crates/
 │   ├── lm-diagnostics/    # Span, Diagnostic, ErrorCode, human + JSON rendering
 │   ├── lm-lexer/          # Hand-written lexer, all token types
-│   ├── lm-parser/         # Recursive descent parser + AST (M2)
-│   ├── lm-types/          # Hindley-Milner inference + effect checking (M3)
-│   ├── lm-eval/           # Tree-walking interpreter (M4)
+│   ├── lm-parser/         # Recursive descent parser + AST
+│   ├── lm-types/          # Hindley-Milner inference + effect checking
+│   ├── lm-eval/           # Tree-walking interpreter
 │   ├── lm-cli/            # lmc binary, clap-based CLI
-│   └── lm-lsp/            # Language server protocol (M5)
+│   └── lm-lsp/            # Language server protocol (planned)
 ├── examples/              # .lm example programs
 └── tests/                 # Integration + snapshot tests
 ```
@@ -129,15 +131,15 @@ lm/
 
 ```sh
 cargo build            # Build all crates
-cargo test             # Run all tests (34 tests)
+cargo test             # Run all tests
 cargo clippy           # Lint (zero warnings)
 ```
 
 ## Roadmap
 
 - [x] **M1: Diagnostics + Lexer** — Diagnostic framework, hand-written lexer, CLI `tokenize`, 34 tests
-- [ ] **M2: Parser + AST** — Recursive descent parser, Pratt parsing for operators, error recovery
-- [ ] **M3: Type System** — Hindley-Milner inference, effect checking, exhaustiveness checking
+- [x] **M2: Parser + AST** — Recursive descent parser, Pratt parsing for operators, error recovery, 36 tests
+- [x] **M3: Type System** — Hindley-Milner inference, effect checking, exhaustiveness checking, 53 tests
 - [ ] **M4: Interpreter** — Tree-walking evaluator, built-in functions, runtime errors
 - [ ] **M5: LSP** — Diagnostics, hover types, go-to-definition, VSCode extension
 - [ ] **M6: Benchmark** — 30 standard tasks, compare LM vs TypeScript vs Python first-pass rates
@@ -152,3 +154,93 @@ cargo clippy           # Lint (zero warnings)
 ## License
 
 MIT
+
+---
+
+<a id="中文"></a>
+## 中文
+
+# LM — 为 LLM 代码生成优化的编程语言
+
+LM 是一门专为大语言模型写代码而设计的编程语言。每一个设计决策都在消除 LLM 写代码时常犯的错误：没有可变性、没有隐式转换、没有 null、没有异常、没有继承。编译器同时输出人类可读和 JSON 两种格式的诊断信息，LLM 代理可以解析错误并自我修正。
+
+**目标：** 在一组标准编程任务上，Claude 用 LM 写代码的一次通过率显著高于 TypeScript / Python。
+
+### 核心规则
+
+| 规则 | 理由 |
+|------|------|
+| 完全不可变，没有 `mut` | 消除别名 bug、竞态条件、远距离幽灵操作 |
+| `+` 仅用于数字，`++` 用于字符串拼接 | `+` 的含义永远没有歧义 |
+| 没有隐式类型转换 | `Int` + `Float` 是编译错误，必须显式转换 |
+| 没有 null/nil，用 `Option<T>` | 每个调用点都必须处理空值 |
+| 没有异常，用 `Result<T, E>` | 错误路径在类型签名中可见 |
+| 没有继承/trait/方法分派 | 只有一种方式：函数 + 模式匹配 |
+| 没有宏/反射/元编程 | 所见即所执行 |
+| Effect 系统：`pure`（默认）/ `io` | 纯函数不能调用 IO，编译器强制检查 |
+| 模式匹配必须穷尽 | 漏了一个分支？编译错误。 |
+| Hindley-Milner 类型推导 | 全局类型推导，鼓励显式标注 |
+
+### 语言示例
+
+```lm
+// 纯函数，默认 pure
+fn add(a: Int, b: Int) -> Int {
+    a + b
+}
+
+// IO 函数必须显式标注
+io fn greet(name: String) -> Unit {
+    print("Hello, " ++ name ++ "!")
+}
+
+// 代数数据类型 + 穷尽模式匹配
+type Shape =
+    | Circle(Float)
+    | Rect(Float, Float)
+
+fn area(s: Shape) -> Float {
+    match s {
+        Circle(r) -> 3.14159 * r * r,
+        Rect(w, h) -> w * h,
+    }
+}
+
+// 没有 null，没有异常 — 只有 Option 和 Result
+fn safe_div(a: Int, b: Int) -> Result<Int, String> {
+    match b {
+        0 -> Err("division by zero"),
+        _ -> Ok(a / b),
+    }
+}
+```
+
+### 诊断系统
+
+编译器诊断信息同时支持人类可读格式（类似 rustc 的彩色输出）和 JSON 格式（供 LLM 代理和工具链使用）。错误码一旦分配就不会改变语义。
+
+### CLI 命令
+
+```sh
+lmc tokenize <file>     # 输出 token 流
+lmc parse <file>         # 输出 AST（JSON）
+lmc check <file>         # 类型检查，不执行
+lmc run <file>           # 类型检查 + 执行
+--format=human|json      # 诊断输出格式
+```
+
+### 技术栈
+
+- 实现语言：Rust
+- 手写词法分析器和递归下降语法分析器，完全可控
+- Hindley-Milner 类型推导 + effect 系统 + 穷尽性检查
+- 第一版后端：树遍历解释器
+
+### 进度
+
+- [x] M1：诊断框架 + 词法分析器（34 个测试）
+- [x] M2：语法分析器 + AST（36 个测试）
+- [x] M3：类型系统 + Effect 检查 + 穷尽性检查（53 个测试）
+- [ ] M4：树遍历解释器
+- [ ] M5：LSP 语言服务器
+- [ ] M6：基准测试
