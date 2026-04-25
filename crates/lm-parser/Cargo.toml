@@ -1,0 +1,9 @@
+[package]
+name = "lm-parser"
+version = "0.1.0"
+edition = "2021"
+description = "Parser for the LM programming language (skeleton)"
+
+[dependencies]
+lm-diagnostics = { path = "../lm-diagnostics" }
+lm-lexer = { path = "../lm-lexer" }

@@ -1,0 +1,15 @@
+[package]
+name = "lm-cli"
+version = "0.1.0"
+edition = "2021"
+description = "CLI entry point (lmc) for the LM programming language"
+
+[[bin]]
+name = "lmc"
+path = "src/main.rs"
+
+[dependencies]
+lm-diagnostics = { path = "../lm-diagnostics" }
+lm-lexer = { path = "../lm-lexer" }
+clap = { workspace = true }
+serde_json = { workspace = true }

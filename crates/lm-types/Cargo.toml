@@ -1,0 +1,8 @@
+[package]
+name = "lm-types"
+version = "0.1.0"
+edition = "2021"
+description = "Type system for the LM programming language (skeleton)"
+
+[dependencies]
+lm-diagnostics = { path = "../lm-diagnostics" }

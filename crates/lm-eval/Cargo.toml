@@ -1,0 +1,8 @@
+[package]
+name = "lm-eval"
+version = "0.1.0"
+edition = "2021"
+description = "Evaluator for the LM programming language (skeleton)"
+
+[dependencies]
+lm-diagnostics = { path = "../lm-diagnostics" }

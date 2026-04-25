@@ -1,0 +1,32 @@
+// Algebraic data types and pattern matching in LM.
+
+type Shape =
+    | Circle(Float)
+    | Rect(Float, Float)
+
+fn area(s: Shape) -> Float {
+    match s {
+        Circle(r) -> 3.14159 * r * r,
+        Rect(w, h) -> w * h,
+    }
+}
+
+fn describe(s: Shape) -> String {
+    match s {
+        Circle(r) -> "circle with radius " ++ to_string(r),
+        Rect(w, h) -> "rectangle " ++ to_string(w) ++ " x " ++ to_string(h),
+    }
+}
+
+fn safe_div(a: Int, b: Int) -> Result<Int, String> {
+    match b {
+        0 -> Err("division by zero"),
+        _ -> Ok(a / b),
+    }
+}
+
+let c = Circle(5.0);
+let r = Rect(3.0, 4.0);
+let a1 = area(c);
+let a2 = area(r);
+let result = safe_div(10, 0);

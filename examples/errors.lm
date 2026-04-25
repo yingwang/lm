@@ -1,0 +1,7 @@
+// Intentionally broken LM code to test error diagnostics.
+
+let x = 42abc;
+let greeting = "hello
+let y = @x;
+let z = 10 & 5;
+let w = "unterminated

@@ -1,0 +1,9 @@
+[package]
+name = "lm-diagnostics"
+version = "0.1.0"
+edition = "2021"
+description = "Diagnostic system for the LM programming language"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }

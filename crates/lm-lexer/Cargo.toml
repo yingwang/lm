@@ -1,0 +1,13 @@
+[package]
+name = "lm-lexer"
+version = "0.1.0"
+edition = "2021"
+description = "Hand-written lexer for the LM programming language"
+
+[dependencies]
+lm-diagnostics = { path = "../lm-diagnostics" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }
