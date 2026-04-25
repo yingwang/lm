@@ -1,0 +1,90 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "x",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "BinaryOp",
+            "op": "Sub",
+            "lhs": {
+              "kind": {
+                "type": "BinaryOp",
+                "op": "Sub",
+                "lhs": {
+                  "kind": {
+                    "type": "Literal",
+                    "value": {
+                      "kind": "Int",
+                      "value": 1
+                    }
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 8,
+                    "end": 9
+                  }
+                },
+                "rhs": {
+                  "kind": {
+                    "type": "Literal",
+                    "value": {
+                      "kind": "Int",
+                      "value": 2
+                    }
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 12,
+                    "end": 13
+                  }
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 13
+              }
+            },
+            "rhs": {
+              "kind": {
+                "type": "Literal",
+                "value": {
+                  "kind": "Int",
+                  "value": 3
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 16,
+                "end": 17
+              }
+            }
+          },
+          "span": {
+            "file_id": 0,
+            "start": 8,
+            "end": 17
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 18
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 18
+  }
+}

@@ -1,0 +1,90 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "x",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "BinaryOp",
+            "op": "Mul",
+            "lhs": {
+              "kind": {
+                "type": "BinaryOp",
+                "op": "Add",
+                "lhs": {
+                  "kind": {
+                    "type": "Literal",
+                    "value": {
+                      "kind": "Int",
+                      "value": 1
+                    }
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 9,
+                    "end": 10
+                  }
+                },
+                "rhs": {
+                  "kind": {
+                    "type": "Literal",
+                    "value": {
+                      "kind": "Int",
+                      "value": 2
+                    }
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 13,
+                    "end": 14
+                  }
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 15
+              }
+            },
+            "rhs": {
+              "kind": {
+                "type": "Literal",
+                "value": {
+                  "kind": "Int",
+                  "value": 3
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 18,
+                "end": 19
+              }
+            }
+          },
+          "span": {
+            "file_id": 0,
+            "start": 8,
+            "end": 19
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 20
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 20
+  }
+}

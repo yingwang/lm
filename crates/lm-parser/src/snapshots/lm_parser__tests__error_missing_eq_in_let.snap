@@ -1,0 +1,16 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 3
+  }
+}
+
+=== Diagnostics ===
+[E0107] error: expected `=` in let binding

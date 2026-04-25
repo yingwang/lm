@@ -1,0 +1,81 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "TypeDef",
+        "name": "Shape",
+        "type_params": [],
+        "variants": [
+          {
+            "name": "Circle",
+            "fields": [
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Float"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 26,
+                  "end": 31
+                }
+              }
+            ],
+            "span": {
+              "file_id": 0,
+              "start": 19,
+              "end": 32
+            }
+          },
+          {
+            "name": "Rect",
+            "fields": [
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Float"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 44,
+                  "end": 49
+                }
+              },
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Float"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 51,
+                  "end": 56
+                }
+              }
+            ],
+            "span": {
+              "file_id": 0,
+              "start": 39,
+              "end": 57
+            }
+          }
+        ]
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 57
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 57
+  }
+}

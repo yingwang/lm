@@ -262,6 +262,7 @@ dependencies = [
  "clap",
  "lm-diagnostics",
  "lm-lexer",
+ "lm-parser",
  "serde_json",
 ]
 
@@ -301,8 +302,11 @@ dependencies = [
 name = "lm-parser"
 version = "0.1.0"
 dependencies = [
+ "insta",
  "lm-diagnostics",
  "lm-lexer",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

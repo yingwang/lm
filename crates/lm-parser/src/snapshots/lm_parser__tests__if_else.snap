@@ -1,0 +1,165 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "f",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "x",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 11
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 5,
+              "end": 11
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Int"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 16,
+            "end": 19
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "IfElse",
+                  "condition": {
+                    "kind": {
+                      "type": "BinaryOp",
+                      "op": "Gt",
+                      "lhs": {
+                        "kind": {
+                          "type": "Ident",
+                          "name": "x"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 25,
+                          "end": 26
+                        }
+                      },
+                      "rhs": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "Int",
+                            "value": 0
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 29,
+                          "end": 30
+                        }
+                      }
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 25,
+                      "end": 30
+                    }
+                  },
+                  "then_branch": {
+                    "kind": {
+                      "type": "Block",
+                      "exprs": [
+                        {
+                          "kind": {
+                            "type": "Ident",
+                            "name": "x"
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 33,
+                            "end": 34
+                          }
+                        }
+                      ]
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 31,
+                      "end": 36
+                    }
+                  },
+                  "else_branch": {
+                    "kind": {
+                      "type": "Block",
+                      "exprs": [
+                        {
+                          "kind": {
+                            "type": "Literal",
+                            "value": {
+                              "kind": "Int",
+                              "value": 0
+                            }
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 44,
+                            "end": 45
+                          }
+                        }
+                      ]
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 42,
+                      "end": 47
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 22,
+                  "end": 47
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 20,
+            "end": 49
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 49
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 49
+  }
+}

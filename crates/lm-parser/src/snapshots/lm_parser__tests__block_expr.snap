@@ -1,0 +1,135 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "f",
+        "effect": "pure",
+        "params": [],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Int"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 10,
+            "end": 13
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "LetExpr",
+                  "name": "x",
+                  "type_annotation": null,
+                  "value": {
+                    "kind": {
+                      "type": "Literal",
+                      "value": {
+                        "kind": "Int",
+                        "value": 1
+                      }
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 24,
+                      "end": 25
+                    }
+                  },
+                  "body": {
+                    "kind": {
+                      "type": "LetExpr",
+                      "name": "y",
+                      "type_annotation": null,
+                      "value": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "Int",
+                            "value": 2
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 35,
+                          "end": 36
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "BinaryOp",
+                          "op": "Add",
+                          "lhs": {
+                            "kind": {
+                              "type": "Ident",
+                              "name": "x"
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 38,
+                              "end": 39
+                            }
+                          },
+                          "rhs": {
+                            "kind": {
+                              "type": "Ident",
+                              "name": "y"
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 42,
+                              "end": 43
+                            }
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 38,
+                          "end": 43
+                        }
+                      }
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 27,
+                      "end": 43
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 16,
+                  "end": 43
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 14,
+            "end": 45
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 45
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 45
+  }
+}

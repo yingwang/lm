@@ -1,0 +1,348 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "add",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "a",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 71,
+                "end": 74
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 68,
+              "end": 74
+            }
+          },
+          {
+            "name": "b",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 79,
+                "end": 82
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 76,
+              "end": 82
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Int"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 87,
+            "end": 90
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "BinaryOp",
+                  "op": "Add",
+                  "lhs": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "a"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 97,
+                      "end": 98
+                    }
+                  },
+                  "rhs": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "b"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 101,
+                      "end": 102
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 97,
+                  "end": 102
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 91,
+            "end": 104
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 61,
+        "end": 104
+      }
+    },
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "greet",
+        "effect": "io",
+        "params": [
+          {
+            "name": "name",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "String"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 124,
+                "end": 130
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 118,
+              "end": 130
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Unit"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 135,
+            "end": 139
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "FnCall",
+                  "callee": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "print"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 146,
+                      "end": 151
+                    }
+                  },
+                  "args": [
+                    {
+                      "kind": {
+                        "type": "BinaryOp",
+                        "op": "Concat",
+                        "lhs": {
+                          "kind": {
+                            "type": "BinaryOp",
+                            "op": "Concat",
+                            "lhs": {
+                              "kind": {
+                                "type": "Literal",
+                                "value": {
+                                  "kind": "String",
+                                  "value": "Hello, "
+                                }
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 152,
+                                "end": 161
+                              }
+                            },
+                            "rhs": {
+                              "kind": {
+                                "type": "Ident",
+                                "name": "name"
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 165,
+                                "end": 169
+                              }
+                            }
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 152,
+                            "end": 169
+                          }
+                        },
+                        "rhs": {
+                          "kind": {
+                            "type": "Literal",
+                            "value": {
+                              "kind": "String",
+                              "value": "!"
+                            }
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 173,
+                            "end": 176
+                          }
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 152,
+                        "end": 176
+                      }
+                    }
+                  ]
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 146,
+                  "end": 177
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 140,
+            "end": 179
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 106,
+        "end": 179
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "x",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "Literal",
+            "value": {
+              "kind": "Int",
+              "value": 10
+            }
+          },
+          "span": {
+            "file_id": 0,
+            "start": 189,
+            "end": 191
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 181,
+        "end": 192
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "y",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "add"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 201,
+                "end": 204
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "Ident",
+                  "name": "x"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 205,
+                  "end": 206
+                }
+              },
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Int",
+                    "value": 5
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 208,
+                  "end": 209
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 201,
+            "end": 210
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 193,
+        "end": 211
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 61,
+    "end": 212
+  }
+}

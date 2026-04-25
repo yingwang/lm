@@ -2,8 +2,13 @@
 name = "lm-parser"
 version = "0.1.0"
 edition = "2021"
-description = "Parser for the LM programming language (skeleton)"
+description = "Parser for the LM programming language"
 
 [dependencies]
 lm-diagnostics = { path = "../lm-diagnostics" }
 lm-lexer = { path = "../lm-lexer" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+insta = "1"

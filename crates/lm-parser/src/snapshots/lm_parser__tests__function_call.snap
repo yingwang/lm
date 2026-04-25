@@ -1,0 +1,77 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "x",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "add"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 11
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Int",
+                    "value": 1
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 12,
+                  "end": 13
+                }
+              },
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Int",
+                    "value": 2
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 15,
+                  "end": 16
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 8,
+            "end": 17
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 18
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 18
+  }
+}

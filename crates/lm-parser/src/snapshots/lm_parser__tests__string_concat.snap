@@ -1,0 +1,90 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "x",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "BinaryOp",
+            "op": "Concat",
+            "lhs": {
+              "kind": {
+                "type": "BinaryOp",
+                "op": "Concat",
+                "lhs": {
+                  "kind": {
+                    "type": "Literal",
+                    "value": {
+                      "kind": "String",
+                      "value": "hello"
+                    }
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 8,
+                    "end": 15
+                  }
+                },
+                "rhs": {
+                  "kind": {
+                    "type": "Literal",
+                    "value": {
+                      "kind": "String",
+                      "value": " "
+                    }
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 19,
+                    "end": 22
+                  }
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 22
+              }
+            },
+            "rhs": {
+              "kind": {
+                "type": "Literal",
+                "value": {
+                  "kind": "String",
+                  "value": "world"
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 26,
+                "end": 33
+              }
+            }
+          },
+          "span": {
+            "file_id": 0,
+            "start": 8,
+            "end": 33
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 34
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 34
+  }
+}

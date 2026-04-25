@@ -1,0 +1,95 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "f",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "x",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 11
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 5,
+              "end": 11
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Int"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 16,
+            "end": 19
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "Match",
+                  "scrutinee": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "x"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 28,
+                      "end": 29
+                    }
+                  },
+                  "arms": []
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 22,
+                  "end": 42
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 20,
+            "end": 44
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 44
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 44
+  }
+}
+
+=== Diagnostics ===
+[E0106] error: expected `->` in match arm

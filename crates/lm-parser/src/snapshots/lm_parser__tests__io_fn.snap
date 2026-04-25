@@ -1,0 +1,104 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "greet",
+        "effect": "io",
+        "params": [
+          {
+            "name": "name",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "String"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 18,
+                "end": 24
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 12,
+              "end": 24
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Unit"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 29,
+            "end": 33
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "FnCall",
+                  "callee": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "print"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 36,
+                      "end": 41
+                    }
+                  },
+                  "args": [
+                    {
+                      "kind": {
+                        "type": "Ident",
+                        "name": "name"
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 42,
+                        "end": 46
+                      }
+                    }
+                  ]
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 36,
+                  "end": 47
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 34,
+            "end": 49
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 49
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 49
+  }
+}

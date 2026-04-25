@@ -11,5 +11,6 @@ path = "src/main.rs"
 [dependencies]
 lm-diagnostics = { path = "../lm-diagnostics" }
 lm-lexer = { path = "../lm-lexer" }
+lm-parser = { path = "../lm-parser" }
 clap = { workspace = true }
 serde_json = { workspace = true }

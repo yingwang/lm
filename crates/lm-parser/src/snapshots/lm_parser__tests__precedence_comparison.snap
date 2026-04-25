@@ -1,0 +1,103 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "x",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "BinaryOp",
+            "op": "Lt",
+            "lhs": {
+              "kind": {
+                "type": "BinaryOp",
+                "op": "Add",
+                "lhs": {
+                  "kind": {
+                    "type": "Ident",
+                    "name": "a"
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 8,
+                    "end": 9
+                  }
+                },
+                "rhs": {
+                  "kind": {
+                    "type": "Ident",
+                    "name": "b"
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 12,
+                    "end": 13
+                  }
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 13
+              }
+            },
+            "rhs": {
+              "kind": {
+                "type": "BinaryOp",
+                "op": "Mul",
+                "lhs": {
+                  "kind": {
+                    "type": "Ident",
+                    "name": "c"
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 16,
+                    "end": 17
+                  }
+                },
+                "rhs": {
+                  "kind": {
+                    "type": "Ident",
+                    "name": "d"
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 20,
+                    "end": 21
+                  }
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 16,
+                "end": 21
+              }
+            }
+          },
+          "span": {
+            "file_id": 0,
+            "start": 8,
+            "end": 21
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 22
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 22
+  }
+}

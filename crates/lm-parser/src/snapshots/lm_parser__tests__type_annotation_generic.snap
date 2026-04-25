@@ -1,0 +1,146 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "safe_div",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "a",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 15,
+                "end": 18
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 12,
+              "end": 18
+            }
+          },
+          {
+            "name": "b",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 23,
+                "end": 26
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 20,
+              "end": 26
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "App",
+            "name": "Result",
+            "args": [
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Int"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 38,
+                  "end": 41
+                }
+              },
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "String"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 43,
+                  "end": 49
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 31,
+            "end": 50
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "BinaryOp",
+                  "op": "Div",
+                  "lhs": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "a"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 53,
+                      "end": 54
+                    }
+                  },
+                  "rhs": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "b"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 57,
+                      "end": 58
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 53,
+                  "end": 58
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 51,
+            "end": 60
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 60
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 60
+  }
+}

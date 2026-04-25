@@ -1,0 +1,1144 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "TypeDef",
+        "name": "Shape",
+        "type_params": [],
+        "variants": [
+          {
+            "name": "Circle",
+            "fields": [
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Float"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 79,
+                  "end": 84
+                }
+              }
+            ],
+            "span": {
+              "file_id": 0,
+              "start": 72,
+              "end": 85
+            }
+          },
+          {
+            "name": "Rect",
+            "fields": [
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Float"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 97,
+                  "end": 102
+                }
+              },
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Float"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 104,
+                  "end": 109
+                }
+              }
+            ],
+            "span": {
+              "file_id": 0,
+              "start": 92,
+              "end": 110
+            }
+          }
+        ]
+      },
+      "span": {
+        "file_id": 0,
+        "start": 53,
+        "end": 110
+      }
+    },
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "area",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "s",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Shape"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 123,
+                "end": 128
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 120,
+              "end": 128
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Float"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 133,
+            "end": 138
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "Match",
+                  "scrutinee": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "s"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 151,
+                      "end": 152
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Variant",
+                          "name": "Circle",
+                          "fields": [
+                            {
+                              "kind": {
+                                "type": "Ident",
+                                "name": "r"
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 170,
+                                "end": 171
+                              }
+                            }
+                          ]
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 163,
+                          "end": 172
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "BinaryOp",
+                          "op": "Mul",
+                          "lhs": {
+                            "kind": {
+                              "type": "BinaryOp",
+                              "op": "Mul",
+                              "lhs": {
+                                "kind": {
+                                  "type": "Literal",
+                                  "value": {
+                                    "kind": "Float",
+                                    "value": 3.14159
+                                  }
+                                },
+                                "span": {
+                                  "file_id": 0,
+                                  "start": 176,
+                                  "end": 183
+                                }
+                              },
+                              "rhs": {
+                                "kind": {
+                                  "type": "Ident",
+                                  "name": "r"
+                                },
+                                "span": {
+                                  "file_id": 0,
+                                  "start": 186,
+                                  "end": 187
+                                }
+                              }
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 176,
+                              "end": 187
+                            }
+                          },
+                          "rhs": {
+                            "kind": {
+                              "type": "Ident",
+                              "name": "r"
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 190,
+                              "end": 191
+                            }
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 176,
+                          "end": 191
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 163,
+                        "end": 191
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Variant",
+                          "name": "Rect",
+                          "fields": [
+                            {
+                              "kind": {
+                                "type": "Ident",
+                                "name": "w"
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 206,
+                                "end": 207
+                              }
+                            },
+                            {
+                              "kind": {
+                                "type": "Ident",
+                                "name": "h"
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 209,
+                                "end": 210
+                              }
+                            }
+                          ]
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 201,
+                          "end": 211
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "BinaryOp",
+                          "op": "Mul",
+                          "lhs": {
+                            "kind": {
+                              "type": "Ident",
+                              "name": "w"
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 215,
+                              "end": 216
+                            }
+                          },
+                          "rhs": {
+                            "kind": {
+                              "type": "Ident",
+                              "name": "h"
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 219,
+                              "end": 220
+                            }
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 215,
+                          "end": 220
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 201,
+                        "end": 220
+                      }
+                    }
+                  ]
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 145,
+                  "end": 227
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 139,
+            "end": 229
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 112,
+        "end": 229
+      }
+    },
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "describe",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "s",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Shape"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 246,
+                "end": 251
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 243,
+              "end": 251
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "String"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 256,
+            "end": 262
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "Match",
+                  "scrutinee": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "s"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 275,
+                      "end": 276
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Variant",
+                          "name": "Circle",
+                          "fields": [
+                            {
+                              "kind": {
+                                "type": "Ident",
+                                "name": "r"
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 294,
+                                "end": 295
+                              }
+                            }
+                          ]
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 287,
+                          "end": 296
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "BinaryOp",
+                          "op": "Concat",
+                          "lhs": {
+                            "kind": {
+                              "type": "Literal",
+                              "value": {
+                                "kind": "String",
+                                "value": "circle with radius "
+                              }
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 300,
+                              "end": 321
+                            }
+                          },
+                          "rhs": {
+                            "kind": {
+                              "type": "FnCall",
+                              "callee": {
+                                "kind": {
+                                  "type": "Ident",
+                                  "name": "to_string"
+                                },
+                                "span": {
+                                  "file_id": 0,
+                                  "start": 325,
+                                  "end": 334
+                                }
+                              },
+                              "args": [
+                                {
+                                  "kind": {
+                                    "type": "Ident",
+                                    "name": "r"
+                                  },
+                                  "span": {
+                                    "file_id": 0,
+                                    "start": 335,
+                                    "end": 336
+                                  }
+                                }
+                              ]
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 325,
+                              "end": 337
+                            }
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 300,
+                          "end": 337
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 287,
+                        "end": 337
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Variant",
+                          "name": "Rect",
+                          "fields": [
+                            {
+                              "kind": {
+                                "type": "Ident",
+                                "name": "w"
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 352,
+                                "end": 353
+                              }
+                            },
+                            {
+                              "kind": {
+                                "type": "Ident",
+                                "name": "h"
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 355,
+                                "end": 356
+                              }
+                            }
+                          ]
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 347,
+                          "end": 357
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "BinaryOp",
+                          "op": "Concat",
+                          "lhs": {
+                            "kind": {
+                              "type": "BinaryOp",
+                              "op": "Concat",
+                              "lhs": {
+                                "kind": {
+                                  "type": "BinaryOp",
+                                  "op": "Concat",
+                                  "lhs": {
+                                    "kind": {
+                                      "type": "Literal",
+                                      "value": {
+                                        "kind": "String",
+                                        "value": "rectangle "
+                                      }
+                                    },
+                                    "span": {
+                                      "file_id": 0,
+                                      "start": 361,
+                                      "end": 373
+                                    }
+                                  },
+                                  "rhs": {
+                                    "kind": {
+                                      "type": "FnCall",
+                                      "callee": {
+                                        "kind": {
+                                          "type": "Ident",
+                                          "name": "to_string"
+                                        },
+                                        "span": {
+                                          "file_id": 0,
+                                          "start": 377,
+                                          "end": 386
+                                        }
+                                      },
+                                      "args": [
+                                        {
+                                          "kind": {
+                                            "type": "Ident",
+                                            "name": "w"
+                                          },
+                                          "span": {
+                                            "file_id": 0,
+                                            "start": 387,
+                                            "end": 388
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "span": {
+                                      "file_id": 0,
+                                      "start": 377,
+                                      "end": 389
+                                    }
+                                  }
+                                },
+                                "span": {
+                                  "file_id": 0,
+                                  "start": 361,
+                                  "end": 389
+                                }
+                              },
+                              "rhs": {
+                                "kind": {
+                                  "type": "Literal",
+                                  "value": {
+                                    "kind": "String",
+                                    "value": " x "
+                                  }
+                                },
+                                "span": {
+                                  "file_id": 0,
+                                  "start": 393,
+                                  "end": 398
+                                }
+                              }
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 361,
+                              "end": 398
+                            }
+                          },
+                          "rhs": {
+                            "kind": {
+                              "type": "FnCall",
+                              "callee": {
+                                "kind": {
+                                  "type": "Ident",
+                                  "name": "to_string"
+                                },
+                                "span": {
+                                  "file_id": 0,
+                                  "start": 402,
+                                  "end": 411
+                                }
+                              },
+                              "args": [
+                                {
+                                  "kind": {
+                                    "type": "Ident",
+                                    "name": "h"
+                                  },
+                                  "span": {
+                                    "file_id": 0,
+                                    "start": 412,
+                                    "end": 413
+                                  }
+                                }
+                              ]
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 402,
+                              "end": 414
+                            }
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 361,
+                          "end": 414
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 347,
+                        "end": 414
+                      }
+                    }
+                  ]
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 269,
+                  "end": 421
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 263,
+            "end": 423
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 231,
+        "end": 423
+      }
+    },
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "safe_div",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "a",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 440,
+                "end": 443
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 437,
+              "end": 443
+            }
+          },
+          {
+            "name": "b",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 448,
+                "end": 451
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 445,
+              "end": 451
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "App",
+            "name": "Result",
+            "args": [
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "Int"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 463,
+                  "end": 466
+                }
+              },
+              {
+                "kind": {
+                  "type": "Name",
+                  "name": "String"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 468,
+                  "end": 474
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 456,
+            "end": 475
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "Match",
+                  "scrutinee": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "b"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 488,
+                      "end": 489
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "Int",
+                            "value": 0
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 500,
+                          "end": 501
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "VariantConstruct",
+                          "name": "Err",
+                          "args": [
+                            {
+                              "kind": {
+                                "type": "Literal",
+                                "value": {
+                                  "kind": "String",
+                                  "value": "division by zero"
+                                }
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 509,
+                                "end": 527
+                              }
+                            }
+                          ]
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 505,
+                          "end": 528
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 500,
+                        "end": 528
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Wildcard"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 538,
+                          "end": 539
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "VariantConstruct",
+                          "name": "Ok",
+                          "args": [
+                            {
+                              "kind": {
+                                "type": "BinaryOp",
+                                "op": "Div",
+                                "lhs": {
+                                  "kind": {
+                                    "type": "Ident",
+                                    "name": "a"
+                                  },
+                                  "span": {
+                                    "file_id": 0,
+                                    "start": 546,
+                                    "end": 547
+                                  }
+                                },
+                                "rhs": {
+                                  "kind": {
+                                    "type": "Ident",
+                                    "name": "b"
+                                  },
+                                  "span": {
+                                    "file_id": 0,
+                                    "start": 550,
+                                    "end": 551
+                                  }
+                                }
+                              },
+                              "span": {
+                                "file_id": 0,
+                                "start": 546,
+                                "end": 551
+                              }
+                            }
+                          ]
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 543,
+                          "end": 552
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 538,
+                        "end": 552
+                      }
+                    }
+                  ]
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 482,
+                  "end": 559
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 476,
+            "end": 561
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 425,
+        "end": 561
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "c",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "VariantConstruct",
+            "name": "Circle",
+            "args": [
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Float",
+                    "value": 5.0
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 578,
+                  "end": 581
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 571,
+            "end": 582
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 563,
+        "end": 583
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "r",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "VariantConstruct",
+            "name": "Rect",
+            "args": [
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Float",
+                    "value": 3.0
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 597,
+                  "end": 600
+                }
+              },
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Float",
+                    "value": 4.0
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 602,
+                  "end": 605
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 592,
+            "end": 606
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 584,
+        "end": 607
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "a1",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "area"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 617,
+                "end": 621
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "Ident",
+                  "name": "c"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 622,
+                  "end": 623
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 617,
+            "end": 624
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 608,
+        "end": 625
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "a2",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "area"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 635,
+                "end": 639
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "Ident",
+                  "name": "r"
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 640,
+                  "end": 641
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 635,
+            "end": 642
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 626,
+        "end": 643
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "result",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "safe_div"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 657,
+                "end": 665
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Int",
+                    "value": 10
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 666,
+                  "end": 668
+                }
+              },
+              {
+                "kind": {
+                  "type": "Literal",
+                  "value": {
+                    "kind": "Int",
+                    "value": 0
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 670,
+                  "end": 671
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 657,
+            "end": 672
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 644,
+        "end": 673
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 53,
+    "end": 674
+  }
+}

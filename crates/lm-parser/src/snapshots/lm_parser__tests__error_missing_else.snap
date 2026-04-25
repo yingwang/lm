@@ -1,0 +1,72 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "f",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "x",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 11
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 5,
+              "end": 11
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "Int"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 16,
+            "end": 19
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": []
+          },
+          "span": {
+            "file_id": 0,
+            "start": 20,
+            "end": 38
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 38
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 38
+  }
+}
+
+=== Diagnostics ===
+[E0108] error: missing `else` branch in if expression

@@ -63,7 +63,7 @@ fn main() {
 
     match cli.command {
         Command::Tokenize { file } => cmd_tokenize(&file, cli.format),
-        Command::Parse { file } => cmd_placeholder("parse", &file),
+        Command::Parse { file } => cmd_parse(&file, cli.format),
         Command::Check { file } => cmd_placeholder("check", &file),
         Command::Run { file } => cmd_placeholder("run", &file),
     }
@@ -123,6 +123,73 @@ fn cmd_tokenize(path: &str, format: OutputFormat) {
         OutputFormat::Json => {
             let output = serde_json::json!({
                 "tokens": tokens,
+                "diagnostics": bag.into_vec(),
+            });
+            println!("{}", serde_json::to_string_pretty(&output).unwrap());
+        }
+    }
+
+    if has_errors {
+        process::exit(1);
+    }
+}
+
+/// Parse a source file and print the AST.
+fn cmd_parse(path: &str, format: OutputFormat) {
+    let source = match std::fs::read_to_string(path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: could not read `{}`: {}", path, e);
+            process::exit(1);
+        }
+    };
+
+    let (tokens, lex_diagnostics) = Lexer::new(&source, 0).tokenize();
+    let (program, parse_diagnostics) = lm_parser::Parser::new(tokens).parse();
+
+    // Collect all diagnostics
+    let mut bag = DiagnosticBag::new();
+    for d in lex_diagnostics {
+        bag.add(d);
+    }
+    for d in parse_diagnostics {
+        bag.add(d);
+    }
+
+    let has_errors = bag.has_errors();
+
+    match format {
+        OutputFormat::Human => {
+            // Print diagnostics first
+            if !bag.is_empty() {
+                eprint!("{}", bag.render_all(&source, path));
+            }
+
+            // Print AST as pretty JSON
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&program).unwrap()
+            );
+
+            // Summary
+            let error_count = bag
+                .iter()
+                .filter(|d| d.severity == lm_diagnostics::Severity::Error)
+                .count();
+            let warning_count = bag
+                .iter()
+                .filter(|d| d.severity == lm_diagnostics::Severity::Warning)
+                .count();
+            if error_count > 0 || warning_count > 0 {
+                eprintln!(
+                    "\n{} error(s), {} warning(s)",
+                    error_count, warning_count
+                );
+            }
+        }
+        OutputFormat::Json => {
+            let output = serde_json::json!({
+                "ast": program,
                 "diagnostics": bag.into_vec(),
             });
             println!("{}", serde_json::to_string_pretty(&output).unwrap());

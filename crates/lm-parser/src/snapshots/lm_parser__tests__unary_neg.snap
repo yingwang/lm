@@ -1,0 +1,51 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "x",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "UnaryOp",
+            "op": "Neg",
+            "operand": {
+              "kind": {
+                "type": "Literal",
+                "value": {
+                  "kind": "Int",
+                  "value": 42
+                }
+              },
+              "span": {
+                "file_id": 0,
+                "start": 9,
+                "end": 11
+              }
+            }
+          },
+          "span": {
+            "file_id": 0,
+            "start": 8,
+            "end": 11
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 12
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 12
+  }
+}

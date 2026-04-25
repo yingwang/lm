@@ -1,0 +1,16 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 1
+  }
+}
+
+=== Diagnostics ===
+[E0100] error: unexpected token `+`, expected a declaration (`fn`, `type`, or `let`)

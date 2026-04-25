@@ -1,0 +1,194 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "f",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "x",
+            "type_annotation": {
+              "kind": {
+                "type": "Name",
+                "name": "Int"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 8,
+                "end": 11
+              }
+            },
+            "span": {
+              "file_id": 0,
+              "start": 5,
+              "end": 11
+            }
+          }
+        ],
+        "return_type": {
+          "kind": {
+            "type": "Name",
+            "name": "String"
+          },
+          "span": {
+            "file_id": 0,
+            "start": 16,
+            "end": 22
+          }
+        },
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "Match",
+                  "scrutinee": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "x"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 35,
+                      "end": 36
+                    }
+                  },
+                  "arms": [
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "Int",
+                            "value": 0
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 47,
+                          "end": 48
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "String",
+                            "value": "zero"
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 52,
+                          "end": 58
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 47,
+                        "end": 58
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "Int",
+                            "value": 1
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 68,
+                          "end": 69
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "String",
+                            "value": "one"
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 73,
+                          "end": 78
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 68,
+                        "end": 78
+                      }
+                    },
+                    {
+                      "pattern": {
+                        "kind": {
+                          "type": "Wildcard"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 88,
+                          "end": 89
+                        }
+                      },
+                      "body": {
+                        "kind": {
+                          "type": "Literal",
+                          "value": {
+                            "kind": "String",
+                            "value": "other"
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 93,
+                          "end": 100
+                        }
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 88,
+                        "end": 100
+                      }
+                    }
+                  ]
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 29,
+                  "end": 107
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 23,
+            "end": 109
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 109
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 109
+  }
+}

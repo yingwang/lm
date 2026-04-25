@@ -1,0 +1,44 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "z",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "Literal",
+            "value": {
+              "kind": "Int",
+              "value": 42
+            }
+          },
+          "span": {
+            "file_id": 0,
+            "start": 28,
+            "end": 30
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 20,
+        "end": 31
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 31
+  }
+}
+
+=== Diagnostics ===
+[E0101] error: expected expression, found `;`
+[E0101] error: expected expression, found `;`

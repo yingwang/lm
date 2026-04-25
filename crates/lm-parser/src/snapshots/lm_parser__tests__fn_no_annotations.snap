@@ -1,0 +1,92 @@
+---
+source: crates/lm-parser/src/tests.rs
+expression: result
+---
+=== AST ===
+{
+  "decls": [
+    {
+      "kind": {
+        "type": "FnDef",
+        "name": "add",
+        "effect": "pure",
+        "params": [
+          {
+            "name": "a",
+            "type_annotation": null,
+            "span": {
+              "file_id": 0,
+              "start": 7,
+              "end": 8
+            }
+          },
+          {
+            "name": "b",
+            "type_annotation": null,
+            "span": {
+              "file_id": 0,
+              "start": 10,
+              "end": 11
+            }
+          }
+        ],
+        "return_type": null,
+        "body": {
+          "kind": {
+            "type": "Block",
+            "exprs": [
+              {
+                "kind": {
+                  "type": "BinaryOp",
+                  "op": "Add",
+                  "lhs": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "a"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 15,
+                      "end": 16
+                    }
+                  },
+                  "rhs": {
+                    "kind": {
+                      "type": "Ident",
+                      "name": "b"
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 19,
+                      "end": 20
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 15,
+                  "end": 20
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 13,
+            "end": 22
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 0,
+        "end": 22
+      }
+    }
+  ],
+  "span": {
+    "file_id": 0,
+    "start": 0,
+    "end": 22
+  }
+}
