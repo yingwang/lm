@@ -1,0 +1,19 @@
+fn fizzbuzz(n: Int) -> String {
+    if n % 3 == 0 {
+        if n % 5 == 0 { "FizzBuzz" }
+        else { "Fizz" }
+    } else {
+        if n % 5 == 0 { "Buzz" }
+        else { int_to_string(n) }
+    }
+}
+
+io fn run(i: Int, max: Int) -> Unit {
+    if i > max { print("") }
+    else {
+        let _ = print(fizzbuzz(i));
+        run(i + 1, max)
+    }
+}
+
+let _ = run(1, 20);
