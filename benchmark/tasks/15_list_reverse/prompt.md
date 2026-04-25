@@ -17,4 +17,4 @@ fn reverse(lst: List<Int>) -> List<Int>
 ## Notes
 
 - Use recursion to build the reversed list.
-- This task requires list builtins in the type checker.
+- LM has list literals plus `len`, `list_get`, and `list_push` built-ins.

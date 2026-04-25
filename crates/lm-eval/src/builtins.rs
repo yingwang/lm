@@ -255,7 +255,7 @@ fn builtin_list_map(interp: &mut Interpreter, args: Vec<Value>, span: Span) -> E
             let mut results = Vec::with_capacity(items.len());
             for item in items {
                 let saved_env = interp.env.clone();
-                interp.env = env.clone();
+                interp.env = (**env).clone();
                 interp.env.define(params[0].clone(), item.clone());
                 let val = interp.eval_expr(body)?;
                 interp.env = saved_env;

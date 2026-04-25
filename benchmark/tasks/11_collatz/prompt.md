@@ -19,5 +19,5 @@ The Collatz sequence: if n is even, next = n/2; if n is odd, next = 3n+1. Count 
 
 ## Notes
 
-- LM has no modulo operator; use `n - (n / 2) * 2` to check if n is even.
+- Use `n % 2` to check if n is even.
 - Use recursion since LM has no loops.

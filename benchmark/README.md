@@ -64,12 +64,12 @@ benchmark/
 ### List Processing (13-18)
 | # | Task | Status | Description |
 |---|------|--------|-------------|
-| 13 | list_sum | SKIP | Sum integers in a list (needs list builtins in type checker) |
-| 14 | list_filter | SKIP | Filter list by predicate (needs list builtins) |
-| 15 | list_reverse | SKIP | Reverse a list (needs list builtins) |
-| 16 | list_contains | SKIP | Check if list contains element (needs list builtins) |
-| 17 | list_zip | SKIP | Zip two lists into pairs (needs list builtins) |
-| 18 | list_flatten | SKIP | Flatten list of lists (needs list builtins) |
+| 13 | list_sum | PASS | Sum integers in a list |
+| 14 | list_filter | PASS | Filter list by predicate |
+| 15 | list_reverse | PASS | Reverse a list |
+| 16 | list_contains | PASS | Check if list contains element |
+| 17 | list_zip | PASS | Zip two lists into pairs |
+| 18 | list_flatten | PASS | Flatten list of lists |
 
 ### ADT & Pattern Matching (19-24)
 | # | Task | Status | Description |
@@ -78,7 +78,7 @@ benchmark/
 | 20 | option_unwrap | PASS | unwrap_or for Option type |
 | 21 | result_chain | PASS | Chain Result-returning operations |
 | 22 | expr_eval | PASS | Evaluate arithmetic expression ADT |
-| 23 | tree_depth | SKIP | Binary tree depth (needs recursive types) |
+| 23 | tree_depth | PASS | Binary tree depth with recursive types |
 | 24 | list_max | PASS | Maximum of values using Option |
 
 ### Effect System (25-27)
@@ -98,11 +98,9 @@ benchmark/
 ## Current Results
 
 - **30/30 total** tasks defined
-- **19/19 runnable** tasks pass
-- **11 skipped** tasks need language features not yet in M4:
-  - 4 need string indexing / char operations
-  - 6 need list builtins registered in the type checker
-  - 1 needs recursive type definitions
+- **30/30 tasks pass**
+- **26/26 runnable** tasks pass
+- **4 skipped** tasks intentionally print `SKIP:` pending string indexing / char operations
 
 ## Methodology for LLM Comparison
 
@@ -139,4 +137,4 @@ Key constraints when writing LM solutions:
 - If/else is an expression and both branches are required
 - Function body is a block `{ }` where the last expression is the return value
 - `let x = expr; body` is a let-expression where `body` uses `x`
-- Modulo: use `a - (a / b) * b` since there is no `%` operator
+- `%` is available for modulo

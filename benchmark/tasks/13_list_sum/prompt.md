@@ -18,5 +18,4 @@ fn sum(lst: List<Int>) -> Int
 ## Notes
 
 - Use recursion or a fold-style pattern.
-- LM has `len`, `list_get` built-in functions for list operations.
-- This task requires list builtins to be registered in the type checker (not yet done).
+- LM has list literals plus `len` and `list_get` built-in functions for list operations.

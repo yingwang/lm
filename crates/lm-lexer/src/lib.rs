@@ -125,6 +125,13 @@ impl<'src> Lexer<'src> {
         b
     }
 
+    /// Advance one UTF-8 character and return it.
+    fn advance_char(&mut self) -> Option<char> {
+        let ch = self.source[self.pos..].chars().next()?;
+        self.pos += ch.len_utf8();
+        Some(ch)
+    }
+
     /// Skip whitespace and line comments.
     fn skip_whitespace_and_comments(&mut self) {
         loop {
@@ -247,13 +254,11 @@ impl<'src> Lexer<'src> {
                     // Single `&` is not a valid token in LM
                     let span = Span::new(self.file_id, start, self.pos);
                     self.diagnostics.push(
-                        Diagnostic::error(
-                            "E0001",
-                            "unrecognized character `&`",
-                            span,
-                        )
-                        .with_label(Label::new(span, "expected `&&` for logical AND"))
-                        .with_help("use `&&` for logical AND; single `&` is not supported in LM"),
+                        Diagnostic::error("E0001", "unrecognized character `&`", span)
+                            .with_label(Label::new(span, "expected `&&` for logical AND"))
+                            .with_help(
+                                "use `&&` for logical AND; single `&` is not supported in LM",
+                            ),
                     );
                     None
                 }
@@ -269,30 +274,52 @@ impl<'src> Lexer<'src> {
             }
 
             // Delimiters
-            b'(' => { self.advance(); Some(self.make_token(TokenKind::LParen, start)) }
-            b')' => { self.advance(); Some(self.make_token(TokenKind::RParen, start)) }
-            b'{' => { self.advance(); Some(self.make_token(TokenKind::LBrace, start)) }
-            b'}' => { self.advance(); Some(self.make_token(TokenKind::RBrace, start)) }
-            b'[' => { self.advance(); Some(self.make_token(TokenKind::LBracket, start)) }
-            b']' => { self.advance(); Some(self.make_token(TokenKind::RBracket, start)) }
-            b',' => { self.advance(); Some(self.make_token(TokenKind::Comma, start)) }
-            b';' => { self.advance(); Some(self.make_token(TokenKind::Semi, start)) }
-            b':' => { self.advance(); Some(self.make_token(TokenKind::Colon, start)) }
+            b'(' => {
+                self.advance();
+                Some(self.make_token(TokenKind::LParen, start))
+            }
+            b')' => {
+                self.advance();
+                Some(self.make_token(TokenKind::RParen, start))
+            }
+            b'{' => {
+                self.advance();
+                Some(self.make_token(TokenKind::LBrace, start))
+            }
+            b'}' => {
+                self.advance();
+                Some(self.make_token(TokenKind::RBrace, start))
+            }
+            b'[' => {
+                self.advance();
+                Some(self.make_token(TokenKind::LBracket, start))
+            }
+            b']' => {
+                self.advance();
+                Some(self.make_token(TokenKind::RBracket, start))
+            }
+            b',' => {
+                self.advance();
+                Some(self.make_token(TokenKind::Comma, start))
+            }
+            b';' => {
+                self.advance();
+                Some(self.make_token(TokenKind::Semi, start))
+            }
+            b':' => {
+                self.advance();
+                Some(self.make_token(TokenKind::Colon, start))
+            }
 
             // Unrecognized character
             _ => {
-                self.advance();
+                let ch = self.advance_char().unwrap_or('?');
                 let span = Span::new(self.file_id, start, self.pos);
-                let ch = self.source[start..self.pos].chars().next().unwrap_or('?');
                 self.diagnostics.push(
-                    Diagnostic::error(
-                        "E0001",
-                        format!("unrecognized character `{}`", ch),
-                        span,
-                    )
-                    .with_label(Label::new(span, "not a valid LM token"))
-                    .with_help("LM uses ASCII operators and identifiers")
-                    .with_quickfix(QuickFix::new(span, "", format!("remove `{}`", ch))),
+                    Diagnostic::error("E0001", format!("unrecognized character `{}`", ch), span)
+                        .with_label(Label::new(span, "not a valid LM token"))
+                        .with_help("LM uses ASCII operators and identifiers")
+                        .with_quickfix(QuickFix::new(span, "", format!("remove `{}`", ch))),
                 );
                 None
             }
@@ -313,16 +340,12 @@ impl<'src> Lexer<'src> {
                     // Unterminated string
                     let span = Span::new(self.file_id, start, self.pos);
                     self.diagnostics.push(
-                        Diagnostic::error(
-                            "E0002",
-                            "unterminated string literal",
-                            span,
-                        )
-                        .with_label(Label::new(
-                            Span::new(self.file_id, start, start + 1),
-                            "string starts here",
-                        ))
-                        .with_help("add a closing `\"` to terminate the string"),
+                        Diagnostic::error("E0002", "unterminated string literal", span)
+                            .with_label(Label::new(
+                                Span::new(self.file_id, start, start + 1),
+                                "string starts here",
+                            ))
+                            .with_help("add a closing `\"` to terminate the string"),
                     );
                     return Token::new(
                         TokenKind::StringLit,
@@ -333,15 +356,26 @@ impl<'src> Lexer<'src> {
                 Some(b'\\') => {
                     self.advance(); // consume backslash
                     match self.peek() {
-                        Some(b'\\') => { self.advance(); value.push('\\'); }
-                        Some(b'"') => { self.advance(); value.push('"'); }
-                        Some(b'n') => { self.advance(); value.push('\n'); }
-                        Some(b't') => { self.advance(); value.push('\t'); }
+                        Some(b'\\') => {
+                            self.advance();
+                            value.push('\\');
+                        }
+                        Some(b'"') => {
+                            self.advance();
+                            value.push('"');
+                        }
+                        Some(b'n') => {
+                            self.advance();
+                            value.push('\n');
+                        }
+                        Some(b't') => {
+                            self.advance();
+                            value.push('\t');
+                        }
                         Some(other) => {
                             let esc_start = self.pos - 1;
-                            self.advance();
+                            let ch = self.advance_char().unwrap_or(other as char);
                             let span = Span::new(self.file_id, esc_start, self.pos);
-                            let ch = other as char;
                             self.diagnostics.push(
                                 Diagnostic::error(
                                     "E0001",
@@ -358,16 +392,12 @@ impl<'src> Lexer<'src> {
                             // Backslash at end of file — unterminated
                             let span = Span::new(self.file_id, start, self.pos);
                             self.diagnostics.push(
-                                Diagnostic::error(
-                                    "E0002",
-                                    "unterminated string literal",
-                                    span,
-                                )
-                                .with_label(Label::new(
-                                    Span::new(self.file_id, start, start + 1),
-                                    "string starts here",
-                                ))
-                                .with_help("add a closing `\"` to terminate the string"),
+                                Diagnostic::error("E0002", "unterminated string literal", span)
+                                    .with_label(Label::new(
+                                        Span::new(self.file_id, start, start + 1),
+                                        "string starts here",
+                                    ))
+                                    .with_help("add a closing `\"` to terminate the string"),
                             );
                             return Token::new(
                                 TokenKind::StringLit,
@@ -407,7 +437,9 @@ impl<'src> Lexer<'src> {
         // Consume digits
         while let Some(b) = self.peek() {
             match b {
-                b'0'..=b'9' => { self.advance(); }
+                b'0'..=b'9' => {
+                    self.advance();
+                }
                 b'.' => {
                     // Check that the next char after dot is a digit (not `..` range or method call)
                     if has_dot {
@@ -447,7 +479,11 @@ impl<'src> Lexer<'src> {
                         .with_help("number literals must not have alphabetic suffixes"),
                     );
                     return Token::new(
-                        if has_dot { TokenKind::FloatLit } else { TokenKind::IntLit },
+                        if has_dot {
+                            TokenKind::FloatLit
+                        } else {
+                            TokenKind::IntLit
+                        },
                         span,
                         text,
                     );

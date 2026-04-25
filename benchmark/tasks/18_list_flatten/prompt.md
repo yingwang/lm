@@ -17,4 +17,4 @@ fn flatten(lst: List<List<Int>>) -> List<Int>
 ## Notes
 
 - Concatenate all inner lists in order.
-- This task requires list builtins in the type checker.
+- LM has list literals plus `len`, `list_get`, and `list_push` built-ins.

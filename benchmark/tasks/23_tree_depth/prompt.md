@@ -25,4 +25,4 @@ fn depth(t: Tree) -> Int
 ## Notes
 
 - The depth of a leaf is 1. The depth of a node is 1 + max depth of children.
-- This task requires recursive types in the type checker, which is not yet supported.
+- Recursive ADTs are supported.

@@ -162,6 +162,15 @@ fn test_unrecognized_character() {
 }
 
 #[test]
+fn test_unrecognized_non_ascii_character() {
+    let (tokens, diagnostics) = Lexer::new("let x = é;", 0).tokenize();
+    assert_eq!(diagnostics.len(), 1);
+    assert_eq!(diagnostics[0].code.0, "E0001");
+    assert!(diagnostics[0].message.contains('é'));
+    assert!(tokens.iter().any(|tok| tok.kind == TokenKind::Semi));
+}
+
+#[test]
 fn test_multiline_input() {
     let result = lex_snapshot("let x = 1;\nlet y = 2;\nlet z = x + y;");
     insta::assert_snapshot!(result, @r#"
@@ -294,7 +303,8 @@ fn test_invalid_number_suffix() {
 
 #[test]
 fn test_match_expression() {
-    let result = lex_snapshot("match s {\n    Circle(r) -> 3.14 * r * r,\n    Rect(w, h) -> w * h,\n}");
+    let result =
+        lex_snapshot("match s {\n    Circle(r) -> 3.14 * r * r,\n    Rect(w, h) -> w * h,\n}");
     insta::assert_snapshot!(result, @r#"
     === Tokens ===
     Match             0..5    "match"

@@ -11,7 +11,7 @@ type Expr =
     | Mul(Int, Int)
 ```
 
-Note: Due to current LM limitations with recursive types, use a flat structure where Add and Mul take two Int operands directly.
+This task uses a flat expression structure where Add and Mul take two Int operands directly.
 
 ## Signature
 

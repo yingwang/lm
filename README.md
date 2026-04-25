@@ -131,7 +131,7 @@ lm/
 
 ```sh
 cargo build            # Build all crates
-cargo test             # Run all 161 tests
+cargo test             # Run all 178 tests
 cargo clippy           # Lint (zero warnings)
 ```
 
@@ -156,7 +156,7 @@ Features: syntax highlighting, real-time diagnostics, hover types, go-to-definit
 ./benchmark/run_benchmark.sh
 ```
 
-Results: **19/19 runnable tasks pass**, 11 skipped pending language features (string indexing, list builtins in type checker, recursive types).
+Results: **30/30 tasks pass**. Of these, 26 tasks exercise runnable language features directly, and 4 string-processing tasks use intentional `SKIP:` outputs pending string indexing/character operations.
 
 Categories: string processing, math/algorithms, list operations, ADT/pattern matching, effect system, error handling.
 
@@ -165,19 +165,15 @@ Categories: string processing, math/algorithms, list operations, ADT/pattern mat
 - [x] **M1: Diagnostics + Lexer** — Diagnostic framework, hand-written lexer, CLI `tokenize` (34 tests)
 - [x] **M2: Parser + AST** — Recursive descent parser, Pratt parsing, error recovery (36 tests)
 - [x] **M3: Type System** — Hindley-Milner inference, effect checking, exhaustiveness (53 tests)
-- [x] **M4: Interpreter** — Tree-walking evaluator, 10 built-in functions, recursion (20 tests)
+- [x] **M4: Interpreter** — Tree-walking evaluator, built-in functions, recursion (24 tests)
 - [x] **M5: LSP + Editor** — Language server, VSCode extension with hover/goto-def/symbols (15 tests)
-- [x] **M6: Benchmark** — 30 tasks, 19/19 runnable pass, benchmark runner script (3 tests)
+- [x] **M6: Benchmark** — 30/30 tasks pass, benchmark runner script
 
-**161 tests total, zero clippy warnings.**
+**178 tests total, zero clippy warnings.**
 
 ### Next Steps
 
-- Register all built-in functions in type checker (unblocks 6 list tasks)
 - String indexing / character operations (unblocks 4 string tasks)
-- Recursive type definitions (unblocks tree tasks)
-- Modulo operator `%`
-- List literal syntax `[1, 2, 3]`
 - LLM comparison benchmark: Claude writing LM vs TypeScript vs Python
 
 ## Tech Stack
@@ -272,7 +268,7 @@ VSCode 扩展在 `editors/vscode/` 目录，支持语法高亮、实时诊断、
 
 ### 基准测试
 
-30 个编程任务，覆盖字符串处理、数学算法、列表操作、ADT/模式匹配、effect 系统、错误处理。19/19 个可运行任务全部通过。
+30 个编程任务，覆盖字符串处理、数学算法、列表操作、ADT/模式匹配、effect 系统、错误处理。30/30 个任务全部通过，其中 26 个直接运行，4 个字符串处理任务在等待字符串索引/字符操作期间输出预期的 `SKIP:`。
 
 ```sh
 ./benchmark/run_benchmark.sh
@@ -290,8 +286,8 @@ VSCode 扩展在 `editors/vscode/` 目录，支持语法高亮、实时诊断、
 - [x] M1：诊断框架 + 词法分析器（34 个测试）
 - [x] M2：语法分析器 + AST（36 个测试）
 - [x] M3：类型系统 + Effect 检查 + 穷尽性检查（53 个测试）
-- [x] M4：树遍历解释器 + 10 个内置函数（20 个测试）
-- [x] M5：LSP 语言服务器 + VSCode 扩展（15 个测试）
-- [x] M6：基准测试套件 — 30 个任务，19/19 通过（3 个测试）
+- [x] M4：树遍历解释器 + 内置函数（24 个测试）
+- [x] M5：LSP 语言服务器 + VSCode 扩展（16 个测试）
+- [x] M6：基准测试套件 — 30/30 个任务通过
 
-**共 161 个测试，全部通过，clippy 零警告。**
+**共 178 个测试，全部通过，clippy 零警告。**

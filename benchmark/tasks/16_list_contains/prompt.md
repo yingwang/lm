@@ -17,4 +17,4 @@ fn contains(lst: List<Int>, target: Int) -> Bool
 ## Notes
 
 - Use recursion to search the list.
-- This task requires list builtins in the type checker.
+- LM has list literals plus `len` and `list_get` built-ins.

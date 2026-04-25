@@ -13,6 +13,8 @@ use tower_lsp::lsp_types::{
 /// The index stores the byte offset of the start of each line.
 #[derive(Debug, Clone)]
 pub struct LineIndex {
+    /// Source text used for UTF-16 column conversion required by LSP.
+    source: String,
     /// Byte offsets of the start of each line (line 0 starts at offset 0).
     line_starts: Vec<usize>,
     /// Total length of the source in bytes.
@@ -29,6 +31,7 @@ impl LineIndex {
             }
         }
         LineIndex {
+            source: source.to_string(),
             line_starts,
             len: source.len(),
         }
@@ -39,14 +42,17 @@ impl LineIndex {
     /// Both line and character are zero-based. If the offset is past the end
     /// of the file, it is clamped to the last valid position.
     pub fn offset_to_position(&self, offset: usize) -> Position {
-        let offset = offset.min(self.len);
+        let mut offset = offset.min(self.len);
+        while offset > 0 && !self.source.is_char_boundary(offset) {
+            offset -= 1;
+        }
         // Binary search for the line containing this offset.
         let line = match self.line_starts.binary_search(&offset) {
             Ok(exact) => exact,
             Err(next) => next.saturating_sub(1),
         };
         let line_start = self.line_starts[line];
-        let col = offset.saturating_sub(line_start);
+        let col = self.source[line_start..offset].encode_utf16().count();
         Position::new(line as u32, col as u32)
     }
 
@@ -97,6 +103,14 @@ mod tests {
         assert_eq!(idx.offset_to_position(0), Position::new(0, 0));
         assert_eq!(idx.offset_to_position(3), Position::new(0, 3));
         assert_eq!(idx.offset_to_position(5), Position::new(0, 5));
+    }
+
+    #[test]
+    fn test_line_index_utf16_columns() {
+        let idx = LineIndex::new("a😀b");
+        assert_eq!(idx.offset_to_position(1), Position::new(0, 1));
+        assert_eq!(idx.offset_to_position(5), Position::new(0, 3));
+        assert_eq!(idx.offset_to_position(6), Position::new(0, 4));
     }
 
     #[test]
@@ -156,7 +170,10 @@ mod tests {
 
     #[test]
     fn test_convert_severity() {
-        assert_eq!(convert_severity(LmSeverity::Error), DiagnosticSeverity::ERROR);
+        assert_eq!(
+            convert_severity(LmSeverity::Error),
+            DiagnosticSeverity::ERROR
+        );
         assert_eq!(
             convert_severity(LmSeverity::Warning),
             DiagnosticSeverity::WARNING

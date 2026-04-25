@@ -157,8 +157,8 @@ impl Interpreter {
                 // We'll fix up the env after all functions are registered.
                 let closure = Value::Closure {
                     params: param_names,
-                    body: body.clone(),
-                    env: self.env.clone(),
+                    body: Box::new(body.clone()),
+                    env: Box::new(self.env.clone()),
                 };
                 self.env.define(name.clone(), closure);
             }
@@ -173,7 +173,7 @@ impl Interpreter {
                     let fixed = Value::Closure {
                         params,
                         body,
-                        env: full_env.clone(),
+                        env: Box::new(full_env.clone()),
                     };
                     self.env.define(name.clone(), fixed);
                 }
@@ -542,9 +542,9 @@ impl Interpreter {
                         span,
                     ));
                 }
-                // Create a new environment extending the closure's captured env
-                let saved_env = self.env.clone();
-                self.env = env.clone();
+                // Move the current environment out instead of cloning it. Recursive calls can
+                // otherwise spend most of their stack cloning nested closure environments.
+                let saved_env = std::mem::replace(&mut self.env, (*env).clone());
 
                 // Enable recursion: inject the function itself into the closure env
                 // under its own name so it can call itself.

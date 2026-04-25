@@ -70,9 +70,7 @@ fn infix_bp(kind: TokenKind) -> Option<Bp> {
         TokenKind::PipePipe => Some(left_assoc(2)),
         TokenKind::AmpAmp => Some(left_assoc(4)),
         TokenKind::EqEq | TokenKind::BangEq => Some(left_assoc(6)),
-        TokenKind::Lt | TokenKind::LtEq | TokenKind::Gt | TokenKind::GtEq => {
-            Some(left_assoc(8))
-        }
+        TokenKind::Lt | TokenKind::LtEq | TokenKind::Gt | TokenKind::GtEq => Some(left_assoc(8)),
         TokenKind::PlusPlus => Some(left_assoc(10)),
         TokenKind::Plus | TokenKind::Minus => Some(left_assoc(12)),
         TokenKind::Star | TokenKind::Slash | TokenKind::Percent => Some(left_assoc(14)),
@@ -234,10 +232,8 @@ impl Parser {
         } else {
             let span = self.current_span();
             self.diagnostics.push(
-                Diagnostic::error(error_code, message, span).with_label(Label::new(
-                    span,
-                    format!("expected `{}`", kind.name()),
-                )),
+                Diagnostic::error(error_code, message, span)
+                    .with_label(Label::new(span, format!("expected `{}`", kind.name()))),
             );
             false
         }
@@ -256,8 +252,7 @@ impl Parser {
     fn synchronize_top_level(&mut self) {
         while !self.at_eof() {
             // If we just passed a semicolon or closing brace, stop.
-            if self.previous().kind == TokenKind::Semi
-                || self.previous().kind == TokenKind::RBrace
+            if self.previous().kind == TokenKind::Semi || self.previous().kind == TokenKind::RBrace
             {
                 return;
             }
@@ -363,7 +358,11 @@ impl Parser {
         };
 
         // Parameter list
-        if !self.expect(TokenKind::LParen, "E0104", "expected `(` after function name") {
+        if !self.expect(
+            TokenKind::LParen,
+            "E0104",
+            "expected `(` after function name",
+        ) {
             return None;
         }
 
@@ -564,22 +563,14 @@ impl Parser {
                     break;
                 }
             }
-            self.expect(
-                TokenKind::RParen,
-                "E0104",
-                "unclosed `(` in variant fields",
-            );
+            self.expect(TokenKind::RParen, "E0104", "unclosed `(` in variant fields");
             fields
         } else {
             Vec::new()
         };
 
         let span = start.merge(self.previous().span);
-        Some(Variant {
-            name,
-            fields,
-            span,
-        })
+        Some(Variant { name, fields, span })
     }
 
     /// Parse a top-level let binding: `let name = expr;` or `let name: Type = expr;`.
@@ -831,13 +822,13 @@ impl Parser {
                 let span = self.current_span();
                 let text = self.current().text.clone();
                 self.advance();
-                let value = text.parse::<i64>().unwrap_or(0);
-                Some(Expr {
-                    kind: ExprKind::Literal {
+                let kind = match self.parse_i64_literal(&text, span) {
+                    Some(value) => ExprKind::Literal {
                         value: LitValue::Int(value),
                     },
-                    span,
-                })
+                    None => ExprKind::Error,
+                };
+                Some(Expr { kind, span })
             }
 
             // Float literal
@@ -1029,11 +1020,7 @@ impl Parser {
             }
         }
 
-        self.expect(
-            TokenKind::RBracket,
-            "E0104",
-            "unclosed `[` in list literal",
-        );
+        self.expect(TokenKind::RBracket, "E0104", "unclosed `[` in list literal");
         let span = start.merge(self.previous().span);
 
         Some(Expr {
@@ -1145,7 +1132,11 @@ impl Parser {
 
         let scrutinee = self.parse_expr()?;
 
-        if !self.expect(TokenKind::LBrace, "E0104", "expected `{` after match scrutinee") {
+        if !self.expect(
+            TokenKind::LBrace,
+            "E0104",
+            "expected `{` after match scrutinee",
+        ) {
             return None;
         }
 
@@ -1166,7 +1157,11 @@ impl Parser {
             self.eat(TokenKind::Comma);
         }
 
-        if !self.expect(TokenKind::RBrace, "E0104", "unclosed `{` in match expression") {
+        if !self.expect(
+            TokenKind::RBrace,
+            "E0104",
+            "unclosed `{` in match expression",
+        ) {
             // Try to continue
         }
 
@@ -1211,7 +1206,7 @@ impl Parser {
                 let span = self.current_span();
                 let text = self.current().text.clone();
                 self.advance();
-                let value = text.parse::<i64>().unwrap_or(0);
+                let value = self.parse_i64_literal(&text, span)?;
                 Some(Pattern {
                     kind: PatternKind::Literal {
                         value: LitValue::Int(value),
@@ -1273,7 +1268,12 @@ impl Parser {
                         kind: PatternKind::Wildcard,
                         span,
                     })
-                } else if name.chars().next().map(|c| c.is_ascii_uppercase()).unwrap_or(false) {
+                } else if name
+                    .chars()
+                    .next()
+                    .map(|c| c.is_ascii_uppercase())
+                    .unwrap_or(false)
+                {
                     // Variant pattern: `Circle(r)` or bare `None`
                     if self.eat(TokenKind::LParen) {
                         let mut fields = Vec::new();
@@ -1322,7 +1322,7 @@ impl Parser {
                     let text = self.current().text.clone();
                     let end = self.current_span();
                     self.advance();
-                    let value = -(text.parse::<i64>().unwrap_or(0));
+                    let value = self.parse_negative_i64_literal(&text, start.merge(end))?;
                     Some(Pattern {
                         kind: PatternKind::Literal {
                             value: LitValue::Int(value),
@@ -1343,12 +1343,8 @@ impl Parser {
                 } else {
                     let span = self.current_span();
                     self.diagnostics.push(
-                        Diagnostic::error(
-                            "E0103",
-                            "expected a number after `-` in pattern",
-                            span,
-                        )
-                        .with_label(Label::new(span, "expected a number literal")),
+                        Diagnostic::error("E0103", "expected a number after `-` in pattern", span)
+                            .with_label(Label::new(span, "expected a number literal")),
                     );
                     None
                 }
@@ -1358,12 +1354,8 @@ impl Parser {
                 let span = self.current_span();
                 let text = self.current().text.clone();
                 self.diagnostics.push(
-                    Diagnostic::error(
-                        "E0103",
-                        format!("expected pattern, found `{}`", text),
-                        span,
-                    )
-                    .with_label(Label::new(span, "expected a pattern")),
+                    Diagnostic::error("E0103", format!("expected pattern, found `{}`", text), span)
+                        .with_label(Label::new(span, "expected a pattern")),
                 );
                 None
             }
@@ -1423,6 +1415,46 @@ impl Parser {
             kind: ExprKind::Block { exprs },
             span,
         })
+    }
+
+    /// Parse an integer literal and report range errors instead of silently
+    /// changing the program value.
+    fn parse_i64_literal(&mut self, text: &str, span: Span) -> Option<i64> {
+        match text.parse::<i64>() {
+            Ok(value) => Some(value),
+            Err(_) => {
+                self.diagnostics.push(
+                    Diagnostic::error(
+                        "E0100",
+                        format!("integer literal `{text}` is out of range for Int"),
+                        span,
+                    )
+                    .with_label(Label::new(span, "out of range"))
+                    .with_help("Int values must fit in a signed 64-bit integer"),
+                );
+                None
+            }
+        }
+    }
+
+    /// Parse a negated integer literal, allowing `-9223372036854775808`.
+    fn parse_negative_i64_literal(&mut self, text: &str, span: Span) -> Option<i64> {
+        let signed = format!("-{text}");
+        match signed.parse::<i64>() {
+            Ok(value) => Some(value),
+            Err(_) => {
+                self.diagnostics.push(
+                    Diagnostic::error(
+                        "E0100",
+                        format!("integer literal `{signed}` is out of range for Int"),
+                        span,
+                    )
+                    .with_label(Label::new(span, "out of range"))
+                    .with_help("Int values must fit in a signed 64-bit integer"),
+                );
+                None
+            }
+        }
     }
 }
 

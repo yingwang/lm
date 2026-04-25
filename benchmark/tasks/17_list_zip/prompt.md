@@ -24,4 +24,4 @@ fn zip(a: List<Int>, b: List<Int>) -> List<Pair>
 ## Notes
 
 - Stop at the length of the shorter list.
-- This task requires list builtins in the type checker.
+- LM has list literals plus `len`, `list_get`, and `list_push` built-ins.

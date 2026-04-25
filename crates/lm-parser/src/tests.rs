@@ -38,6 +38,18 @@ fn test_integer_literal() {
 }
 
 #[test]
+fn test_integer_literal_out_of_range_is_error() {
+    let (_tokens, lex_diags) =
+        Lexer::new("let x = 999999999999999999999999999999999999999999;", 0).tokenize();
+    assert!(lex_diags.is_empty());
+
+    let (tokens, _) =
+        Lexer::new("let x = 999999999999999999999999999999999999999999;", 0).tokenize();
+    let (_program, diagnostics) = Parser::new(tokens).parse();
+    assert!(diagnostics.iter().any(|d| d.code.0 == "E0100"));
+}
+
+#[test]
 fn test_float_literal() {
     let result = parse_snapshot("let x = 3.14;");
     insta::assert_snapshot!(result);

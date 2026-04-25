@@ -24,9 +24,9 @@ pub enum Value {
         /// Parameter names.
         params: Vec<String>,
         /// The function body expression.
-        body: Expr,
+        body: Box<Expr>,
         /// The captured environment.
-        env: Env,
+        env: Box<Env>,
     },
     /// An algebraic data type instance.
     ADTInstance {
@@ -59,9 +59,16 @@ impl PartialEq for Value {
             (Value::String(a), Value::String(b)) => a == b,
             (Value::Unit, Value::Unit) => true,
             (Value::List(a), Value::List(b)) => a == b,
-            (Value::ADTInstance { variant: v1, fields: f1 }, Value::ADTInstance { variant: v2, fields: f2 }) => {
-                v1 == v2 && f1 == f2
-            }
+            (
+                Value::ADTInstance {
+                    variant: v1,
+                    fields: f1,
+                },
+                Value::ADTInstance {
+                    variant: v2,
+                    fields: f2,
+                },
+            ) => v1 == v2 && f1 == f2,
             (Value::Option(a), Value::Option(b)) => a == b,
             (Value::Result(a), Value::Result(b)) => a == b,
             _ => false,

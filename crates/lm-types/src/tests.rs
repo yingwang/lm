@@ -360,11 +360,18 @@ fn test_error_and_on_int() {
 }
 
 #[test]
+fn test_error_ordered_comparison_on_bool() {
+    assert_has_error("let x = true < false;", "E0206");
+}
+
+#[test]
+fn test_error_reserved_builtin_type_name() {
+    assert_has_error("type List<T> = | Nil | Cons(T, List<T>)", "E0202");
+}
+
+#[test]
 fn test_error_return_type_mismatch() {
-    assert_has_error(
-        r#"fn f() -> Int { "hello" }"#,
-        "E0200",
-    );
+    assert_has_error(r#"fn f() -> Int { "hello" }"#, "E0200");
 }
 
 // ---------------------------------------------------------------
@@ -397,8 +404,16 @@ fn test_effect_io_calling_io_ok() {
 
 #[test]
 fn test_effect_pure_calling_io_error() {
+    assert_has_error("fn bad() -> Unit { print(\"oops\") }", "E0300");
+}
+
+#[test]
+fn test_effect_pure_calling_io_alias_error() {
     assert_has_error(
-        "fn bad() -> Unit { print(\"oops\") }",
+        "fn bad() -> Unit {
+            let p = print;
+            p(\"oops\")
+         }",
         "E0300",
     );
 }
@@ -560,9 +575,7 @@ fn test_list_map_is_io_effect() {
 #[test]
 fn test_list_map_in_io_function_ok() {
     // list_map is fine inside an io function.
-    assert_no_errors(
-        r#"io fn f() -> List<Unit> { list_map(["x"], print) }"#,
-    );
+    assert_no_errors(r#"io fn f() -> List<Unit> { list_map(["x"], print) }"#);
 }
 
 // ---------------------------------------------------------------

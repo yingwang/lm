@@ -19,5 +19,5 @@ fn gcd(a: Int, b: Int) -> Int
 ## Notes
 
 - Use the Euclidean algorithm: gcd(a, 0) = a; gcd(a, b) = gcd(b, a mod b).
-- LM has no modulo operator, but `a mod b` can be computed as `a - (a / b) * b` using integer division.
+- Use `%` for modulo.
 - Use recursion since LM has no loops.

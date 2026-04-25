@@ -33,6 +33,6 @@ Buzz
 ## Notes
 
 - Divisible by 3: "Fizz"; by 5: "Buzz"; by both: "FizzBuzz"; otherwise: the number as string.
-- LM has no modulo operator; compute `a mod b` as `a - (a / b) * b`.
+- Use `%` for modulo.
 - Use recursion for the loop from `from` to `to`.
 - The pure function does the logic; the IO function just prints.

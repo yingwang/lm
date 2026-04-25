@@ -48,7 +48,7 @@ impl TypeChecker {
                 variants,
             } = &decl.kind
             {
-                self.register_type_def(name, type_params, variants);
+                self.register_type_def(name, type_params, variants, decl.span);
             }
         }
 
@@ -87,7 +87,25 @@ impl TypeChecker {
     /// Uses a two-pass approach: first register the ADT name (with empty variants)
     /// so that recursive/self-referential types can be resolved, then process the
     /// variant field types and update the registration.
-    fn register_type_def(&mut self, name: &str, type_params: &[String], variants: &[Variant]) {
+    fn register_type_def(
+        &mut self,
+        name: &str,
+        type_params: &[String],
+        variants: &[Variant],
+        span: Span,
+    ) {
+        if is_reserved_type_name(name) {
+            self.diagnostics.push(
+                Diagnostic::error(
+                    "E0202",
+                    format!("cannot redefine built-in type `{name}`"),
+                    span,
+                )
+                .with_label(Label::new(span, "reserved type name")),
+            );
+            return;
+        }
+
         // First: register the ADT name with empty variants so self-references resolve.
         self.env.register_adt(AdtInfo {
             name: name.to_string(),
@@ -165,10 +183,9 @@ impl TypeChecker {
 
         let fn_type = Type::Fun(param_types, Box::new(ret_type));
         self.env.bind(name.to_string(), TypeScheme::mono(fn_type));
-        self.env.fn_effects.insert(
-            name.to_string(),
-            FnEffectInfo { effect },
-        );
+        self.env
+            .fn_effects
+            .insert(name.to_string(), FnEffectInfo { effect });
     }
 
     /// Convert a type annotation AST node to our internal Type representation.
@@ -187,7 +204,10 @@ impl TypeChecker {
                         } else {
                             self.diagnostics.push(Diagnostic::error(
                                 "E0204",
-                                format!("Option expects 1 type argument, found {}", type_args.len()),
+                                format!(
+                                    "Option expects 1 type argument, found {}",
+                                    type_args.len()
+                                ),
                                 ann.span,
                             ));
                             Type::Option(Box::new(Type::Unit))
@@ -351,10 +371,7 @@ impl TypeChecker {
                         } else {
                             self.diagnostics.push(Diagnostic::error(
                                 "E0204",
-                                format!(
-                                    "List expects 1 type argument, found {}",
-                                    type_args.len()
-                                ),
+                                format!("List expects 1 type argument, found {}", type_args.len()),
                                 ann.span,
                             ));
                             Type::List(Box::new(Type::Unit))
@@ -382,8 +399,7 @@ impl TypeChecker {
                     .iter()
                     .map(|p| self.annotation_to_type_with_map(p, type_params, param_var_map))
                     .collect();
-                let ret_type =
-                    self.annotation_to_type_with_map(ret, type_params, param_var_map);
+                let ret_type = self.annotation_to_type_with_map(ret, type_params, param_var_map);
                 Type::Fun(param_types, Box::new(ret_type))
             }
         }
@@ -482,12 +498,8 @@ impl TypeChecker {
                 let resolved_found = self.table.deep_resolve(bt);
                 if e.is_infinite {
                     self.diagnostics.push(
-                        Diagnostic::error(
-                            "E0208",
-                            "infinite type detected",
-                            e.span,
-                        )
-                        .with_label(Label::new(e.span, "occurs check failure")),
+                        Diagnostic::error("E0208", "infinite type detected", e.span)
+                            .with_label(Label::new(e.span, "occurs check failure")),
                     );
                 } else if let Some(ret_ann) = return_type {
                     self.diagnostics.push(
@@ -627,9 +639,7 @@ impl TypeChecker {
                 else_branch,
             } => self.infer_if_else(condition, then_branch, else_branch, expr.span),
 
-            ExprKind::Match { scrutinee, arms } => {
-                self.infer_match(scrutinee, arms, expr.span)
-            }
+            ExprKind::Match { scrutinee, arms } => self.infer_match(scrutinee, arms, expr.span),
 
             ExprKind::Block { exprs } => self.infer_block(exprs),
 
@@ -668,13 +678,7 @@ impl TypeChecker {
     }
 
     /// Infer the type of a binary operation.
-    fn infer_binop(
-        &mut self,
-        op: BinOp,
-        lhs: &Expr,
-        rhs: &Expr,
-        span: Span,
-    ) -> Option<Type> {
+    fn infer_binop(&mut self, op: BinOp, lhs: &Expr, rhs: &Expr, span: Span) -> Option<Type> {
         let lhs_ty = self.infer_expr(lhs)?;
         let rhs_ty = self.infer_expr(rhs)?;
 
@@ -696,8 +700,14 @@ impl TypeChecker {
                             ),
                             span,
                         )
-                        .with_label(Label::new(lhs.span, format!("type `{}`", resolved_lhs.display())))
-                        .with_label(Label::new(rhs.span, format!("type `{}`", resolved_rhs.display()))),
+                        .with_label(Label::new(
+                            lhs.span,
+                            format!("type `{}`", resolved_lhs.display()),
+                        ))
+                        .with_label(Label::new(
+                            rhs.span,
+                            format!("type `{}`", resolved_rhs.display()),
+                        )),
                     );
                     return None;
                 }
@@ -741,7 +751,10 @@ impl TypeChecker {
                             ),
                             lhs.span,
                         )
-                        .with_label(Label::new(lhs.span, format!("type `{}`", resolved.display()))),
+                        .with_label(Label::new(
+                            lhs.span,
+                            format!("type `{}`", resolved.display()),
+                        )),
                     );
                     return None;
                 }
@@ -756,15 +769,18 @@ impl TypeChecker {
                             ),
                             rhs.span,
                         )
-                        .with_label(Label::new(rhs.span, format!("type `{}`", resolved.display()))),
+                        .with_label(Label::new(
+                            rhs.span,
+                            format!("type `{}`", resolved.display()),
+                        )),
                     );
                     return None;
                 }
                 Some(Type::String)
             }
 
-            // Comparison operators: same type, return Bool
-            BinOp::Eq | BinOp::Ne | BinOp::Lt | BinOp::Le | BinOp::Gt | BinOp::Ge => {
+            // Equality operators: same type, return Bool
+            BinOp::Eq | BinOp::Ne => {
                 if self.table.unify(&lhs_ty, &rhs_ty, span).is_err() {
                     let resolved_lhs = self.table.deep_resolve(&lhs_ty);
                     let resolved_rhs = self.table.deep_resolve(&rhs_ty);
@@ -779,12 +795,67 @@ impl TypeChecker {
                             ),
                             span,
                         )
-                        .with_label(Label::new(lhs.span, format!("type `{}`", resolved_lhs.display())))
-                        .with_label(Label::new(rhs.span, format!("type `{}`", resolved_rhs.display()))),
+                        .with_label(Label::new(
+                            lhs.span,
+                            format!("type `{}`", resolved_lhs.display()),
+                        ))
+                        .with_label(Label::new(
+                            rhs.span,
+                            format!("type `{}`", resolved_rhs.display()),
+                        )),
                     );
                     return None;
                 }
                 Some(Type::Bool)
+            }
+
+            // Ordered comparisons: Int, Float, and String only.
+            BinOp::Lt | BinOp::Le | BinOp::Gt | BinOp::Ge => {
+                if self.table.unify(&lhs_ty, &rhs_ty, span).is_err() {
+                    let resolved_lhs = self.table.deep_resolve(&lhs_ty);
+                    let resolved_rhs = self.table.deep_resolve(&rhs_ty);
+                    self.diagnostics.push(
+                        Diagnostic::error(
+                            "E0206",
+                            format!(
+                                "operator `{}` requires matching types, found `{}` and `{}`",
+                                binop_symbol(op),
+                                resolved_lhs.display(),
+                                resolved_rhs.display()
+                            ),
+                            span,
+                        )
+                        .with_label(Label::new(
+                            lhs.span,
+                            format!("type `{}`", resolved_lhs.display()),
+                        ))
+                        .with_label(Label::new(
+                            rhs.span,
+                            format!("type `{}`", resolved_rhs.display()),
+                        )),
+                    );
+                    return None;
+                }
+
+                let resolved = self.table.deep_resolve(&lhs_ty);
+                match &resolved {
+                    Type::Int | Type::Float | Type::String | Type::Var(_) => Some(Type::Bool),
+                    _ => {
+                        self.diagnostics.push(
+                            Diagnostic::error(
+                                "E0206",
+                                format!(
+                                    "operator `{}` requires Int, Float, or String, found `{}`",
+                                    binop_symbol(op),
+                                    resolved.display()
+                                ),
+                                span,
+                            )
+                            .with_label(Label::new(span, "ordered comparison type required")),
+                        );
+                        None
+                    }
+                }
             }
 
             // Logical operators: both Bool
@@ -801,7 +872,10 @@ impl TypeChecker {
                             ),
                             lhs.span,
                         )
-                        .with_label(Label::new(lhs.span, format!("type `{}`", resolved.display()))),
+                        .with_label(Label::new(
+                            lhs.span,
+                            format!("type `{}`", resolved.display()),
+                        )),
                     );
                     return None;
                 }
@@ -817,7 +891,10 @@ impl TypeChecker {
                             ),
                             rhs.span,
                         )
-                        .with_label(Label::new(rhs.span, format!("type `{}`", resolved.display()))),
+                        .with_label(Label::new(
+                            rhs.span,
+                            format!("type `{}`", resolved.display()),
+                        )),
                     );
                     return None;
                 }
@@ -832,7 +909,11 @@ impl TypeChecker {
 
         match op {
             UnOp::Not => {
-                if self.table.unify(&operand_ty, &Type::Bool, operand.span).is_err() {
+                if self
+                    .table
+                    .unify(&operand_ty, &Type::Bool, operand.span)
+                    .is_err()
+                {
                     let resolved = self.table.deep_resolve(&operand_ty);
                     self.diagnostics.push(
                         Diagnostic::error(
@@ -881,12 +962,7 @@ impl TypeChecker {
     }
 
     /// Infer the type of a function call.
-    fn infer_fn_call(
-        &mut self,
-        callee: &Expr,
-        args: &[Expr],
-        span: Span,
-    ) -> Option<Type> {
+    fn infer_fn_call(&mut self, callee: &Expr, args: &[Expr], span: Span) -> Option<Type> {
         let callee_ty = self.infer_expr(callee)?;
 
         // Infer argument types
@@ -902,7 +978,11 @@ impl TypeChecker {
         let ret_var = self.table.fresh_var();
         let expected_fn_type = Type::Fun(arg_types.clone(), Box::new(ret_var.clone()));
 
-        if self.table.unify(&callee_ty, &expected_fn_type, span).is_err() {
+        if self
+            .table
+            .unify(&callee_ty, &expected_fn_type, span)
+            .is_err()
+        {
             let resolved_callee = self.table.deep_resolve(&callee_ty);
             match &resolved_callee {
                 Type::Fun(params, _) => {
@@ -1012,15 +1092,16 @@ impl TypeChecker {
         let cond_ty = self.infer_expr(condition)?;
 
         // Condition must be Bool
-        if self.table.unify(&cond_ty, &Type::Bool, condition.span).is_err() {
+        if self
+            .table
+            .unify(&cond_ty, &Type::Bool, condition.span)
+            .is_err()
+        {
             let resolved = self.table.deep_resolve(&cond_ty);
             self.diagnostics.push(
                 Diagnostic::error(
                     "E0200",
-                    format!(
-                        "if condition must be Bool, found `{}`",
-                        resolved.display()
-                    ),
+                    format!("if condition must be Bool, found `{}`", resolved.display()),
                     condition.span,
                 )
                 .with_label(Label::new(
@@ -1068,12 +1149,7 @@ impl TypeChecker {
     }
 
     /// Infer the type of a match expression.
-    fn infer_match(
-        &mut self,
-        scrutinee: &Expr,
-        arms: &[MatchArm],
-        _span: Span,
-    ) -> Option<Type> {
+    fn infer_match(&mut self, scrutinee: &Expr, arms: &[MatchArm], _span: Span) -> Option<Type> {
         let scrutinee_ty = self.infer_expr(scrutinee)?;
 
         if arms.is_empty() {
@@ -1088,7 +1164,11 @@ impl TypeChecker {
             let pattern_ty = self.infer_pattern(&arm.pattern, &scrutinee_ty);
 
             if let Some(pt) = &pattern_ty {
-                if self.table.unify(&scrutinee_ty, pt, arm.pattern.span).is_err() {
+                if self
+                    .table
+                    .unify(&scrutinee_ty, pt, arm.pattern.span)
+                    .is_err()
+                {
                     let resolved_scrutinee = self.table.deep_resolve(&scrutinee_ty);
                     let resolved_pattern = self.table.deep_resolve(pt);
                     self.diagnostics.push(
@@ -1161,9 +1241,7 @@ impl TypeChecker {
                 Some(ty)
             }
 
-            PatternKind::Wildcard => {
-                Some(self.table.deep_resolve(expected))
-            }
+            PatternKind::Wildcard => Some(self.table.deep_resolve(expected)),
 
             PatternKind::Variant { name, fields } => {
                 self.infer_variant_pattern(name, fields, expected, pattern.span)
@@ -1272,12 +1350,8 @@ impl TypeChecker {
             info
         } else {
             self.diagnostics.push(
-                Diagnostic::error(
-                    "E0203",
-                    format!("undefined variant `{}`", name),
-                    span,
-                )
-                .with_label(Label::new(span, "not found")),
+                Diagnostic::error("E0203", format!("undefined variant `{}`", name), span)
+                    .with_label(Label::new(span, "not found")),
             );
             return None;
         };
@@ -1388,12 +1462,7 @@ impl TypeChecker {
     }
 
     /// Infer the type of a variant construction expression.
-    fn infer_variant_construct(
-        &mut self,
-        name: &str,
-        args: &[Expr],
-        span: Span,
-    ) -> Option<Type> {
+    fn infer_variant_construct(&mut self, name: &str, args: &[Expr], span: Span) -> Option<Type> {
         // Check built-in variants
         match name {
             "Some" => {
@@ -1469,12 +1538,8 @@ impl TypeChecker {
             info
         } else {
             self.diagnostics.push(
-                Diagnostic::error(
-                    "E0203",
-                    format!("undefined variant `{}`", name),
-                    span,
-                )
-                .with_label(Label::new(span, "not found")),
+                Diagnostic::error("E0203", format!("undefined variant `{}`", name), span)
+                    .with_label(Label::new(span, "not found")),
             );
             return None;
         };
@@ -1521,7 +1586,11 @@ impl TypeChecker {
             if let Some(at) = arg_ty {
                 // Substitute registration-time param vars with fresh ones
                 let substituted_field_ty = field_ty.substitute(&subst);
-                if self.table.unify(&at, &substituted_field_ty, arg.span).is_err() {
+                if self
+                    .table
+                    .unify(&at, &substituted_field_ty, arg.span)
+                    .is_err()
+                {
                     let resolved_expected = self.table.deep_resolve(&substituted_field_ty);
                     let resolved_found = self.table.deep_resolve(&at);
                     self.diagnostics.push(
@@ -1561,6 +1630,13 @@ impl Default for TypeChecker {
     fn default() -> Self {
         Self::new()
     }
+}
+
+fn is_reserved_type_name(name: &str) -> bool {
+    matches!(
+        name,
+        "Int" | "Float" | "Bool" | "String" | "Unit" | "Option" | "Result" | "List"
+    )
 }
 
 /// Get the symbol representation of a binary operator.

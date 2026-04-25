@@ -17,4 +17,4 @@ fn filter(lst: List<Int>, pred: (Int) -> Bool) -> List<Int>
 ## Notes
 
 - Use recursion to build the new list.
-- This task requires list builtins and higher-order function support in the type checker.
+- LM has list builtins and higher-order function support.

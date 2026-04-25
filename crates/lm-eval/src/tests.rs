@@ -240,6 +240,25 @@ let result = factorial(5);
     assert_eq!(val, Value::Int(120));
 }
 
+#[test]
+fn test_recursive_power_depth_100() {
+    std::thread::Builder::new()
+        .stack_size(8 * 1024 * 1024)
+        .spawn(|| {
+            let src = r#"
+fn power(base: Int, exp: Int) -> Int {
+    if exp == 0 { 1 } else { base * power(base, exp - 1) }
+}
+let result = power(1, 100);
+"#;
+            let (val, _) = eval_program(src);
+            assert_eq!(val, Value::Int(1));
+        })
+        .unwrap()
+        .join()
+        .unwrap();
+}
+
 // ── Test 12: Division by zero ───────────────────────────────────────
 
 #[test]

@@ -21,5 +21,5 @@ fn is_prime(n: Int) -> Bool
 
 - A prime number is greater than 1 and has no divisors other than 1 and itself.
 - Use a helper function with trial division up to sqrt(n).
-- LM has no modulo operator; use `a - (a / b) * b` to compute a mod b.
+- Use `%` for modulo.
 - Use recursion since LM has no loops.
