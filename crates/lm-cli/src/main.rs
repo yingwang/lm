@@ -64,7 +64,7 @@ fn main() {
     match cli.command {
         Command::Tokenize { file } => cmd_tokenize(&file, cli.format),
         Command::Parse { file } => cmd_parse(&file, cli.format),
-        Command::Check { file } => cmd_placeholder("check", &file),
+        Command::Check { file } => cmd_check(&file, cli.format),
         Command::Run { file } => cmd_placeholder("run", &file),
     }
 }
@@ -190,6 +190,76 @@ fn cmd_parse(path: &str, format: OutputFormat) {
         OutputFormat::Json => {
             let output = serde_json::json!({
                 "ast": program,
+                "diagnostics": bag.into_vec(),
+            });
+            println!("{}", serde_json::to_string_pretty(&output).unwrap());
+        }
+    }
+
+    if has_errors {
+        process::exit(1);
+    }
+}
+
+/// Type-check a source file and print diagnostics.
+fn cmd_check(path: &str, format: OutputFormat) {
+    let source = match std::fs::read_to_string(path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: could not read `{}`: {}", path, e);
+            process::exit(1);
+        }
+    };
+
+    let (tokens, lex_diagnostics) = Lexer::new(&source, 0).tokenize();
+    let (program, parse_diagnostics) = lm_parser::Parser::new(tokens).parse();
+
+    // Collect all diagnostics
+    let mut bag = DiagnosticBag::new();
+    for d in lex_diagnostics {
+        bag.add(d);
+    }
+    for d in parse_diagnostics {
+        bag.add(d);
+    }
+
+    // Only run type checking if there are no parse errors
+    let has_parse_errors = bag.has_errors();
+    if !has_parse_errors {
+        let checker = lm_types::TypeChecker::new();
+        let type_diagnostics = checker.check(&program);
+        for d in type_diagnostics {
+            bag.add(d);
+        }
+    }
+
+    let has_errors = bag.has_errors();
+
+    match format {
+        OutputFormat::Human => {
+            if !bag.is_empty() {
+                eprint!("{}", bag.render_all(&source, path));
+            }
+
+            let error_count = bag
+                .iter()
+                .filter(|d| d.severity == lm_diagnostics::Severity::Error)
+                .count();
+            let warning_count = bag
+                .iter()
+                .filter(|d| d.severity == lm_diagnostics::Severity::Warning)
+                .count();
+            if error_count > 0 || warning_count > 0 {
+                eprintln!(
+                    "\n{} error(s), {} warning(s)",
+                    error_count, warning_count
+                );
+            } else {
+                eprintln!("OK: no type errors found");
+            }
+        }
+        OutputFormat::Json => {
+            let output = serde_json::json!({
                 "diagnostics": bag.into_vec(),
             });
             println!("{}", serde_json::to_string_pretty(&output).unwrap());

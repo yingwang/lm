@@ -2,7 +2,12 @@
 name = "lm-types"
 version = "0.1.0"
 edition = "2021"
-description = "Type system for the LM programming language (skeleton)"
+description = "Type system for the LM programming language: HM inference, effect checking, exhaustiveness"
 
 [dependencies]
 lm-diagnostics = { path = "../lm-diagnostics" }
+lm-parser = { path = "../lm-parser" }
+
+[dev-dependencies]
+lm-lexer = { path = "../lm-lexer" }
+insta = { workspace = true }
