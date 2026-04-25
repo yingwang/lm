@@ -14,6 +14,7 @@ const BUILTINS: &[&str] = &[
     "float_to_string",
     "string_to_int",
     "len",
+    "str_len",
     "list_get",
     "list_push",
     "list_map",
@@ -39,6 +40,7 @@ pub fn call_builtin(
         "float_to_string" => builtin_float_to_string(args, span),
         "string_to_int" => builtin_string_to_int(args, span),
         "len" => builtin_len(args, span),
+        "str_len" => builtin_str_len(args, span),
         "list_get" => builtin_list_get(args, span),
         "list_push" => builtin_list_push(args, span),
         "list_map" => builtin_list_map(interp, args, span),
@@ -155,6 +157,25 @@ fn builtin_len(args: Vec<Value>, span: Span) -> EvalResult {
         _ => Err(runtime_err(
             "E0503",
             "len expects a List or String",
+            span,
+        )),
+    }
+}
+
+/// `str_len(s: String) -> Int`.
+fn builtin_str_len(args: Vec<Value>, span: Span) -> EvalResult {
+    if args.len() != 1 {
+        return Err(runtime_err(
+            "E0503",
+            format!("str_len expects 1 argument, got {}", args.len()),
+            span,
+        ));
+    }
+    match &args[0] {
+        Value::String(s) => Ok(Value::Int(s.len() as i64)),
+        _ => Err(runtime_err(
+            "E0503",
+            "str_len expects a String",
             span,
         )),
     }

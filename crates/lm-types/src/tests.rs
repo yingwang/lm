@@ -542,3 +542,76 @@ fn test_exhaustive_result() {
          }",
     );
 }
+
+// ---------------------------------------------------------------
+// Bug fix: list_map effect soundness
+// ---------------------------------------------------------------
+
+#[test]
+fn test_list_map_is_io_effect() {
+    // list_map is io because its callback could be io (e.g., print).
+    // A pure function must not call list_map.
+    assert_has_error(
+        r#"fn f() -> List<Unit> { list_map(["x"], print) }"#,
+        "E0300",
+    );
+}
+
+#[test]
+fn test_list_map_in_io_function_ok() {
+    // list_map is fine inside an io function.
+    assert_no_errors(
+        r#"io fn f() -> List<Unit> { list_map(["x"], print) }"#,
+    );
+}
+
+// ---------------------------------------------------------------
+// Bug fix: generic recursive ADTs
+// ---------------------------------------------------------------
+
+#[test]
+fn test_generic_recursive_adt_construction() {
+    assert_no_errors(
+        "type MyList<T> = | Nil | Cons(T, MyList<T>)
+         let xs = Cons(1, Cons(2, Nil));",
+    );
+}
+
+#[test]
+fn test_generic_adt_single_param() {
+    assert_no_errors(
+        "type Box<T> = | Box(T)
+         let b = Box(42);",
+    );
+}
+
+#[test]
+fn test_generic_adt_pattern_matching() {
+    assert_no_errors(
+        "type MyList<T> = | Nil | Cons(T, MyList<T>)
+
+         fn head(xs: MyList<Int>) -> Int {
+             match xs {
+                 Cons(x, rest) -> x,
+                 Nil -> 0,
+             }
+         }
+
+         let xs = Cons(1, Cons(2, Nil));
+         let h = head(xs);",
+    );
+}
+
+// ---------------------------------------------------------------
+// Bug fix: str_len builtin
+// ---------------------------------------------------------------
+
+#[test]
+fn test_str_len_type_checks() {
+    assert_no_errors(r#"let n = str_len("hello");"#);
+}
+
+#[test]
+fn test_str_len_wrong_arg_type() {
+    assert_has_error("let n = str_len(42);", "E0200");
+}

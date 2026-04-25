@@ -354,9 +354,10 @@ let result = {
 | `string_to_int(s)` | `(String) -> Result<Int, String>` | pure | Parse string as int |
 | `to_string(x)` | `(a) -> String` | pure | Convert anything to string |
 | `len(list)` | `(List<a>) -> Int` | pure | List length |
+| `str_len(s)` | `(String) -> Int` | pure | String length |
 | `list_get(list, i)` | `(List<a>, Int) -> Option<a>` | pure | Get element by index |
 | `list_push(list, x)` | `(List<a>, a) -> List<a>` | pure | Append (returns new list) |
-| `list_map(list, f)` | `(List<a>, (a) -> b) -> List<b>` | pure | Map function over list |
+| `list_map(list, f)` | `(List<a>, (a) -> b) -> List<b>` | io | Map function over list |
 
 ## 14. Comments
 

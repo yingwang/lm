@@ -95,6 +95,21 @@ impl TypeChecker {
             variants: Vec::new(),
         });
 
+        // Create a consistent mapping from type param names to type vars.
+        // All variants share the same mapping so that references to the same
+        // type param (e.g., `T`) resolve to the same type variable.
+        let param_var_map: Vec<(String, Type)> = type_params
+            .iter()
+            .map(|p| (p.clone(), self.table.fresh_var()))
+            .collect();
+        let type_param_vars: Vec<crate::types::TypeVarId> = param_var_map
+            .iter()
+            .map(|(_, ty)| match ty {
+                Type::Var(id) => *id,
+                _ => unreachable!(),
+            })
+            .collect();
+
         // Second: now process variant field types (which may reference this ADT).
         let mut variant_infos = Vec::new();
 
@@ -102,7 +117,7 @@ impl TypeChecker {
             let field_types: Vec<Type> = variant
                 .fields
                 .iter()
-                .map(|ann| self.annotation_to_type(ann, type_params))
+                .map(|ann| self.annotation_to_type_with_map(ann, type_params, &param_var_map))
                 .collect();
 
             variant_infos.push(VariantInfo {
@@ -110,6 +125,7 @@ impl TypeChecker {
                 field_types,
                 adt_name: name.to_string(),
                 type_params: type_params.to_vec(),
+                type_param_vars: type_param_vars.clone(),
             });
         }
 
@@ -274,6 +290,127 @@ impl TypeChecker {
                 }
             }
         }
+    }
+
+    /// Like `annotation_to_type`, but uses a pre-created mapping from type param
+    /// names to type variables. This ensures that multiple references to the same
+    /// type parameter (e.g., `T` in `Cons(T, List<T>)`) resolve to the same var.
+    fn annotation_to_type_with_map(
+        &mut self,
+        ann: &TypeAnnotation,
+        type_params: &[String],
+        param_var_map: &[(String, Type)],
+    ) -> Type {
+        match &ann.kind {
+            TypeKind::Name { name } => {
+                self.name_to_type_with_map(name, type_params, param_var_map, ann.span)
+            }
+            TypeKind::App { name, args } => {
+                let type_args: Vec<Type> = args
+                    .iter()
+                    .map(|a| self.annotation_to_type_with_map(a, type_params, param_var_map))
+                    .collect();
+                match name.as_str() {
+                    "Option" => {
+                        if type_args.len() == 1 {
+                            Type::Option(Box::new(type_args.into_iter().next().unwrap()))
+                        } else {
+                            self.diagnostics.push(Diagnostic::error(
+                                "E0204",
+                                format!(
+                                    "Option expects 1 type argument, found {}",
+                                    type_args.len()
+                                ),
+                                ann.span,
+                            ));
+                            Type::Option(Box::new(Type::Unit))
+                        }
+                    }
+                    "Result" => {
+                        if type_args.len() == 2 {
+                            let mut iter = type_args.into_iter();
+                            Type::Result(
+                                Box::new(iter.next().unwrap()),
+                                Box::new(iter.next().unwrap()),
+                            )
+                        } else {
+                            self.diagnostics.push(Diagnostic::error(
+                                "E0204",
+                                format!(
+                                    "Result expects 2 type arguments, found {}",
+                                    type_args.len()
+                                ),
+                                ann.span,
+                            ));
+                            Type::Result(Box::new(Type::Unit), Box::new(Type::Unit))
+                        }
+                    }
+                    "List" => {
+                        if type_args.len() == 1 {
+                            Type::List(Box::new(type_args.into_iter().next().unwrap()))
+                        } else {
+                            self.diagnostics.push(Diagnostic::error(
+                                "E0204",
+                                format!(
+                                    "List expects 1 type argument, found {}",
+                                    type_args.len()
+                                ),
+                                ann.span,
+                            ));
+                            Type::List(Box::new(Type::Unit))
+                        }
+                    }
+                    _ => {
+                        if self.env.adt_defs.contains_key(name) {
+                            Type::ADT(name.clone(), type_args)
+                        } else {
+                            self.diagnostics.push(
+                                Diagnostic::error(
+                                    "E0202",
+                                    format!("undefined type `{}`", name),
+                                    ann.span,
+                                )
+                                .with_label(Label::new(ann.span, "not found")),
+                            );
+                            Type::Unit
+                        }
+                    }
+                }
+            }
+            TypeKind::Fn { params, ret } => {
+                let param_types: Vec<Type> = params
+                    .iter()
+                    .map(|p| self.annotation_to_type_with_map(p, type_params, param_var_map))
+                    .collect();
+                let ret_type =
+                    self.annotation_to_type_with_map(ret, type_params, param_var_map);
+                Type::Fun(param_types, Box::new(ret_type))
+            }
+        }
+    }
+
+    /// Like `name_to_type`, but looks up type param names in the provided map
+    /// instead of creating fresh variables each time.
+    fn name_to_type_with_map(
+        &mut self,
+        name: &str,
+        type_params: &[String],
+        param_var_map: &[(String, Type)],
+        span: Span,
+    ) -> Type {
+        // Check if it's a type parameter — use the pre-created var from the map
+        if type_params.iter().any(|p| p == name) {
+            for (param_name, ty) in param_var_map {
+                if param_name == name {
+                    return ty.clone();
+                }
+            }
+            // Fallback (shouldn't happen if map is properly constructed)
+            return self.table.fresh_var();
+        }
+
+        // For non-param names, delegate to the normal logic
+        self.name_to_type(name, &[], span)
     }
 
     /// Type-check a top-level declaration.
@@ -1167,54 +1304,34 @@ impl TypeChecker {
         }
 
         // Create fresh type variables for the ADT's type params
-        let type_param_subst: Vec<(String, Type)> = variant_info
+        let fresh_params: Vec<Type> = variant_info
             .type_params
             .iter()
-            .map(|p| (p.clone(), self.table.fresh_var()))
+            .map(|_| self.table.fresh_var())
+            .collect();
+
+        // Build substitution: map registration-time type param vars to fresh vars
+        let subst: Vec<(crate::types::TypeVarId, Type)> = variant_info
+            .type_param_vars
+            .iter()
+            .zip(fresh_params.iter())
+            .map(|(old_id, new_ty)| (*old_id, new_ty.clone()))
             .collect();
 
         // Construct the ADT type
-        let adt_type_args: Vec<Type> = type_param_subst.iter().map(|(_, t)| t.clone()).collect();
-        let adt_ty = Type::ADT(variant_info.adt_name.clone(), adt_type_args);
+        let adt_ty = Type::ADT(variant_info.adt_name.clone(), fresh_params);
 
         // Unify with expected
         let _ = self.table.unify(&adt_ty, expected, span);
 
         // Bind pattern fields
         for (field_pat, field_ty) in fields.iter().zip(variant_info.field_types.iter()) {
-            let substituted = self.substitute_type_params(field_ty, &type_param_subst);
+            let substituted = field_ty.substitute(&subst);
             let resolved = self.table.deep_resolve(&substituted);
             self.infer_pattern(field_pat, &resolved);
         }
 
         Some(self.table.deep_resolve(&adt_ty))
-    }
-
-    /// Substitute type parameter names with their assigned types.
-    fn substitute_type_params(&self, ty: &Type, _subst: &[(String, Type)]) -> Type {
-        // Type params in variant field types are represented as fresh vars
-        // during registration, so we need a different approach.
-        // Actually, during registration we used fresh_var() for type params,
-        // so the field types already have Type::Var entries that correspond
-        // to the original registration-time vars.
-        //
-        // For user-defined ADTs, we need to re-instantiate. The field_types
-        // stored in VariantInfo use Var IDs from registration time. We need
-        // to map those to our fresh vars.
-        //
-        // Since we can't easily track the original var IDs, we take a simpler
-        // approach: the field types for an ADT variant are stored with the
-        // original type parameter names. In our implementation, type params
-        // become fresh vars during annotation_to_type. So the field_types
-        // contain those specific Var IDs. We need to substitute them.
-        //
-        // Actually, we already handle this correctly because type params
-        // in annotation_to_type generate fresh vars that are recorded in
-        // the VariantInfo. When we create new fresh vars in the pattern,
-        // we need to unify the original vars with the new ones.
-        //
-        // Let's just return ty as-is and rely on unification.
-        ty.clone()
     }
 
     /// Infer the type of a list literal.
@@ -1390,14 +1507,22 @@ impl TypeChecker {
             .map(|_| self.table.fresh_var())
             .collect();
 
+        // Build substitution: map registration-time type param vars to fresh vars
+        let subst: Vec<(crate::types::TypeVarId, Type)> = variant_info
+            .type_param_vars
+            .iter()
+            .zip(fresh_params.iter())
+            .map(|(old_id, new_ty)| (*old_id, new_ty.clone()))
+            .collect();
+
         // Infer and unify argument types with the variant's field types
         for (arg, field_ty) in args.iter().zip(variant_info.field_types.iter()) {
             let arg_ty = self.infer_expr(arg);
             if let Some(at) = arg_ty {
-                // The field type may contain free vars from registration;
-                // We need to unify to constrain the fresh params
-                if self.table.unify(&at, field_ty, arg.span).is_err() {
-                    let resolved_expected = self.table.deep_resolve(field_ty);
+                // Substitute registration-time param vars with fresh ones
+                let substituted_field_ty = field_ty.substitute(&subst);
+                if self.table.unify(&at, &substituted_field_ty, arg.span).is_err() {
+                    let resolved_expected = self.table.deep_resolve(&substituted_field_ty);
                     let resolved_found = self.table.deep_resolve(&at);
                     self.diagnostics.push(
                         Diagnostic::error(

@@ -19,6 +19,10 @@ pub struct VariantInfo {
     pub adt_name: String,
     /// Type parameters of the parent ADT.
     pub type_params: Vec<String>,
+    /// Type variable IDs assigned to each type parameter during registration.
+    /// These correspond 1:1 with `type_params` and are used for substitution
+    /// when instantiating the variant constructor with fresh type variables.
+    pub type_param_vars: Vec<TypeVarId>,
 }
 
 /// Information about a user-defined ADT.
@@ -233,6 +237,18 @@ impl TypeEnv {
         );
         self.fn_effects.insert(
             "list_map".to_string(),
+            FnEffectInfo {
+                effect: Effect::Io,
+            },
+        );
+
+        // str_len : (String) -> Int [pure]
+        self.bind(
+            "str_len".to_string(),
+            TypeScheme::mono(Type::Fun(vec![Type::String], Box::new(Type::Int))),
+        );
+        self.fn_effects.insert(
+            "str_len".to_string(),
             FnEffectInfo {
                 effect: Effect::Pure,
             },

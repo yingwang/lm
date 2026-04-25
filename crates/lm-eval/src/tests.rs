@@ -371,3 +371,39 @@ let b = -42;
     let (val, _) = eval_program(src);
     assert_eq!(val, Value::Int(-42));
 }
+
+// ── Test 21: Generic recursive ADT ─────────────────────────────────
+
+#[test]
+fn test_generic_recursive_adt() {
+    let src = r#"
+type MyList<T> = | Nil | Cons(T, MyList<T>)
+let xs = Cons(1, Cons(2, Nil));
+"#;
+    let (val, _) = eval_program(src);
+    // The result should be a Cons variant
+    match val {
+        Value::ADTInstance { variant, .. } => assert_eq!(variant, "Cons"),
+        _ => panic!("expected Cons variant, got {:?}", val),
+    }
+}
+
+// ── Test 22: str_len builtin ───────────────────────────────────────
+
+#[test]
+fn test_str_len_builtin() {
+    let src = r#"
+let n = str_len("hello");
+"#;
+    let (val, _) = eval_program(src);
+    assert_eq!(val, Value::Int(5));
+}
+
+#[test]
+fn test_str_len_empty_string() {
+    let src = r#"
+let n = str_len("");
+"#;
+    let (val, _) = eval_program(src);
+    assert_eq!(val, Value::Int(0));
+}
