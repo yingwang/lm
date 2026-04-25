@@ -30,3 +30,12 @@ let r = Rect(3.0, 4.0);
 let a1 = area(c);
 let a2 = area(r);
 let result = safe_div(10, 0);
+
+let _ = print("area of circle: " ++ float_to_string(a1));
+let _ = print("area of rect: " ++ float_to_string(a2));
+let _ = print("circle: " ++ describe(c));
+let _ = print("rect: " ++ describe(r));
+let _ = match result {
+    Ok(n) -> print("result: " ++ int_to_string(n)),
+    Err(e) -> print("error: " ++ e),
+};
