@@ -1,0 +1,486 @@
+{
+  "model": "gemini-2.5-flash",
+  "runs": 1,
+  "tasks": 30,
+  "date": "2026-04-26T07:43:49.064Z",
+  "aggregate": {
+    "lm": {
+      "avg": 5,
+      "min": 5,
+      "max": 5,
+      "scores": [
+        5
+      ]
+    },
+    "ts": {
+      "avg": 6,
+      "min": 6,
+      "max": 6,
+      "scores": [
+        6
+      ]
+    },
+    "py": {
+      "avg": 7,
+      "min": 7,
+      "max": 7,
+      "scores": [
+        7
+      ]
+    }
+  },
+  "runs_detail": [
+    {
+      "lm": {
+        "pass": 5,
+        "fail": 25,
+        "errors": [
+          {
+            "task": "03_palindrome",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "04_count_vowels",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "05_caesar_cipher",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "06_string_repeat",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "07_fibonacci",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "08_factorial",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "09_gcd",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "10_is_prime",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "13_list_sum",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "14_list_filter",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "15_list_reverse",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "16_list_contains",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "17_list_zip",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "18_list_flatten",
+            "expected": "[1, 2, 3, 4, 5]",
+            "got": "\u001b[1;31merror[E0104]\u001b[0m: \u001b[1mexpected `(` after function name\u001b[0m",
+            "compile_error": true
+          },
+          {
+            "task": "20_option_unwrap",
+            "expected": "42",
+            "got": "\u001b[1;31merror[E0202]\u001b[0m: \u001b[1mundefined type `a`\u001b[0m",
+            "compile_error": true
+          },
+          {
+            "task": "21_result_chain",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "22_expr_eval",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "23_tree_depth",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "24_list_max",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "25_pure_computation",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "26_io_greeting",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "27_fizzbuzz",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "28_safe_divide",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "29_parse_and_compute",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "30_validate_input",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          }
+        ]
+      },
+      "ts": {
+        "pass": 6,
+        "fail": 24,
+        "errors": [
+          {
+            "task": "03_palindrome",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "04_count_vowels",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "05_caesar_cipher",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "06_string_repeat",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "07_fibonacci",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "08_factorial",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "09_gcd",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "10_is_prime",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "13_list_sum",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "14_list_filter",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "15_list_reverse",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "16_list_contains",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "17_list_zip",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "19_shape_area",
+            "expected": "78.53975",
+            "got": "78.53975",
+            "compile_error": false
+          },
+          {
+            "task": "21_result_chain",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "22_expr_eval",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "23_tree_depth",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "24_list_max",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "25_pure_computation",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "26_io_greeting",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "27_fizzbuzz",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "28_safe_divide",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "29_parse_and_compute",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "30_validate_input",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          }
+        ]
+      },
+      "py": {
+        "pass": 7,
+        "fail": 23,
+        "errors": [
+          {
+            "task": "03_palindrome",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "04_count_vowels",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "05_caesar_cipher",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "06_string_repeat",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "07_fibonacci",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "08_factorial",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "09_gcd",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "12_power",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "13_list_sum",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "14_list_filter",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "15_list_reverse",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "16_list_contains",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "20_option_unwrap",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "21_result_chain",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "22_expr_eval",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "23_tree_depth",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "24_list_max",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "25_pure_computation",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "26_io_greeting",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "27_fizzbuzz",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "28_safe_divide",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "29_parse_and_compute",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          },
+          {
+            "task": "30_validate_input",
+            "expected": "",
+            "got": "API: API 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your curre",
+            "compile_error": true
+          }
+        ]
+      }
+    }
+  ]
+}

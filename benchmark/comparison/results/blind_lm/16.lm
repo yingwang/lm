@@ -1,0 +1,20 @@
+fn contains(lst: List<Int>, target: Int) -> Bool {
+    fn helper(i: Int) -> Bool {
+        if i >= len(lst) { false }
+        else {
+            match list_get(lst, i) {
+                Some(v) -> if v == target { true } else { helper(i + 1) },
+                None -> false,
+            }
+        }
+    }
+    helper(0)
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(contains([1, 2, 3], 2)));
+    let _ = print(to_string(contains([1, 2, 3], 4)));
+    print(to_string(contains([], 1)))
+}
+
+let _ = main();

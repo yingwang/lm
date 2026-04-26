@@ -1,0 +1,14 @@
+fn collatz_steps(n: Int) -> Int {
+    if n == 1 {
+        0
+    } else if n % 2 == 0 {
+        1 + collatz_steps(n / 2)
+    } else { // n is odd
+        1 + collatz_steps(3 * n + 1)
+    }
+}
+
+let _ = print(to_string(collatz_steps(1)));
+let _ = print(to_string(collatz_steps(2)));
+let _ = print(to_string(collatz_steps(6)));
+let _ = print(to_string(collatz_steps(10)));

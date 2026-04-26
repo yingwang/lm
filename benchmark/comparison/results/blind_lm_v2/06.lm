@@ -1,0 +1,21 @@
+fn repeat_helper(s: String, n: Int, sep: String, i: Int, acc: String) -> String {
+    if i >= n { acc }
+    else {
+        if i == 0 { repeat_helper(s, n, sep, i + 1, s) }
+        else { repeat_helper(s, n, sep, i + 1, acc ++ sep ++ s) }
+    }
+}
+
+fn repeat(s: String, n: Int, sep: String) -> String {
+    if n <= 0 { "" }
+    else { repeat_helper(s, n, sep, 0, "") }
+}
+
+io fn main() -> Unit {
+    let _ = print(repeat("ha", 3, " "));
+    let _ = print(repeat("ab", 1, ","));
+    let _ = print(repeat("x", 0, ","));
+    print(repeat("hi", 2, "-"))
+}
+
+let _ = main();

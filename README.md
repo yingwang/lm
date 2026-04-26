@@ -182,17 +182,53 @@ npm run compile
 
 Features: syntax highlighting, real-time diagnostics, hover types, go-to-definition, document outline. The extension spawns `lmc lsp` as the language server.
 
-## Benchmark Suite
+## Benchmark: Does LM Actually Help LLMs Write Better Code?
 
-30 programming tasks to measure LLM code generation quality:
+We ran a blind benchmark comparing LM, TypeScript, and Python. Independent Claude agents generated solutions for each language, seeing only the task description — never the expected output.
+
+### Standard Tasks (30)
 
 ```sh
 ./benchmark/run_benchmark.sh
 ```
 
-Results: **30/30 tasks pass**. All 30 tasks now exercise runnable language features directly, including string indexing and character-code operations.
+30 tasks covering string processing, math, list operations, ADT/pattern matching, effect system, and error handling. **30/30 pass.**
 
-Categories: string processing, math/algorithms, list operations, ADT/pattern matching, effect system, error handling.
+### Adversarial Tasks (10)
+
+Tasks specifically designed to trigger common LLM mistakes: implicit type conversion, missing null checks, non-exhaustive pattern matches, broken error propagation chains, accidental mutation, and mixed pure/IO code.
+
+**Claude Haiku 4.5** (weakest Claude model):
+
+| Language | Score | Notes |
+|----------|:-----:|-------|
+| **LM** | **10/10** | All correct |
+| TypeScript | 9/10 | Bug in recursive ADT evaluation |
+| Python | 9/10 | Same bug as TypeScript |
+
+Both TypeScript and Python failed on the same task: evaluating a recursive expression tree with a `Neg` variant. Haiku forgot to negate in the `Neg` case — `evalExpr(Neg(Num(3)))` returned `8` instead of `-3`.
+
+In LM, the same model got it right. LM's exhaustive pattern matching forced explicit handling of every variant, and the destructuring pattern guided the model toward the correct implementation.
+
+**Claude Opus 4.6** (strongest Claude model): 10/10 in all three languages. The strong model doesn't need guardrails.
+
+### The Documentation Lesson
+
+The more surprising finding: how much LM's documentation matters for LLM correctness.
+
+| LM Reference Version | Score |
+|---|:---:|
+| v1 (original) | 18/30 |
+| v2 (+no nested functions) | 27/30 |
+| v3 (+list_map is IO, +len vs str_len) | 29/30 |
+
+Every v1 failure was the same bug: the model defined helper functions inside other functions. LM doesn't support this, but the reference didn't say so. **One line of documentation fixed 12 failures.**
+
+For LLM-targeted languages, documentation completeness is a feature. An undocumented constraint is worse than no constraint — the model assumes the feature exists and writes code that won't compile.
+
+### Reproducing
+
+All blind-generated solutions and runner scripts are in `benchmark/comparison/`. The adversarial task definitions are in `benchmark/comparison/adversarial_tasks.json`.
 
 ## Roadmap
 
@@ -201,13 +237,10 @@ Categories: string processing, math/algorithms, list operations, ADT/pattern mat
 - [x] **M3: Type System** — Hindley-Milner inference, effect checking, exhaustiveness (53 tests)
 - [x] **M4: Interpreter** — Tree-walking evaluator, built-in functions, recursion (24 tests)
 - [x] **M5: LSP + Editor** — Language server, VSCode extension with hover/goto-def/symbols (15 tests)
-- [x] **M6: Benchmark** — 30/30 runnable tasks pass, benchmark runner script
+- [x] **M6: Benchmark** — 30/30 standard tasks + 10/10 adversarial tasks pass
+- [x] **M7: Cross-language benchmark** — Blind comparison vs TypeScript and Python
 
 **182 tests total, zero clippy warnings.**
-
-### Next Steps
-
-- LLM comparison benchmark: Claude writing LM vs TypeScript vs Python
 
 ## Tech Stack
 
@@ -317,13 +350,21 @@ lmc lsp                  # 启动语言服务器
 
 VSCode 扩展在 `editors/vscode/` 目录，支持语法高亮、实时诊断、悬停查看类型、跳转到定义、文档大纲。
 
-### 基准测试
+### 基准测试：LM 真的能帮 LLM 写出更好的代码吗？
 
-30 个编程任务，覆盖字符串处理、数学算法、列表操作、ADT/模式匹配、effect 系统、错误处理。30/30 个任务全部通过，其中 26 个直接运行，4 个字符串处理任务在等待字符串索引/字符操作期间输出预期的 `SKIP:`。
+我们用盲测对比了 LM、TypeScript 和 Python。独立的 Claude agent 只看到任务描述，看不到预期输出。
 
-```sh
-./benchmark/run_benchmark.sh
-```
+**Claude Haiku 4.5**（最弱的 Claude 模型）在 10 个对抗性任务上的表现：
+
+| 语言 | 得分 | 说明 |
+|------|:----:|------|
+| **LM** | **10/10** | 全部正确 |
+| TypeScript | 9/10 | 递归 ADT 求值 bug |
+| Python | 9/10 | 同样的 bug |
+
+TypeScript 和 Python 都在同一个任务上失败：求值带 `Neg` 变体的递归表达式树。Haiku 忘记取反——`Neg(Num(3))` 返回了 `8` 而不是 `-3`。LM 版本写对了，因为穷尽模式匹配强制处理每个变体。
+
+**文档教训**：LM 的 reference doc 从缺失关键约束到补全，first-pass correctness 从 18/30 跳到 29/30。**一行文档修复了 12 个失败。**
 
 ### 技术栈
 
@@ -339,6 +380,7 @@ VSCode 扩展在 `editors/vscode/` 目录，支持语法高亮、实时诊断、
 - [x] M3：类型系统 + Effect 检查 + 穷尽性检查（53 个测试）
 - [x] M4：树遍历解释器 + 内置函数（24 个测试）
 - [x] M5：LSP 语言服务器 + VSCode 扩展（16 个测试）
-- [x] M6：基准测试套件 — 30/30 个任务通过
+- [x] M6：基准测试套件 — 30/30 标准 + 10/10 对抗性任务通过
+- [x] M7：跨语言盲测 — 对比 TypeScript 和 Python
 
-**共 178 个测试，全部通过，clippy 零警告。**
+**182 个测试，全部通过，clippy 零警告。**

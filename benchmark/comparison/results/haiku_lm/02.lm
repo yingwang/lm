@@ -1,0 +1,20 @@
+fn find_first_even_helper(lst: List<Int>, i: Int) -> Int {
+    if i >= len(lst) { -1 }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> {
+                if v % 2 == 0 { v }
+                else { find_first_even_helper(lst, i + 1) }
+            },
+            None -> -1,
+        }
+    }
+}
+
+fn find_first_even(lst: List<Int>) -> Int {
+    find_first_even_helper(lst, 0)
+}
+
+let _ = print(to_string(find_first_even([1, 3, 2, 5])));
+let _ = print(to_string(find_first_even([1, 3, 5])));
+let _ = print(to_string(find_first_even([4, 2, 6])));

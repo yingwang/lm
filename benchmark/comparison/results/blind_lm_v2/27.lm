@@ -1,0 +1,20 @@
+fn mod(n: Int, d: Int) -> Int {
+    n - (n / d) * d
+}
+
+fn fizzbuzz(n: Int) -> String {
+    if mod(n, 15) == 0 { "FizzBuzz" }
+    else if mod(n, 3) == 0 { "Fizz" }
+    else if mod(n, 5) == 0 { "Buzz" }
+    else { int_to_string(n) }
+}
+
+io fn main() -> Unit {
+    let _ = print(fizzbuzz(1));
+    let _ = print(fizzbuzz(3));
+    let _ = print(fizzbuzz(5));
+    let _ = print(fizzbuzz(15));
+    print(fizzbuzz(7))
+}
+
+let _ = main();

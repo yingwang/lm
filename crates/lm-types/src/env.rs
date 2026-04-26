@@ -304,6 +304,30 @@ impl TypeEnv {
                 effect: Effect::Io,
             },
         );
+
+        // to_float : (Int) -> Float [pure]
+        self.bind(
+            "to_float".to_string(),
+            TypeScheme::mono(Type::Fun(vec![Type::Int], Box::new(Type::Float))),
+        );
+        self.fn_effects.insert(
+            "to_float".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
+
+        // to_int : (Float) -> Int [pure]
+        self.bind(
+            "to_int".to_string(),
+            TypeScheme::mono(Type::Fun(vec![Type::Float], Box::new(Type::Int))),
+        );
+        self.fn_effects.insert(
+            "to_int".to_string(),
+            FnEffectInfo {
+                effect: Effect::Pure,
+            },
+        );
     }
 
     /// Push a new scope onto the environment.

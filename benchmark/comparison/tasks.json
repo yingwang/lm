@@ -1,0 +1,242 @@
+[
+  {
+    "id": "01", "name": "hello",
+    "description": "Write a function `greet(name)` that takes a name string and returns \"Hello, {name}!\".",
+    "lm_test": "let _ = print(greet(\"World\"));\nlet _ = print(greet(\"LM\"));\nlet _ = print(greet(\"\"));",
+    "ts_test": "console.log(greet(\"World\"));\nconsole.log(greet(\"LM\"));\nconsole.log(greet(\"\"));",
+    "py_test": "print(greet(\"World\"))\nprint(greet(\"LM\"))\nprint(greet(\"\"))",
+    "expected": "Hello, World!\nHello, LM!\nHello, !"
+  },
+  {
+    "id": "02", "name": "reverse_string",
+    "description": "Write a function `reverse(s)` that returns the reversed string.",
+    "lm_test": "let _ = print(reverse(\"hello\"));\nlet _ = print(reverse(\"ab\"));\nlet _ = print(reverse(\"\"));\nlet _ = print(reverse(\"a\"));",
+    "ts_test": "console.log(reverse(\"hello\"));\nconsole.log(reverse(\"ab\"));\nconsole.log(reverse(\"\"));\nconsole.log(reverse(\"a\"));",
+    "py_test": "print(reverse(\"hello\"))\nprint(reverse(\"ab\"))\nprint(reverse(\"\"))\nprint(reverse(\"a\"))",
+    "expected": "olleh\nba\n\na"
+  },
+  {
+    "id": "03", "name": "palindrome",
+    "description": "Write a function `is_palindrome(s)` that returns whether the string is a palindrome. The function should return a boolean.",
+    "lm_test": "let _ = print(to_string(is_palindrome(\"racecar\")));\nlet _ = print(to_string(is_palindrome(\"hello\")));\nlet _ = print(to_string(is_palindrome(\"\")));\nlet _ = print(to_string(is_palindrome(\"a\")));",
+    "ts_test": "console.log(String(is_palindrome(\"racecar\")));\nconsole.log(String(is_palindrome(\"hello\")));\nconsole.log(String(is_palindrome(\"\")));\nconsole.log(String(is_palindrome(\"a\")));",
+    "py_test": "print(str(is_palindrome(\"racecar\")).lower())\nprint(str(is_palindrome(\"hello\")).lower())\nprint(str(is_palindrome(\"\")).lower())\nprint(str(is_palindrome(\"a\")).lower())",
+    "expected": "true\nfalse\ntrue\ntrue"
+  },
+  {
+    "id": "04", "name": "count_vowels",
+    "description": "Write a function `count_vowels(s)` that returns the number of vowels (a, e, i, o, u, case-insensitive) in the string.",
+    "lm_test": "let _ = print(int_to_string(count_vowels(\"hello\")));\nlet _ = print(int_to_string(count_vowels(\"aeiou\")));\nlet _ = print(int_to_string(count_vowels(\"xyz\")));\nlet _ = print(int_to_string(count_vowels(\"\")));",
+    "ts_test": "console.log(count_vowels(\"hello\"));\nconsole.log(count_vowels(\"aeiou\"));\nconsole.log(count_vowels(\"xyz\"));\nconsole.log(count_vowels(\"\"));",
+    "py_test": "print(count_vowels(\"hello\"))\nprint(count_vowels(\"aeiou\"))\nprint(count_vowels(\"xyz\"))\nprint(count_vowels(\"\"))",
+    "expected": "2\n5\n0\n0"
+  },
+  {
+    "id": "05", "name": "caesar_cipher",
+    "description": "Write a function `caesar_encrypt(text, shift)` that shifts uppercase A-Z letters by `shift` positions, wrapping around. Non-uppercase characters are unchanged.",
+    "lm_test": "let _ = print(caesar_encrypt(\"ABC\", 1));\nlet _ = print(caesar_encrypt(\"XYZ\", 3));\nlet _ = print(caesar_encrypt(\"HELLO\", 13));\nlet _ = print(caesar_encrypt(\"A B!\", 2));",
+    "ts_test": "console.log(caesar_encrypt(\"ABC\", 1));\nconsole.log(caesar_encrypt(\"XYZ\", 3));\nconsole.log(caesar_encrypt(\"HELLO\", 13));\nconsole.log(caesar_encrypt(\"A B!\", 2));",
+    "py_test": "print(caesar_encrypt(\"ABC\", 1))\nprint(caesar_encrypt(\"XYZ\", 3))\nprint(caesar_encrypt(\"HELLO\", 13))\nprint(caesar_encrypt(\"A B!\", 2))",
+    "expected": "BCD\nABC\nURYYB\nC D!"
+  },
+  {
+    "id": "06", "name": "string_repeat",
+    "description": "Write a function `repeat(s, n, sep)` that repeats string `s` `n` times joined by separator `sep`. 0 times returns empty string, 1 time returns just `s`.",
+    "lm_test": "let _ = print(repeat(\"ha\", 3, \" \"));\nlet _ = print(repeat(\"ab\", 1, \",\"));\nlet _ = print(repeat(\"x\", 0, \",\"));\nlet _ = print(repeat(\"hi\", 2, \"-\"));",
+    "ts_test": "console.log(repeat(\"ha\", 3, \" \"));\nconsole.log(repeat(\"ab\", 1, \",\"));\nconsole.log(repeat(\"x\", 0, \",\"));\nconsole.log(repeat(\"hi\", 2, \"-\"));",
+    "py_test": "print(repeat(\"ha\", 3, \" \"))\nprint(repeat(\"ab\", 1, \",\"))\nprint(repeat(\"x\", 0, \",\"))\nprint(repeat(\"hi\", 2, \"-\"))",
+    "expected": "ha ha ha\nab\n\nhi-hi"
+  },
+  {
+    "id": "07", "name": "fibonacci",
+    "description": "Write a function `fib(n)` that returns the nth Fibonacci number. fib(0)=0, fib(1)=1.",
+    "lm_test": "let _ = print(to_string(fib(0)));\nlet _ = print(to_string(fib(1)));\nlet _ = print(to_string(fib(2)));\nlet _ = print(to_string(fib(5)));\nlet _ = print(to_string(fib(10)));",
+    "ts_test": "console.log(fib(0));\nconsole.log(fib(1));\nconsole.log(fib(2));\nconsole.log(fib(5));\nconsole.log(fib(10));",
+    "py_test": "print(fib(0))\nprint(fib(1))\nprint(fib(2))\nprint(fib(5))\nprint(fib(10))",
+    "expected": "0\n1\n1\n5\n55"
+  },
+  {
+    "id": "08", "name": "factorial",
+    "description": "Write a function `factorial(n)` that returns the factorial. If n is negative, return an error. Use a Result/Either pattern: return \"Ok(value)\" for success or \"Err(message)\" for failure. factorial(0)=Ok(1), factorial(-1)=Err(negative input).",
+    "lm_test": "let _ = print(to_string(factorial(0)));\nlet _ = print(to_string(factorial(5)));\nlet _ = print(to_string(factorial(-1)));",
+    "ts_test": "console.log(factorial(0));\nconsole.log(factorial(5));\nconsole.log(factorial(-1));",
+    "py_test": "print(factorial(0))\nprint(factorial(5))\nprint(factorial(-1))",
+    "expected": "Ok(1)\nOk(120)\nErr(negative input)"
+  },
+  {
+    "id": "09", "name": "gcd",
+    "description": "Write a function `gcd(a, b)` that returns the greatest common divisor using the Euclidean algorithm.",
+    "lm_test": "let _ = print(to_string(gcd(12, 8)));\nlet _ = print(to_string(gcd(100, 75)));\nlet _ = print(to_string(gcd(7, 13)));\nlet _ = print(to_string(gcd(0, 5)));\nlet _ = print(to_string(gcd(10, 10)));",
+    "ts_test": "console.log(gcd(12, 8));\nconsole.log(gcd(100, 75));\nconsole.log(gcd(7, 13));\nconsole.log(gcd(0, 5));\nconsole.log(gcd(10, 10));",
+    "py_test": "print(gcd(12, 8))\nprint(gcd(100, 75))\nprint(gcd(7, 13))\nprint(gcd(0, 5))\nprint(gcd(10, 10))",
+    "expected": "4\n25\n1\n5\n10"
+  },
+  {
+    "id": "10", "name": "is_prime",
+    "description": "Write a function `is_prime(n)` that returns whether n is prime (as a boolean). 0 and 1 are not prime.",
+    "lm_test": "fn bool_str(b: Bool) -> String {\n    if b { \"true\" } else { \"false\" }\n}\nlet _ = print(bool_str(is_prime(2)));\nlet _ = print(bool_str(is_prime(3)));\nlet _ = print(bool_str(is_prime(4)));\nlet _ = print(bool_str(is_prime(17)));\nlet _ = print(bool_str(is_prime(1)));\nlet _ = print(bool_str(is_prime(0)));",
+    "ts_test": "console.log(String(is_prime(2)));\nconsole.log(String(is_prime(3)));\nconsole.log(String(is_prime(4)));\nconsole.log(String(is_prime(17)));\nconsole.log(String(is_prime(1)));\nconsole.log(String(is_prime(0)));",
+    "py_test": "print(str(is_prime(2)).lower())\nprint(str(is_prime(3)).lower())\nprint(str(is_prime(4)).lower())\nprint(str(is_prime(17)).lower())\nprint(str(is_prime(1)).lower())\nprint(str(is_prime(0)).lower())",
+    "expected": "true\ntrue\nfalse\ntrue\nfalse\nfalse"
+  },
+  {
+    "id": "11", "name": "collatz",
+    "description": "Write a function `collatz_steps(n)` that returns the number of steps to reach 1 in the Collatz sequence. If even: n/2, if odd: 3n+1. collatz_steps(1)=0.",
+    "lm_test": "let _ = print(to_string(collatz_steps(1)));\nlet _ = print(to_string(collatz_steps(2)));\nlet _ = print(to_string(collatz_steps(6)));\nlet _ = print(to_string(collatz_steps(10)));",
+    "ts_test": "console.log(collatz_steps(1));\nconsole.log(collatz_steps(2));\nconsole.log(collatz_steps(6));\nconsole.log(collatz_steps(10));",
+    "py_test": "print(collatz_steps(1))\nprint(collatz_steps(2))\nprint(collatz_steps(6))\nprint(collatz_steps(10))",
+    "expected": "0\n1\n8\n6"
+  },
+  {
+    "id": "12", "name": "power",
+    "description": "Write a function `power(base, exp)` that returns base raised to exp (non-negative integer exponent).",
+    "lm_test": "let _ = print(to_string(power(2, 0)));\nlet _ = print(to_string(power(2, 10)));\nlet _ = print(to_string(power(3, 4)));\nlet _ = print(to_string(power(5, 3)));\nlet _ = print(to_string(power(1, 100)));",
+    "ts_test": "console.log(power(2, 0));\nconsole.log(power(2, 10));\nconsole.log(power(3, 4));\nconsole.log(power(5, 3));\nconsole.log(power(1, 100));",
+    "py_test": "print(power(2, 0))\nprint(power(2, 10))\nprint(power(3, 4))\nprint(power(5, 3))\nprint(power(1, 100))",
+    "expected": "1\n1024\n81\n125\n1"
+  },
+  {
+    "id": "13", "name": "list_sum",
+    "description": "Write a function `sum(lst)` that returns the sum of all integers in a list. Empty list returns 0.",
+    "lm_test": "let _ = print(to_string(sum([1, 2, 3])));\nlet _ = print(to_string(sum([])));\nlet _ = print(to_string(sum([10])));\nlet _ = print(to_string(sum([-1, 1])));",
+    "ts_test": "console.log(sum([1, 2, 3]));\nconsole.log(sum([]));\nconsole.log(sum([10]));\nconsole.log(sum([-1, 1]));",
+    "py_test": "print(sum([1, 2, 3]))\nprint(sum([]))\nprint(sum([10]))\nprint(sum([-1, 1]))",
+    "expected": "6\n0\n10\n0"
+  },
+  {
+    "id": "14", "name": "list_filter",
+    "description": "Write a function `filter(lst, pred)` that returns a new list with only elements where pred returns true. Also define `gt3(x)` returning x>3 and `is_even(x)` returning x%2==0. Print lists in [a, b, c] format.",
+    "lm_test": "let _ = print(to_string(filter([1, 2, 3, 4, 5], gt3)));\nlet _ = print(to_string(filter([1, 2, 3], is_even)));\nlet _ = print(to_string(filter([], gt3)));",
+    "ts_test": "console.log(formatList(filter([1, 2, 3, 4, 5], gt3)));\nconsole.log(formatList(filter([1, 2, 3], is_even)));\nconsole.log(formatList(filter([], gt3)));",
+    "py_test": "print(format_list(filter_list([1, 2, 3, 4, 5], gt3)))\nprint(format_list(filter_list([1, 2, 3], is_even)))\nprint(format_list(filter_list([], gt3)))",
+    "expected": "[4, 5]\n[2]\n[]"
+  },
+  {
+    "id": "15", "name": "list_reverse",
+    "description": "Write a function `reverse(lst)` that returns the reversed list. Print in [a, b, c] format.",
+    "lm_test": "let _ = print(to_string(reverse([1, 2, 3])));\nlet _ = print(to_string(reverse([])));\nlet _ = print(to_string(reverse([1])));",
+    "ts_test": "console.log(formatList(reverse([1, 2, 3])));\nconsole.log(formatList(reverse([])));\nconsole.log(formatList(reverse([1])));",
+    "py_test": "print(format_list(reverse([1, 2, 3])))\nprint(format_list(reverse([])))\nprint(format_list(reverse([1])))",
+    "expected": "[3, 2, 1]\n[]\n[1]"
+  },
+  {
+    "id": "16", "name": "list_contains",
+    "description": "Write a function `contains(lst, target)` that returns whether the list contains the target (as a boolean).",
+    "lm_test": "let _ = print(to_string(contains([1, 2, 3], 2)));\nlet _ = print(to_string(contains([1, 2, 3], 4)));\nlet _ = print(to_string(contains([], 1)));",
+    "ts_test": "console.log(String(contains([1, 2, 3], 2)));\nconsole.log(String(contains([1, 2, 3], 4)));\nconsole.log(String(contains([], 1)));",
+    "py_test": "print(str(contains([1, 2, 3], 2)).lower())\nprint(str(contains([1, 2, 3], 4)).lower())\nprint(str(contains([], 1)).lower())",
+    "expected": "true\nfalse\nfalse"
+  },
+  {
+    "id": "17", "name": "list_zip",
+    "description": "Write a function `zip(a, b)` that pairs elements from two integer lists, stopping at the shorter. Print each pair as Pair(x, y) and the list in [Pair(1, 4), ...] format.",
+    "lm_test": "let _ = print(to_string(zip([1, 2, 3], [4, 5, 6])));\nlet _ = print(to_string(zip([1, 2], [3])));\nlet _ = print(to_string(zip([], [1])));",
+    "ts_test": "console.log(formatPairList(zip([1, 2, 3], [4, 5, 6])));\nconsole.log(formatPairList(zip([1, 2], [3])));\nconsole.log(formatPairList(zip([], [1])));",
+    "py_test": "print(format_pair_list(zip_lists([1, 2, 3], [4, 5, 6])))\nprint(format_pair_list(zip_lists([1, 2], [3])))\nprint(format_pair_list(zip_lists([], [1])))",
+    "expected": "[Pair(1, 4), Pair(2, 5), Pair(3, 6)]\n[Pair(1, 3)]\n[]"
+  },
+  {
+    "id": "18", "name": "list_flatten",
+    "description": "Write a function `flatten(lst)` that flattens a list of lists into a single list. Print in [a, b, c] format.",
+    "lm_test": "let _ = print(to_string(flatten([[1, 2], [3], [4, 5]])));\nlet _ = print(to_string(flatten([[], [1], []])));\nlet _ = print(to_string(flatten([])));",
+    "ts_test": "console.log(formatList(flatten([[1, 2], [3], [4, 5]])));\nconsole.log(formatList(flatten([[], [1], []])));\nconsole.log(formatList(flatten([])));",
+    "py_test": "print(format_list(flatten([[1, 2], [3], [4, 5]])))\nprint(format_list(flatten([[], [1], []])))\nprint(format_list(flatten([])))",
+    "expected": "[1, 2, 3, 4, 5]\n[1]\n[]"
+  },
+  {
+    "id": "19", "name": "shape_area",
+    "description": "Define a Shape type with variants Circle(radius: float), Rect(width: float, height: float), Triangle(base: float, height: float). Write `area(s)` to compute the area. Use pi=3.14159. Print floats with decimal point.",
+    "lm_test": "let _ = print(to_string(area(Circle(5.0))));\nlet _ = print(to_string(area(Rect(3.0, 4.0))));\nlet _ = print(to_string(area(Triangle(6.0, 4.0))));",
+    "ts_test": "console.log(area(circle(5.0)));\nconsole.log(area(rect(3.0, 4.0)));\nconsole.log(area(triangle(6.0, 4.0)));",
+    "py_test": "print(area(Circle(5.0)))\nprint(area(Rect(3.0, 4.0)))\nprint(area(Triangle(6.0, 4.0)))",
+    "expected": "78.53975\n12.0\n12.0"
+  },
+  {
+    "id": "20", "name": "option_unwrap",
+    "description": "Write a function `unwrap_or(opt, default)` where opt is either Some(value) or None. Return the value if Some, else default.",
+    "lm_test": "let _ = print(to_string(unwrap_or(Some(42), 0)));\nlet _ = print(to_string(unwrap_or(None, 0)));\nlet _ = print(to_string(unwrap_or(Some(-1), 99)));\nlet _ = print(to_string(unwrap_or(None, -1)));",
+    "ts_test": "console.log(unwrap_or(some(42), 0));\nconsole.log(unwrap_or(none(), 0));\nconsole.log(unwrap_or(some(-1), 99));\nconsole.log(unwrap_or(none(), -1));",
+    "py_test": "print(unwrap_or(Some(42), 0))\nprint(unwrap_or(NONE, 0))\nprint(unwrap_or(Some(-1), 99))\nprint(unwrap_or(NONE, -1))",
+    "expected": "42\n0\n-1\n-1"
+  },
+  {
+    "id": "21", "name": "result_chain",
+    "description": "Write `map_result(r, addend)` that adds addend to an Ok value (propagates Err), and `and_then_divide(r, divisor)` that divides an Ok value by divisor (returns Err(\"division by zero\") if divisor is 0, propagates Err). Use integer division. Results print as Ok(value) or Err(message).",
+    "lm_test": "let _ = print(to_string(map_result(Ok(5), 10)));\nlet _ = print(to_string(map_result(Err(\"fail\"), 10)));\nlet _ = print(to_string(and_then_divide(Ok(10), 2)));\nlet _ = print(to_string(and_then_divide(Ok(10), 0)));\nlet _ = print(to_string(and_then_divide(Err(\"fail\"), 2)));\nlet r1 = map_result(Ok(20), 10);\nlet r2 = and_then_divide(r1, 3);\nlet _ = print(to_string(r2));",
+    "ts_test": "console.log(format(map_result(ok(5), 10)));\nconsole.log(format(map_result(err(\"fail\"), 10)));\nconsole.log(format(and_then_divide(ok(10), 2)));\nconsole.log(format(and_then_divide(ok(10), 0)));\nconsole.log(format(and_then_divide(err(\"fail\"), 2)));\nconsole.log(format(and_then_divide(map_result(ok(20), 10), 3)));",
+    "py_test": "print(map_result(Ok(5), 10))\nprint(map_result(Err(\"fail\"), 10))\nprint(and_then_divide(Ok(10), 2))\nprint(and_then_divide(Ok(10), 0))\nprint(and_then_divide(Err(\"fail\"), 2))\nprint(and_then_divide(map_result(Ok(20), 10), 3))",
+    "expected": "Ok(15)\nErr(fail)\nOk(5)\nErr(division by zero)\nErr(fail)\nOk(10)"
+  },
+  {
+    "id": "22", "name": "expr_eval",
+    "description": "Define an Expr type with variants Lit(n: int), Add(a: int, b: int), Mul(a: int, b: int). Write `eval(e)` that evaluates the expression and `describe(e)` that returns a string like \"3 + 4\" or \"3 * 4\" or just the number for Lit.",
+    "lm_test": "let _ = print(to_string(eval(Lit(5))));\nlet _ = print(to_string(eval(Add(3, 4))));\nlet _ = print(to_string(eval(Mul(3, 4))));\nlet _ = print(describe(Lit(5)));\nlet _ = print(describe(Add(3, 4)));\nlet _ = print(describe(Mul(3, 4)));",
+    "ts_test": "console.log(eval_expr(lit(5)));\nconsole.log(eval_expr(add(3, 4)));\nconsole.log(eval_expr(mul(3, 4)));\nconsole.log(describe(lit(5)));\nconsole.log(describe(add(3, 4)));\nconsole.log(describe(mul(3, 4)));",
+    "py_test": "print(eval_expr(Lit(5)))\nprint(eval_expr(Add(3, 4)))\nprint(eval_expr(Mul(3, 4)))\nprint(describe(Lit(5)))\nprint(describe(Add(3, 4)))\nprint(describe(Mul(3, 4)))",
+    "expected": "5\n7\n12\n5\n3 + 4\n3 * 4"
+  },
+  {
+    "id": "23", "name": "tree_depth",
+    "description": "Define a Tree type with variants Leaf(value: int) and Node(left: Tree, right: Tree). Write `depth(t)` where Leaf has depth 1 and Node has depth 1 + max(depth(left), depth(right)).",
+    "lm_test": "let _ = print(to_string(depth(Leaf(1))));\nlet _ = print(to_string(depth(Node(Leaf(1), Leaf(2)))));\nlet _ = print(to_string(depth(Node(Node(Leaf(1), Leaf(2)), Leaf(3)))));",
+    "ts_test": "console.log(depth(leaf(1)));\nconsole.log(depth(node(leaf(1), leaf(2))));\nconsole.log(depth(node(node(leaf(1), leaf(2)), leaf(3))));",
+    "py_test": "print(depth(Leaf(1)))\nprint(depth(Node(Leaf(1), Leaf(2))))\nprint(depth(Node(Node(Leaf(1), Leaf(2)), Leaf(3))))",
+    "expected": "1\n2\n3"
+  },
+  {
+    "id": "24", "name": "list_max",
+    "description": "Write `max2(a, b)` returning the larger of two integers. Write `max_opt(a, b)` where a and b are optional integers (Some(n) or None). Returns Some(max) if at least one is Some, else None. Print as Some(value) or None.",
+    "lm_test": "let _ = print(to_string(max2(3, 7)));\nlet _ = print(to_string(max2(10, 2)));\nlet _ = print(to_string(max2(5, 5)));\nlet _ = print(to_string(max_opt(Some(3), Some(7))));\nlet _ = print(to_string(max_opt(Some(5), None)));\nlet _ = print(to_string(max_opt(None, Some(3))));\nlet _ = print(to_string(max_opt(None, None)));",
+    "ts_test": "console.log(max2(3, 7));\nconsole.log(max2(10, 2));\nconsole.log(max2(5, 5));\nconsole.log(format_opt(max_opt(some(3), some(7))));\nconsole.log(format_opt(max_opt(some(5), none())));\nconsole.log(format_opt(max_opt(none(), some(3))));\nconsole.log(format_opt(max_opt(none(), none())));",
+    "py_test": "print(max2(3, 7))\nprint(max2(10, 2))\nprint(max2(5, 5))\nprint(format_opt(max_opt(Some(3), Some(7))))\nprint(format_opt(max_opt(Some(5), NONE)))\nprint(format_opt(max_opt(NONE, Some(3))))\nprint(format_opt(max_opt(NONE, NONE)))",
+    "expected": "7\n10\n5\nSome(7)\nSome(5)\nSome(3)\nNone"
+  },
+  {
+    "id": "25", "name": "pure_computation",
+    "description": "Write a pure function `compute(x, y)` that returns (x+y) squared. Write `show_result(x)` that prints \"Result: {x}\".",
+    "lm_test": "let r = compute(3, 4);\nlet _ = show_result(r);\nlet _ = show_result(compute(0, 5));",
+    "ts_test": "show_result(compute(3, 4));\nshow_result(compute(0, 5));",
+    "py_test": "show_result(compute(3, 4))\nshow_result(compute(0, 5))",
+    "expected": "Result: 49\nResult: 25"
+  },
+  {
+    "id": "26", "name": "io_greeting",
+    "description": "Write `format_greeting(name, age)` returning \"Hello, {name}! You are {age} years old.\" and `print_greeting(name, age)` that prints: === Greeting === on one line, then the greeting, then ================ on one line.",
+    "lm_test": "let _ = print_greeting(\"Alice\", 30);\nlet _ = print_greeting(\"Bob\", 25);",
+    "ts_test": "print_greeting(\"Alice\", 30);\nprint_greeting(\"Bob\", 25);",
+    "py_test": "print_greeting(\"Alice\", 30)\nprint_greeting(\"Bob\", 25)",
+    "expected": "=== Greeting ===\nHello, Alice! You are 30 years old.\n================\n=== Greeting ===\nHello, Bob! You are 25 years old.\n================"
+  },
+  {
+    "id": "27", "name": "fizzbuzz",
+    "description": "Write a function `fizzbuzz(n)` that returns \"FizzBuzz\" if n is divisible by both 3 and 5, \"Fizz\" if by 3 only, \"Buzz\" if by 5 only, or the number as a string otherwise.",
+    "lm_test": "let _ = print(fizzbuzz(1));\nlet _ = print(fizzbuzz(3));\nlet _ = print(fizzbuzz(5));\nlet _ = print(fizzbuzz(15));\nlet _ = print(fizzbuzz(7));",
+    "ts_test": "console.log(fizzbuzz(1));\nconsole.log(fizzbuzz(3));\nconsole.log(fizzbuzz(5));\nconsole.log(fizzbuzz(15));\nconsole.log(fizzbuzz(7));",
+    "py_test": "print(fizzbuzz(1))\nprint(fizzbuzz(3))\nprint(fizzbuzz(5))\nprint(fizzbuzz(15))\nprint(fizzbuzz(7))",
+    "expected": "1\nFizz\nBuzz\nFizzBuzz\n7"
+  },
+  {
+    "id": "28", "name": "safe_divide",
+    "description": "Write `safe_div(a, b)` returning Ok(a/b) using integer division or Err(\"division by zero\") if b is 0. Write `chain_div(a, b, c)` that divides a by b then the result by c, propagating errors. Print as Ok(value) or Err(message).",
+    "lm_test": "let _ = print(to_string(safe_div(10, 2)));\nlet _ = print(to_string(safe_div(10, 0)));\nlet _ = print(to_string(safe_div(7, 2)));\nlet _ = print(to_string(chain_div(100, 5, 4)));\nlet _ = print(to_string(chain_div(100, 0, 4)));\nlet _ = print(to_string(chain_div(100, 5, 0)));",
+    "ts_test": "console.log(format(safe_div(10, 2)));\nconsole.log(format(safe_div(10, 0)));\nconsole.log(format(safe_div(7, 2)));\nconsole.log(format(chain_div(100, 5, 4)));\nconsole.log(format(chain_div(100, 0, 4)));\nconsole.log(format(chain_div(100, 5, 0)));",
+    "py_test": "print(safe_div(10, 2))\nprint(safe_div(10, 0))\nprint(safe_div(7, 2))\nprint(chain_div(100, 5, 4))\nprint(chain_div(100, 0, 4))\nprint(chain_div(100, 5, 0))",
+    "expected": "Ok(5)\nErr(division by zero)\nOk(3)\nOk(5)\nErr(division by zero)\nErr(division by zero)"
+  },
+  {
+    "id": "29", "name": "parse_and_compute",
+    "description": "Write `parse_int(s)` that maps \"42\"->Ok(42), \"10\"->Ok(10), \"0\"->Ok(0), \"7\"->Ok(7), else Err(\"not a number: {s}\"). Write `compute(a, b)` that adds two Result values (propagating first error). Write `describe_result(r)` formatting Ok as \"Success: {v}\" and Err as \"Error: {e}\". Print Results as Ok(value) or Err(message).",
+    "lm_test": "let _ = print(to_string(parse_int(\"42\")));\nlet _ = print(to_string(parse_int(\"abc\")));\nlet _ = print(describe_result(compute(Ok(3), Ok(4))));\nlet _ = print(describe_result(compute(Err(\"bad\"), Ok(4))));\nlet _ = print(describe_result(compute(Ok(3), Err(\"bad\"))));\nlet r = compute(parse_int(\"42\"), parse_int(\"10\"));\nlet _ = print(describe_result(r));\nlet r2 = compute(parse_int(\"42\"), parse_int(\"abc\"));\nlet _ = print(describe_result(r2));",
+    "ts_test": "console.log(format(parse_int(\"42\")));\nconsole.log(format(parse_int(\"abc\")));\nconsole.log(describe_result(compute(ok(3), ok(4))));\nconsole.log(describe_result(compute(err(\"bad\"), ok(4))));\nconsole.log(describe_result(compute(ok(3), err(\"bad\"))));\nconsole.log(describe_result(compute(parse_int(\"42\"), parse_int(\"10\"))));\nconsole.log(describe_result(compute(parse_int(\"42\"), parse_int(\"abc\"))));",
+    "py_test": "print(parse_int(\"42\"))\nprint(parse_int(\"abc\"))\nprint(describe_result(compute(Ok(3), Ok(4))))\nprint(describe_result(compute(Err(\"bad\"), Ok(4))))\nprint(describe_result(compute(Ok(3), Err(\"bad\"))))\nprint(describe_result(compute(parse_int(\"42\"), parse_int(\"10\"))))\nprint(describe_result(compute(parse_int(\"42\"), parse_int(\"abc\"))))",
+    "expected": "Ok(42)\nErr(not a number: abc)\nSuccess: 7\nError: bad\nError: bad\nSuccess: 52\nError: not a number: abc"
+  },
+  {
+    "id": "30", "name": "validate_input",
+    "description": "Write `validate_age(age)` returning Ok(age) if 0<=age<150, Err(\"age must be non-negative\") if <0, Err(\"age must be under 150\") if >=150. Write `validate_name(name)` returning Ok(name) if non-empty, Err(\"name must not be empty\"). Write `validate_user(name, age)` that chains both: first validates name, then age, returns Ok(\"{name} (age {age})\") or first error. Print as Ok(value) or Err(message).",
+    "lm_test": "let _ = print(to_string(validate_age(25)));\nlet _ = print(to_string(validate_age(-1)));\nlet _ = print(to_string(validate_age(200)));\nlet _ = print(to_string(validate_name(\"Alice\")));\nlet _ = print(to_string(validate_name(\"\")));\nlet _ = print(to_string(validate_user(\"Alice\", 25)));\nlet _ = print(to_string(validate_user(\"\", 25)));\nlet _ = print(to_string(validate_user(\"Alice\", -1)));",
+    "ts_test": "console.log(format(validate_age(25)));\nconsole.log(format(validate_age(-1)));\nconsole.log(format(validate_age(200)));\nconsole.log(format(validate_name(\"Alice\")));\nconsole.log(format(validate_name(\"\")));\nconsole.log(format(validate_user(\"Alice\", 25)));\nconsole.log(format(validate_user(\"\", 25)));\nconsole.log(format(validate_user(\"Alice\", -1)));",
+    "py_test": "print(validate_age(25))\nprint(validate_age(-1))\nprint(validate_age(200))\nprint(validate_name(\"Alice\"))\nprint(validate_name(\"\"))\nprint(validate_user(\"Alice\", 25))\nprint(validate_user(\"\", 25))\nprint(validate_user(\"Alice\", -1))",
+    "expected": "Ok(25)\nErr(age must be non-negative)\nErr(age must be under 150)\nOk(Alice)\nErr(name must not be empty)\nOk(Alice (age 25))\nErr(name must not be empty)\nErr(age must be non-negative)"
+  }
+]

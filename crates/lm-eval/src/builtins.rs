@@ -22,6 +22,8 @@ const BUILTINS: &[&str] = &[
     "list_push",
     "list_map",
     "to_string",
+    "to_float",
+    "to_int",
 ];
 
 /// Check if a name is a built-in function.
@@ -51,6 +53,8 @@ pub fn call_builtin(
         "list_push" => builtin_list_push(args, span),
         "list_map" => builtin_list_map(interp, args, span),
         "to_string" => builtin_to_string(args, span),
+        "to_float" => builtin_to_float(args, span),
+        "to_int" => builtin_to_int(args, span),
         _ => Err(runtime_err(
             "E0503",
             format!("unknown built-in function `{name}`"),
@@ -115,7 +119,13 @@ fn builtin_float_to_string(args: Vec<Value>, span: Span) -> EvalResult {
         ));
     }
     match &args[0] {
-        Value::Float(f) => Ok(Value::String(format!("{f}"))),
+        Value::Float(f) => {
+            if f.fract() == 0.0 && f.is_finite() {
+                Ok(Value::String(format!("{f:.1}")))
+            } else {
+                Ok(Value::String(format!("{f}")))
+            }
+        }
         _ => Err(runtime_err(
             "E0503",
             "float_to_string expects a Float",
@@ -377,4 +387,44 @@ fn builtin_to_string(args: Vec<Value>, span: Span) -> EvalResult {
         ));
     }
     Ok(Value::String(format!("{}", args[0])))
+}
+
+/// `to_float(n: Int) -> Float` — convert Int to Float.
+fn builtin_to_float(args: Vec<Value>, span: Span) -> EvalResult {
+    if args.len() != 1 {
+        return Err(runtime_err(
+            "E0503",
+            format!("to_float expects 1 argument, got {}", args.len()),
+            span,
+        ));
+    }
+    match &args[0] {
+        Value::Int(n) => Ok(Value::Float(*n as f64)),
+        Value::Float(f) => Ok(Value::Float(*f)),
+        _ => Err(runtime_err(
+            "E0503",
+            "to_float expects an Int or Float",
+            span,
+        )),
+    }
+}
+
+/// `to_int(f: Float) -> Int` — convert Float to Int (truncate toward zero).
+fn builtin_to_int(args: Vec<Value>, span: Span) -> EvalResult {
+    if args.len() != 1 {
+        return Err(runtime_err(
+            "E0503",
+            format!("to_int expects 1 argument, got {}", args.len()),
+            span,
+        ));
+    }
+    match &args[0] {
+        Value::Float(f) => Ok(Value::Int(*f as i64)),
+        Value::Int(n) => Ok(Value::Int(*n)),
+        _ => Err(runtime_err(
+            "E0503",
+            "to_int expects a Float or Int",
+            span,
+        )),
+    }
 }

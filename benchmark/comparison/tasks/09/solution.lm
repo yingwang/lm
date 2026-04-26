@@ -1,0 +1,13 @@
+fn gcd(a: Int, b: Int) -> Int {
+    if b == 0 { a }
+    else {
+        let remainder = a - (a / b) * b;
+        gcd(b, remainder)
+    }
+}
+
+let _ = print(to_string(gcd(12, 8)));
+let _ = print(to_string(gcd(100, 75)));
+let _ = print(to_string(gcd(7, 13)));
+let _ = print(to_string(gcd(0, 5)));
+let _ = print(to_string(gcd(10, 10)));

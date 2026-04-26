@@ -1,0 +1,3 @@
+Ok(1)
+Ok(120)
+Err(negative input)

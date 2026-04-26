@@ -1,0 +1,31 @@
+fn filter(lst: List<Int>, pred: (Int) -> Bool) -> List<Int> {
+    fn helper(i: Int, acc: List<Int>) -> List<Int> {
+        if i >= len(lst) { acc }
+        else {
+            match list_get(lst, i) {
+                Some(v) -> {
+                    if pred(v) { helper(i + 1, list_push(acc, v)) }
+                    else { helper(i + 1, acc) }
+                },
+                None -> acc,
+            }
+        }
+    }
+    helper(0, [])
+}
+
+fn gt3(x: Int) -> Bool {
+    x > 3
+}
+
+fn is_even(x: Int) -> Bool {
+    x - (x / 2) * 2 == 0
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(filter([1, 2, 3, 4, 5], gt3)));
+    let _ = print(to_string(filter([1, 2, 3], is_even)));
+    print(to_string(filter([], gt3)))
+}
+
+let _ = main();

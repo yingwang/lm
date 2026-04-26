@@ -1,0 +1,22 @@
+fn safe_div(a: Int, b: Int) -> Result<Int, String> {
+    if b == 0 { Err("division by zero") }
+    else { Ok(a / b) }
+}
+
+fn chain_div(a: Int, b: Int, c: Int) -> Result<Int, String> {
+    match safe_div(a, b) {
+        Err(e) -> Err(e),
+        Ok(v) -> safe_div(v, c),
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(safe_div(10, 2)));
+    let _ = print(to_string(safe_div(10, 0)));
+    let _ = print(to_string(chain_div(30, 2, 5)));
+    let _ = print(to_string(chain_div(100, 10, 2)));
+    let _ = print(to_string(chain_div(10, 0, 5)));
+    print(to_string(chain_div(10, 2, 0)))
+}
+
+let _ = main();

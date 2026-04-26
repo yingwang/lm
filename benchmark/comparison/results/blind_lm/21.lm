@@ -1,0 +1,29 @@
+fn map_result(r: Result<Int, String>, addend: Int) -> Result<Int, String> {
+    match r {
+        Ok(v) -> Ok(v + addend),
+        Err(e) -> Err(e),
+    }
+}
+
+fn and_then_divide(r: Result<Int, String>, divisor: Int) -> Result<Int, String> {
+    match r {
+        Ok(v) -> {
+            if divisor == 0 { Err("division by zero") }
+            else { Ok(v / divisor) }
+        },
+        Err(e) -> Err(e),
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(map_result(Ok(5), 10)));
+    let _ = print(to_string(map_result(Err("fail"), 10)));
+    let _ = print(to_string(and_then_divide(Ok(10), 2)));
+    let _ = print(to_string(and_then_divide(Ok(10), 0)));
+    let _ = print(to_string(and_then_divide(Err("fail"), 2)));
+    let r1 = map_result(Ok(20), 10);
+    let r2 = and_then_divide(r1, 3);
+    print(to_string(r2))
+}
+
+let _ = main();

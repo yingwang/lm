@@ -1,0 +1,7 @@
+fn greet(name: String) -> String {
+    "Hello, " ++ name ++ "!"
+}
+
+let _ = print(greet("World"));
+let _ = print(greet("LM"));
+let _ = print(greet(""));

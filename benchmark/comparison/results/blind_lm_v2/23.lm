@@ -1,0 +1,22 @@
+type Tree =
+    | Leaf(Int)
+    | Node(Tree, Tree)
+
+fn max2(a: Int, b: Int) -> Int {
+    if a >= b { a } else { b }
+}
+
+fn depth(t: Tree) -> Int {
+    match t {
+        Leaf(_) -> 1,
+        Node(left, right) -> 1 + max2(depth(left), depth(right)),
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(depth(Leaf(1))));
+    let _ = print(to_string(depth(Node(Leaf(1), Leaf(2)))));
+    print(to_string(depth(Node(Node(Leaf(1), Leaf(2)), Leaf(3)))))
+}
+
+let _ = main();

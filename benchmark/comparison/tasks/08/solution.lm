@@ -1,0 +1,14 @@
+fn factorial(n: Int) -> Result<Int, String> {
+    if n < 0 { Err("negative input") }
+    else if n == 0 { Ok(1) }
+    else {
+        match factorial(n - 1) {
+            Ok(prev) -> Ok(n * prev),
+            Err(e) -> Err(e),
+        }
+    }
+}
+
+let _ = print(to_string(factorial(0)));
+let _ = print(to_string(factorial(5)));
+let _ = print(to_string(factorial(-1)));

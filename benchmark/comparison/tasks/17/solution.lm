@@ -1,0 +1,26 @@
+type Pair = Pair(Int, Int)
+
+fn min2(a: Int, b: Int) -> Int {
+    if a <= b { a } else { b }
+}
+
+fn zip_helper(a: List<Int>, b: List<Int>, i: Int, acc: List<Pair>) -> List<Pair> {
+    if i >= min2(len(a), len(b)) { acc }
+    else {
+        match list_get(a, i) {
+            Some(va) -> match list_get(b, i) {
+                Some(vb) -> zip_helper(a, b, i + 1, list_push(acc, Pair(va, vb))),
+                None -> acc,
+            },
+            None -> acc,
+        }
+    }
+}
+
+fn zip(a: List<Int>, b: List<Int>) -> List<Pair> {
+    zip_helper(a, b, 0, [])
+}
+
+let _ = print(to_string(zip([1, 2, 3], [4, 5, 6])));
+let _ = print(to_string(zip([1, 2], [3])));
+let _ = print(to_string(zip([], [1])));

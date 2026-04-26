@@ -1,0 +1,38 @@
+fn parse_age(s: String) -> Result<Int, String> {
+    match string_to_int(s) {
+        Ok(n) -> Ok(n),
+        Err(_) -> Err("not a number"),
+    }
+}
+
+fn validate_age(n: Int) -> Result<Int, String> {
+    if n >= 0 && n < 150 { Ok(n) }
+    else { Err("age out of range") }
+}
+
+fn categorize_age(n: Int) -> String {
+    if n < 13 { "child" }
+    else if n < 20 { "teen" }
+    else { "adult" }
+}
+
+fn process_age(s: String) -> Result<String, String> {
+    match parse_age(s) {
+        Err(e) -> Err(e),
+        Ok(n) -> match validate_age(n) {
+            Err(e) -> Err(e),
+            Ok(valid) -> Ok(categorize_age(valid)),
+        },
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(process_age("10")));
+    let _ = print(to_string(process_age("15")));
+    let _ = print(to_string(process_age("25")));
+    let _ = print(to_string(process_age("abc")));
+    let _ = print(to_string(process_age("-5")));
+    print(to_string(process_age("200")))
+}
+
+let _ = main();

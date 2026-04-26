@@ -1,0 +1,11 @@
+fn circle_circumference(radius: Int) -> Float {
+    2.0 * 3.14159 * to_float(radius)
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(circle_circumference(5)));
+    let _ = print(to_string(circle_circumference(10)));
+    print(to_string(circle_circumference(0)))
+}
+
+let _ = main();

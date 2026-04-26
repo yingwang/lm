@@ -202,6 +202,7 @@ fn infer_scrutinee_type_from_patterns(
                 LitValue::Int(_) => return ScrutineeType::Int,
                 LitValue::Float(_) => return ScrutineeType::Float,
                 LitValue::String(_) => return ScrutineeType::String,
+                LitValue::Unit => return ScrutineeType::String, // Unit is trivially exhaustive
             },
             PatternKind::Variant { name, .. } => {
                 // Check built-in variants

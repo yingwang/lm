@@ -660,6 +660,7 @@ impl TypeChecker {
             LitValue::Float(_) => Type::Float,
             LitValue::String(_) => Type::String,
             LitValue::Bool(_) => Type::Bool,
+            LitValue::Unit => Type::Unit,
         }
     }
 

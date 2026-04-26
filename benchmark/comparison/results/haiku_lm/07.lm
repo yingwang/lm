@@ -1,0 +1,33 @@
+fn safe_head(lst: List<Int>) -> Option<Int> {
+    list_get(lst, 0)
+}
+
+fn safe_max(a: Option<Int>, b: Option<Int>) -> Option<Int> {
+    match a {
+        Some(x) -> {
+            match b {
+                Some(y) -> {
+                    if x >= y { Some(x) } else { Some(y) }
+                },
+                None -> Some(x),
+            }
+        },
+        None -> {
+            match b {
+                Some(y) -> Some(y),
+                None -> None,
+            }
+        },
+    }
+}
+
+fn heads_max(a: List<Int>, b: List<Int>) -> Option<Int> {
+    let head_a = safe_head(a);
+    let head_b = safe_head(b);
+    safe_max(head_a, head_b)
+}
+
+let _ = print(to_string(heads_max([5, 1], [3, 2])));
+let _ = print(to_string(heads_max([], [3])));
+let _ = print(to_string(heads_max([3], [])));
+let _ = print(to_string(heads_max([], [])));

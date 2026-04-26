@@ -1,0 +1,38 @@
+fn parse_int(s: String) -> Result<Int, String> {
+    if s == "42" { Ok(42) }
+    else if s == "10" { Ok(10) }
+    else if s == "0" { Ok(0) }
+    else if s == "7" { Ok(7) }
+    else { Err("not a number: " ++ s) }
+}
+
+fn compute(a: Result<Int, String>, b: Result<Int, String>) -> Result<Int, String> {
+    match a {
+        Err(e) -> Err(e),
+        Ok(va) -> {
+            match b {
+                Err(e) -> Err(e),
+                Ok(vb) -> Ok(va + vb),
+            }
+        },
+    }
+}
+
+fn describe_result(r: Result<Int, String>) -> String {
+    match r {
+        Ok(v) -> "Success: " ++ int_to_string(v),
+        Err(e) -> "Error: " ++ e,
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(parse_int("42")));
+    let _ = print(to_string(parse_int("abc")));
+    let _ = print(describe_result(compute(Ok(3), Ok(4))));
+    let _ = print(describe_result(compute(Ok(3), Err("bad"))));
+    let _ = print(describe_result(compute(Err("bad"), Ok(4))));
+    let _ = print(describe_result(compute(parse_int("42"), parse_int("10"))));
+    print(describe_result(compute(parse_int("42"), parse_int("abc"))))
+}
+
+let _ = main();

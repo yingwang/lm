@@ -1,0 +1,47 @@
+// Helper function to build a string from a starting index.
+// This is used by `string_tail` to efficiently construct the substring
+// without the first character.
+fn string_tail_builder(s: String, index: Int, acc: String) -> String {
+    if index >= str_len(s) {
+        acc
+    } else {
+        let char_to_add = char_at(s, index);
+        string_tail_builder(s, index + 1, acc ++ char_to_add)
+    }
+}
+
+// Helper function to get the tail of a string (all characters except the first).
+// Example: string_tail("hello") -> "ello"
+// Example: string_tail("h") -> ""
+// Example: string_tail("") -> ""
+fn string_tail(s: String) -> String {
+    if str_len(s) == 0 {
+        ""
+    } else {
+        string_tail_builder(s, 1, "")
+    }
+}
+
+// Recursive helper for string reversal using an accumulator.
+// It takes the first character of the input string `s`,
+// prepends it to the `acc`umulator, and then recursively calls itself
+// with the rest of the string.
+fn reverse_accumulator(s: String, acc: String) -> String {
+    if str_len(s) == 0 {
+        acc
+    } else {
+        let first_char = char_at(s, 0);
+        let rest_of_string = string_tail(s);
+        reverse_accumulator(rest_of_string, first_char ++ acc)
+    }
+}
+
+// The main `reverse` function, which initializes the accumulator.
+fn reverse(s: String) -> String {
+    reverse_accumulator(s, "")
+}
+
+let _ = print(reverse("hello"));
+let _ = print(reverse("ab"));
+let _ = print(reverse(""));
+let _ = print(reverse("a"));

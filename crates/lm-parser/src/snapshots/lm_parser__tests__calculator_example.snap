@@ -1134,11 +1134,625 @@ expression: result
         "start": 644,
         "end": 673
       }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "_",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "print"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 683,
+                "end": 688
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "BinaryOp",
+                  "op": "Concat",
+                  "lhs": {
+                    "kind": {
+                      "type": "Literal",
+                      "value": {
+                        "kind": "String",
+                        "value": "area of circle: "
+                      }
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 689,
+                      "end": 707
+                    }
+                  },
+                  "rhs": {
+                    "kind": {
+                      "type": "FnCall",
+                      "callee": {
+                        "kind": {
+                          "type": "Ident",
+                          "name": "float_to_string"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 711,
+                          "end": 726
+                        }
+                      },
+                      "args": [
+                        {
+                          "kind": {
+                            "type": "Ident",
+                            "name": "a1"
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 727,
+                            "end": 729
+                          }
+                        }
+                      ]
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 711,
+                      "end": 730
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 689,
+                  "end": 730
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 683,
+            "end": 731
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 675,
+        "end": 732
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "_",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "print"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 741,
+                "end": 746
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "BinaryOp",
+                  "op": "Concat",
+                  "lhs": {
+                    "kind": {
+                      "type": "Literal",
+                      "value": {
+                        "kind": "String",
+                        "value": "area of rect: "
+                      }
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 747,
+                      "end": 763
+                    }
+                  },
+                  "rhs": {
+                    "kind": {
+                      "type": "FnCall",
+                      "callee": {
+                        "kind": {
+                          "type": "Ident",
+                          "name": "float_to_string"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 767,
+                          "end": 782
+                        }
+                      },
+                      "args": [
+                        {
+                          "kind": {
+                            "type": "Ident",
+                            "name": "a2"
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 783,
+                            "end": 785
+                          }
+                        }
+                      ]
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 767,
+                      "end": 786
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 747,
+                  "end": 786
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 741,
+            "end": 787
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 733,
+        "end": 788
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "_",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "print"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 797,
+                "end": 802
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "BinaryOp",
+                  "op": "Concat",
+                  "lhs": {
+                    "kind": {
+                      "type": "Literal",
+                      "value": {
+                        "kind": "String",
+                        "value": "circle: "
+                      }
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 803,
+                      "end": 813
+                    }
+                  },
+                  "rhs": {
+                    "kind": {
+                      "type": "FnCall",
+                      "callee": {
+                        "kind": {
+                          "type": "Ident",
+                          "name": "describe"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 817,
+                          "end": 825
+                        }
+                      },
+                      "args": [
+                        {
+                          "kind": {
+                            "type": "Ident",
+                            "name": "c"
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 826,
+                            "end": 827
+                          }
+                        }
+                      ]
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 817,
+                      "end": 828
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 803,
+                  "end": 828
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 797,
+            "end": 829
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 789,
+        "end": 830
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "_",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "FnCall",
+            "callee": {
+              "kind": {
+                "type": "Ident",
+                "name": "print"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 839,
+                "end": 844
+              }
+            },
+            "args": [
+              {
+                "kind": {
+                  "type": "BinaryOp",
+                  "op": "Concat",
+                  "lhs": {
+                    "kind": {
+                      "type": "Literal",
+                      "value": {
+                        "kind": "String",
+                        "value": "rect: "
+                      }
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 845,
+                      "end": 853
+                    }
+                  },
+                  "rhs": {
+                    "kind": {
+                      "type": "FnCall",
+                      "callee": {
+                        "kind": {
+                          "type": "Ident",
+                          "name": "describe"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 857,
+                          "end": 865
+                        }
+                      },
+                      "args": [
+                        {
+                          "kind": {
+                            "type": "Ident",
+                            "name": "r"
+                          },
+                          "span": {
+                            "file_id": 0,
+                            "start": 866,
+                            "end": 867
+                          }
+                        }
+                      ]
+                    },
+                    "span": {
+                      "file_id": 0,
+                      "start": 857,
+                      "end": 868
+                    }
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 845,
+                  "end": 868
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 839,
+            "end": 869
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 831,
+        "end": 870
+      }
+    },
+    {
+      "kind": {
+        "type": "LetDef",
+        "name": "_",
+        "type_annotation": null,
+        "value": {
+          "kind": {
+            "type": "Match",
+            "scrutinee": {
+              "kind": {
+                "type": "Ident",
+                "name": "result"
+              },
+              "span": {
+                "file_id": 0,
+                "start": 885,
+                "end": 891
+              }
+            },
+            "arms": [
+              {
+                "pattern": {
+                  "kind": {
+                    "type": "Variant",
+                    "name": "Ok",
+                    "fields": [
+                      {
+                        "kind": {
+                          "type": "Ident",
+                          "name": "n"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 901,
+                          "end": 902
+                        }
+                      }
+                    ]
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 898,
+                    "end": 903
+                  }
+                },
+                "body": {
+                  "kind": {
+                    "type": "FnCall",
+                    "callee": {
+                      "kind": {
+                        "type": "Ident",
+                        "name": "print"
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 907,
+                        "end": 912
+                      }
+                    },
+                    "args": [
+                      {
+                        "kind": {
+                          "type": "BinaryOp",
+                          "op": "Concat",
+                          "lhs": {
+                            "kind": {
+                              "type": "Literal",
+                              "value": {
+                                "kind": "String",
+                                "value": "result: "
+                              }
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 913,
+                              "end": 923
+                            }
+                          },
+                          "rhs": {
+                            "kind": {
+                              "type": "FnCall",
+                              "callee": {
+                                "kind": {
+                                  "type": "Ident",
+                                  "name": "int_to_string"
+                                },
+                                "span": {
+                                  "file_id": 0,
+                                  "start": 927,
+                                  "end": 940
+                                }
+                              },
+                              "args": [
+                                {
+                                  "kind": {
+                                    "type": "Ident",
+                                    "name": "n"
+                                  },
+                                  "span": {
+                                    "file_id": 0,
+                                    "start": 941,
+                                    "end": 942
+                                  }
+                                }
+                              ]
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 927,
+                              "end": 943
+                            }
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 913,
+                          "end": 943
+                        }
+                      }
+                    ]
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 907,
+                    "end": 944
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 898,
+                  "end": 944
+                }
+              },
+              {
+                "pattern": {
+                  "kind": {
+                    "type": "Variant",
+                    "name": "Err",
+                    "fields": [
+                      {
+                        "kind": {
+                          "type": "Ident",
+                          "name": "e"
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 954,
+                          "end": 955
+                        }
+                      }
+                    ]
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 950,
+                    "end": 956
+                  }
+                },
+                "body": {
+                  "kind": {
+                    "type": "FnCall",
+                    "callee": {
+                      "kind": {
+                        "type": "Ident",
+                        "name": "print"
+                      },
+                      "span": {
+                        "file_id": 0,
+                        "start": 960,
+                        "end": 965
+                      }
+                    },
+                    "args": [
+                      {
+                        "kind": {
+                          "type": "BinaryOp",
+                          "op": "Concat",
+                          "lhs": {
+                            "kind": {
+                              "type": "Literal",
+                              "value": {
+                                "kind": "String",
+                                "value": "error: "
+                              }
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 966,
+                              "end": 975
+                            }
+                          },
+                          "rhs": {
+                            "kind": {
+                              "type": "Ident",
+                              "name": "e"
+                            },
+                            "span": {
+                              "file_id": 0,
+                              "start": 979,
+                              "end": 980
+                            }
+                          }
+                        },
+                        "span": {
+                          "file_id": 0,
+                          "start": 966,
+                          "end": 980
+                        }
+                      }
+                    ]
+                  },
+                  "span": {
+                    "file_id": 0,
+                    "start": 960,
+                    "end": 981
+                  }
+                },
+                "span": {
+                  "file_id": 0,
+                  "start": 950,
+                  "end": 981
+                }
+              }
+            ]
+          },
+          "span": {
+            "file_id": 0,
+            "start": 879,
+            "end": 984
+          }
+        }
+      },
+      "span": {
+        "file_id": 0,
+        "start": 871,
+        "end": 985
+      }
     }
   ],
   "span": {
     "file_id": 0,
     "start": 53,
-    "end": 674
+    "end": 985
   }
 }

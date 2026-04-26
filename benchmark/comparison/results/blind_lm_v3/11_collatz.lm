@@ -1,0 +1,14 @@
+fn collatz_steps(n: Int) -> Int {
+    if n == 1 { 0 }
+    else if n % 2 == 0 { 1 + collatz_steps(n / 2) }
+    else { 1 + collatz_steps(3 * n + 1) }
+}
+
+io fn main() -> Unit {
+    let _ = print(int_to_string(collatz_steps(1)));
+    let _ = print(int_to_string(collatz_steps(2)));
+    let _ = print(int_to_string(collatz_steps(6)));
+    print(int_to_string(collatz_steps(10)))
+}
+
+let _ = main();

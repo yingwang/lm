@@ -1,0 +1,6 @@
+fn format_score(name: String, score: Int) -> String {
+    name ++ ": " ++ int_to_string(score) ++ " points"
+}
+
+let _ = print(format_score("Alice", 42));
+let _ = print(format_score("Bob", 0));

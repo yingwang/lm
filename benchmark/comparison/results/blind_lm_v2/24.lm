@@ -1,0 +1,32 @@
+fn max2(a: Int, b: Int) -> Int {
+    if a >= b { a } else { b }
+}
+
+fn max_opt(a: Option<Int>, b: Option<Int>) -> Option<Int> {
+    match a {
+        Some(va) -> {
+            match b {
+                Some(vb) -> Some(max2(va, vb)),
+                None -> Some(va),
+            }
+        },
+        None -> {
+            match b {
+                Some(vb) -> Some(vb),
+                None -> None,
+            }
+        },
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(max2(3, 7)));
+    let _ = print(to_string(max2(10, 2)));
+    let _ = print(to_string(max2(5, 5)));
+    let _ = print(to_string(max_opt(Some(3), Some(7))));
+    let _ = print(to_string(max_opt(Some(5), None)));
+    let _ = print(to_string(max_opt(None, Some(3))));
+    print(to_string(max_opt(None, None)))
+}
+
+let _ = main();

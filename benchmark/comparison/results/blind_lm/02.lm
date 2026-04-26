@@ -1,0 +1,16 @@
+fn reverse(s: String) -> String {
+    fn helper(i: Int, acc: String) -> String {
+        if i < 0 { acc }
+        else { helper(i - 1, acc ++ char_at(s, i)) }
+    }
+    helper(str_len(s) - 1, "")
+}
+
+io fn main() -> Unit {
+    let _ = print(reverse("hello"));
+    let _ = print(reverse("ab"));
+    let _ = print(reverse(""));
+    print(reverse("a"))
+}
+
+let _ = main();

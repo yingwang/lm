@@ -1,0 +1,23 @@
+fn abs(n: Int) -> Int {
+    if n < 0 { 0 - n } else { n }
+}
+
+fn gcd(a: Int, b: Int) -> Int {
+    let aa = abs(a);
+    let bb = abs(b);
+    if bb == 0 { aa }
+    else {
+        let remainder = aa - (aa / bb) * bb;
+        gcd(bb, remainder)
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(gcd(12, 8)));
+    let _ = print(to_string(gcd(100, 75)));
+    let _ = print(to_string(gcd(7, 13)));
+    let _ = print(to_string(gcd(0, 5)));
+    print(to_string(gcd(10, 10)))
+}
+
+let _ = main();

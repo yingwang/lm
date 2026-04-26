@@ -1,0 +1,31 @@
+fn append_list(dest: List<Int>, src: List<Int>, i: Int) -> List<Int> {
+    if i >= len(src) { dest }
+    else {
+        match list_get(src, i) {
+            Some(v) -> append_list(list_push(dest, v), src, i + 1),
+            None -> dest,
+        }
+    }
+}
+
+fn flatten_helper(lst: List<List<Int>>, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(inner) -> flatten_helper(lst, i + 1, append_list(acc, inner, 0)),
+            None -> acc,
+        }
+    }
+}
+
+fn flatten(lst: List<List<Int>>) -> List<Int> {
+    flatten_helper(lst, 0, [])
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(flatten([[1, 2], [3], [4, 5]])));
+    let _ = print(to_string(flatten([[], [1], []])));
+    print(to_string(flatten([])))
+}
+
+let _ = main();

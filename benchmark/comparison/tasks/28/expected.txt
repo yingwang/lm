@@ -1,0 +1,6 @@
+Ok(5)
+Err(division by zero)
+Ok(3)
+Ok(5)
+Err(division by zero)
+Err(division by zero)

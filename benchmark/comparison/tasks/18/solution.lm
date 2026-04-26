@@ -1,0 +1,31 @@
+fn concat_helper(a: List<Int>, b: List<Int>, i: Int) -> List<Int> {
+    if i >= len(b) { a }
+    else {
+        match list_get(b, i) {
+            Some(v) -> concat_helper(list_push(a, v), b, i + 1),
+            None -> a,
+        }
+    }
+}
+
+fn concat(a: List<Int>, b: List<Int>) -> List<Int> {
+    concat_helper(a, b, 0)
+}
+
+fn flatten_helper(lst: List<List<Int>>, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(inner) -> flatten_helper(lst, i + 1, concat(acc, inner)),
+            None -> acc,
+        }
+    }
+}
+
+fn flatten(lst: List<List<Int>>) -> List<Int> {
+    flatten_helper(lst, 0, [])
+}
+
+let _ = print(to_string(flatten([[1, 2], [3], [4, 5]])));
+let _ = print(to_string(flatten([[], [1], []])));
+let _ = print(to_string(flatten([])));

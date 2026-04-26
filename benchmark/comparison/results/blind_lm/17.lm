@@ -1,0 +1,27 @@
+type Pair = Pair(Int, Int)
+
+fn zip(a: List<Int>, b: List<Int>) -> List<Pair> {
+    fn helper(i: Int, acc: List<Pair>) -> List<Pair> {
+        if i >= len(a) || i >= len(b) { acc }
+        else {
+            match list_get(a, i) {
+                Some(va) -> {
+                    match list_get(b, i) {
+                        Some(vb) -> helper(i + 1, list_push(acc, Pair(va, vb))),
+                        None -> acc,
+                    }
+                },
+                None -> acc,
+            }
+        }
+    }
+    helper(0, [])
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(zip([1, 2, 3], [4, 5, 6])));
+    let _ = print(to_string(zip([1, 2], [3])));
+    print(to_string(zip([], [1])))
+}
+
+let _ = main();

@@ -1,0 +1,11 @@
+fn unwrap_or(opt: Option<a>, default: a) -> a {
+    match opt {
+        Some(value) -> value,
+        None -> default,
+    }
+}
+
+let _ = print(to_string(unwrap_or(Some(42), 0)));
+let _ = print(to_string(unwrap_or(None, 0)));
+let _ = print(to_string(unwrap_or(Some(-1), 99)));
+let _ = print(to_string(unwrap_or(None, -1)));

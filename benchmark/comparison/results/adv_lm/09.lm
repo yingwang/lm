@@ -1,0 +1,47 @@
+fn filter_positives(lst: List<Int>, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> if v >= 0 { filter_positives(lst, i + 1, list_push(acc, v)) } else { filter_positives(lst, i + 1, acc) },
+            None -> acc,
+        }
+    }
+}
+
+fn double_list(lst: List<Int>, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> double_list(lst, i + 1, list_push(acc, v * 2)),
+            None -> acc,
+        }
+    }
+}
+
+fn sum_list(lst: List<Int>, i: Int, acc: Int) -> Int {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> sum_list(lst, i + 1, acc + v),
+            None -> acc,
+        }
+    }
+}
+
+fn process_data(lst: List<Int>) -> Int {
+    let filtered = filter_positives(lst, 0, []);
+    let doubled = double_list(filtered, 0, []);
+    sum_list(doubled, 0, 0)
+}
+
+io fn run(lst: List<Int>) -> Unit {
+    print("Total: " ++ to_string(process_data(lst)))
+}
+
+io fn main() -> Unit {
+    let _ = run([1, 2, 3]);
+    let _ = run([-1, -2]);
+    run([5, -3, 5])
+}
+
+let _ = main();

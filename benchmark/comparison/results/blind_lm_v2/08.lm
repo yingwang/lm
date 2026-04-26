@@ -1,0 +1,18 @@
+fn factorial_helper(n: Int, acc: Int) -> Int {
+    if n <= 1 { acc }
+    else { factorial_helper(n - 1, acc * n) }
+}
+
+fn factorial(n: Int) -> Result<Int, String> {
+    if n < 0 { Err("negative input") }
+    else if n == 0 { Ok(1) }
+    else { Ok(factorial_helper(n, 1)) }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(factorial(0)));
+    let _ = print(to_string(factorial(5)));
+    print(to_string(factorial(-1)))
+}
+
+let _ = main();

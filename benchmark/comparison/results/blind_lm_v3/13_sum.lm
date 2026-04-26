@@ -1,0 +1,22 @@
+fn sum_helper(lst: List<Int>, i: Int, acc: Int) -> Int {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> sum_helper(lst, i + 1, acc + v),
+            None -> acc,
+        }
+    }
+}
+
+fn sum(lst: List<Int>) -> Int {
+    sum_helper(lst, 0, 0)
+}
+
+io fn main() -> Unit {
+    let _ = print(int_to_string(sum([1, 2, 3])));
+    let _ = print(int_to_string(sum([])));
+    let _ = print(int_to_string(sum([10])));
+    print(int_to_string(sum([0, 0, 0])))
+}
+
+let _ = main();

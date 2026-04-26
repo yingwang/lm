@@ -1,0 +1,11 @@
+fn greet(name: String) -> String {
+    "Hello, " ++ name ++ "!"
+}
+
+io fn main() -> Unit {
+    let _ = print(greet("World"));
+    let _ = print(greet("LM"));
+    print(greet(""))
+}
+
+let _ = main();

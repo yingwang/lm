@@ -1,0 +1,16 @@
+fn compute(x: Int, y: Int) -> Int {
+    let s = x + y;
+    s * s
+}
+
+io fn show_result(x: Int) -> Unit {
+    print("Result: " ++ to_string(x))
+}
+
+io fn main() -> Unit {
+    let r = compute(3, 4);
+    let _ = show_result(r);
+    show_result(compute(0, 5))
+}
+
+let _ = main();

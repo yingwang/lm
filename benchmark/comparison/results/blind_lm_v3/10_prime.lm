@@ -1,0 +1,25 @@
+fn bool_str(b: Bool) -> String {
+    if b { "true" } else { "false" }
+}
+
+fn has_divisor(n: Int, d: Int) -> Bool {
+    if d * d > n { false }
+    else if n % d == 0 { true }
+    else { has_divisor(n, d + 1) }
+}
+
+fn is_prime(n: Int) -> Bool {
+    if n < 2 { false }
+    else { !has_divisor(n, 2) }
+}
+
+io fn main() -> Unit {
+    let _ = print(bool_str(is_prime(2)));
+    let _ = print(bool_str(is_prime(17)));
+    let _ = print(bool_str(is_prime(4)));
+    let _ = print(bool_str(is_prime(97)));
+    let _ = print(bool_str(is_prime(1)));
+    print(bool_str(is_prime(0)))
+}
+
+let _ = main();

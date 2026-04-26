@@ -1,0 +1,29 @@
+type Expr = Num(Int) | Add(Expr, Expr) | Mul(Expr, Expr) | Neg(Expr)
+
+fn eval(e: Expr) -> Int {
+    match e {
+        Num(n) -> n,
+        Add(a, b) -> eval(a) + eval(b),
+        Mul(a, b) -> eval(a) * eval(b),
+        Neg(x) -> 0 - eval(x),
+    }
+}
+
+fn show(e: Expr) -> String {
+    match e {
+        Num(n) -> to_string(n),
+        Add(a, b) -> "(" ++ show(a) ++ " + " ++ show(b) ++ ")",
+        Mul(a, b) -> "(" ++ show(a) ++ " * " ++ show(b) ++ ")",
+        Neg(x) -> "(-(" ++ show(x) ++ "))",
+    }
+}
+
+let _ = print(to_string(eval(Num(5))));
+let _ = print(to_string(eval(Add(Num(3), Num(5)))));
+let _ = print(to_string(eval(Neg(Num(3)))));
+let _ = print(to_string(eval(Neg(Add(Num(2), Num(3))))));
+let _ = print(show(Num(5)));
+let _ = print(show(Add(Num(3), Num(5))));
+let _ = print(show(Mul(Num(2), Num(4))));
+let _ = print(show(Neg(Num(3))));
+let _ = print(show(Neg(Add(Num(2), Num(3)))));

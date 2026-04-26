@@ -1,0 +1,20 @@
+fn reverse(s: String) -> String {
+    fn helper(i: Int, acc: String) -> String {
+        if i < 0 { acc }
+        else { helper(i - 1, acc ++ char_at(s, i)) }
+    }
+    helper(str_len(s) - 1, "")
+}
+
+fn is_palindrome(s: String) -> Bool {
+    s == reverse(s)
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(is_palindrome("racecar")));
+    let _ = print(to_string(is_palindrome("hello")));
+    let _ = print(to_string(is_palindrome("")));
+    print(to_string(is_palindrome("a")))
+}
+
+let _ = main();

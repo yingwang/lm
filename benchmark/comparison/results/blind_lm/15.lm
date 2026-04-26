@@ -1,0 +1,20 @@
+fn reverse(lst: List<Int>) -> List<Int> {
+    fn helper(i: Int, acc: List<Int>) -> List<Int> {
+        if i < 0 { acc }
+        else {
+            match list_get(lst, i) {
+                Some(v) -> helper(i - 1, list_push(acc, v)),
+                None -> acc,
+            }
+        }
+    }
+    helper(len(lst) - 1, [])
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(reverse([1, 2, 3])));
+    let _ = print(to_string(reverse([])));
+    print(to_string(reverse([1])))
+}
+
+let _ = main();

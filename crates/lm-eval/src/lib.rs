@@ -369,6 +369,7 @@ impl Interpreter {
             LitValue::Float(f) => Value::Float(*f),
             LitValue::String(s) => Value::String(s.clone()),
             LitValue::Bool(b) => Value::Bool(*b),
+            LitValue::Unit => Value::Unit,
         }
     }
 

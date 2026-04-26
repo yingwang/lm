@@ -1,0 +1,68 @@
+// Helper to append all elements from one list to another
+// source: List to take elements from
+// source_idx: Current index in source list
+// target: List to append elements to
+fn append_all_elements<T>(source: List<T>, source_idx: Int, target: List<T>) -> List<T> {
+    if source_idx >= len(source) {
+        target // All elements from source appended
+    } else {
+        match list_get(source, source_idx) {
+            Some(element) -> {
+                // Append current element to target and recurse
+                let new_target = list_push(target, element);
+                append_all_elements(source, source_idx + 1, new_target)
+            },
+            None -> target // Should not happen if source_idx < len(source)
+        }
+    }
+}
+
+// Recursive helper for flatten
+// lists: The list of lists to flatten
+// list_idx: Current index in 'lists'
+// acc: The accumulator list, built up with flattened elements
+fn flatten_recursive<T>(lists: List<List<T>>, list_idx: Int, acc: List<T>) -> List<T> {
+    if list_idx >= len(lists) {
+        acc // All inner lists processed
+    } else {
+        match list_get(lists, list_idx) {
+            Some(current_inner_list) -> {
+                // Append all elements from current_inner_list to the accumulator
+                let new_acc = append_all_elements(current_inner_list, 0, acc);
+                // Recurse with the next inner list
+                flatten_recursive(lists, list_idx + 1, new_acc)
+            },
+            None -> acc // Should not happen if list_idx < len(lists)
+        }
+    }
+}
+
+// Main flatten function
+fn flatten<T>(lists: List<List<T>>) -> List<T> {
+    flatten_recursive(lists, 0, [])
+}
+
+// Helper for list_to_string
+fn list_to_string_recursive<T>(lst: List<T>, index: Int, acc: String) -> String {
+    if index >= len(lst) {
+        acc
+    } else {
+        let current_element_string = match list_get(lst, index) {
+            Some(x) -> to_string(x), // Recursively call the built-in to_string for elements
+            None -> "" // Should not happen if index is valid
+        };
+        let separator = if index == 0 { "" } else { ", " };
+        list_to_string_recursive(lst, index + 1, acc ++ separator ++ current_element_string)
+    }
+}
+
+// This function provides a specific `to_string` implementation for `List<T>`
+// to produce the "[a, b, c]" format, as required by the problem description.
+// It will be used by the test code.
+fn to_string<T>(lst: List<T>) -> String {
+    "[" ++ list_to_string_recursive(lst, 0, "") ++ "]"
+}
+
+let _ = print(to_string(flatten([[1, 2], [3], [4, 5]])));
+let _ = print(to_string(flatten([[], [1], []])));
+let _ = print(to_string(flatten([])));

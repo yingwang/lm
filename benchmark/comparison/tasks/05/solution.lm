@@ -1,0 +1,22 @@
+fn caesar_encrypt_helper(text: String, shift: Int, i: Int, acc: String) -> String {
+    if i >= str_len(text) { acc }
+    else {
+        let c = char_at(text, i);
+        let code = char_code(c);
+        let new_c = if code >= 65 && code <= 90 {
+            from_char_code(((code - 65 + shift) % 26) + 65)
+        } else {
+            c
+        };
+        caesar_encrypt_helper(text, shift, i + 1, acc ++ new_c)
+    }
+}
+
+fn caesar_encrypt(text: String, shift: Int) -> String {
+    caesar_encrypt_helper(text, shift, 0, "")
+}
+
+let _ = print(caesar_encrypt("ABC", 1));
+let _ = print(caesar_encrypt("XYZ", 3));
+let _ = print(caesar_encrypt("HELLO", 13));
+let _ = print(caesar_encrypt("A B!", 2));

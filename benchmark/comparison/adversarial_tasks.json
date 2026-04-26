@@ -1,0 +1,102 @@
+[
+  {
+    "id": "A01",
+    "name": "string_number_concat",
+    "category": "implicit_conversion",
+    "description": "Write a function `format_score(name, score)` where name is a string and score is an integer. Return \"{name}: {score} points\". Do NOT use any type conversion — concatenate the parts directly.",
+    "trap": "In JS/TS, `name + \": \" + score + \" points\"` works due to implicit conversion. In LM, `++` only works on strings, so you MUST use `to_string(score)`. LLMs often forget the conversion in TS too when using template literals vs concatenation.",
+    "lm_expected": "Alice: 42 points\nBob: 0 points",
+    "ts_expected": "Alice: 42 points\nBob: 0 points",
+    "py_expected": "Alice: 42 points\nBob: 0 points"
+  },
+  {
+    "id": "A02",
+    "name": "missing_none_check",
+    "category": "null_safety",
+    "description": "Write `find_first_even(lst)` that returns the first even number in a list, or -1 if none found. The function takes a list of integers.",
+    "trap": "LLMs in TS often return undefined/null without checking. In Python, they might use next() with default. In LM, Option forces explicit handling.",
+    "lm_expected": "2\n-1\n4",
+    "ts_expected": "2\n-1\n4",
+    "py_expected": "2\n-1\n4"
+  },
+  {
+    "id": "A03",
+    "name": "exhaustive_match",
+    "category": "pattern_exhaustiveness",
+    "description": "Define a type `Color = Red | Green | Blue | Yellow`. Write `to_hex(c)` returning \"#FF0000\" for Red, \"#00FF00\" for Green, \"#0000FF\" for Blue, \"#FFFF00\" for Yellow. Then write `is_primary(c)` returning true for Red/Green/Blue, false for Yellow.",
+    "trap": "LLMs in TS/Python often forget a case in the switch/if-chain. LM's exhaustive match compiler check prevents this.",
+    "lm_expected": "#FF0000\n#00FF00\n#0000FF\n#FFFF00\ntrue\ntrue\ntrue\nfalse",
+    "ts_expected": "#FF0000\n#00FF00\n#0000FF\n#FFFF00\ntrue\ntrue\ntrue\nfalse",
+    "py_expected": "#FF0000\n#00FF00\n#0000FF\n#FFFF00\ntrue\ntrue\ntrue\nfalse"
+  },
+  {
+    "id": "A04",
+    "name": "error_propagation_chain",
+    "category": "error_handling",
+    "description": "Write a pipeline: `parse_age(s)` parses a string to int (Err if not a number), `validate_age(n)` checks 0<=n<150 (Err if out of range), `categorize_age(n)` returns \"child\" if <13, \"teen\" if <20, \"adult\" otherwise. Chain all three: `process_age(s)` should parse, validate, then categorize. Return Ok(category) or the first Err encountered. Format as Ok(value) or Err(message).",
+    "trap": "In TS/Python, LLMs often miss error propagation in one of the chain steps, or use try/catch incorrectly. LM's Result type forces explicit matching at every step.",
+    "lm_expected": "Ok(child)\nOk(teen)\nOk(adult)\nErr(not a number)\nErr(age out of range)\nErr(age out of range)",
+    "ts_expected": "Ok(child)\nOk(teen)\nOk(adult)\nErr(not a number)\nErr(age out of range)\nErr(age out of range)",
+    "py_expected": "Ok(child)\nOk(teen)\nOk(adult)\nErr(not a number)\nErr(age out of range)\nErr(age out of range)"
+  },
+  {
+    "id": "A05",
+    "name": "mixed_arithmetic",
+    "category": "type_safety",
+    "description": "Write `circle_circumference(radius_int)` where radius is an INTEGER. Return the circumference as a float (2 * pi * radius). Use pi = 3.14159. You must handle the int-to-float conversion.",
+    "trap": "In TS/JS, `2 * 3.14159 * radius` works regardless of type. In Python same. In LM, Int * Float is a compile error — must use to_float(). LLMs in TS sometimes produce wrong results with integer division.",
+    "lm_expected": "31.4159\n62.8318\n0.0",
+    "ts_expected": "31.4159\n62.8318\n0",
+    "py_expected": "31.4159\n62.8318\n0.0"
+  },
+  {
+    "id": "A06",
+    "name": "accumulator_mutation_trap",
+    "category": "immutability",
+    "description": "Write `running_sum(lst)` that returns a new list where each element is the sum of all elements up to that index. Example: [1,2,3,4] -> [1,3,6,10].",
+    "trap": "LLMs in TS/Python often try to mutate an accumulator variable or push to an array. In LM, mutation is impossible, so you must use recursion with immutable accumulator. The TS/Python solutions often have off-by-one errors with mutation.",
+    "lm_expected": "[1, 3, 6, 10]\n[]\n[5]\n[-1, 1, 4]",
+    "ts_expected": "[1, 3, 6, 10]\n[]\n[5]\n[-1, 1, 4]",
+    "py_expected": "[1, 3, 6, 10]\n[]\n[5]\n[-1, 1, 4]"
+  },
+  {
+    "id": "A07",
+    "name": "nested_option_handling",
+    "category": "null_safety",
+    "description": "Write `safe_head(lst)` returning the first element as Option (Some(x) or None for empty list). Write `safe_max(a, b)` where a and b are both Option<Int>, returning the max as Option. If both None, return None. Then compose: given two lists, get the head of each and return the max. Print as Some(value) or None.",
+    "trap": "Nested Option handling is where TS/Python LLMs break down. They forget to handle None at each level, or use ?. chaining incorrectly.",
+    "lm_expected": "Some(5)\nNone\nSome(3)\nNone",
+    "ts_expected": "Some(5)\nNone\nSome(3)\nNone",
+    "py_expected": "Some(5)\nNone\nSome(3)\nNone"
+  },
+  {
+    "id": "A08",
+    "name": "adt_recursive_eval",
+    "category": "pattern_exhaustiveness",
+    "description": "Define `type Expr = Num(Int) | Add(Expr, Expr) | Mul(Expr, Expr) | Neg(Expr)`. Write `eval(e)` and `show(e)` where show produces fully parenthesized string. Neg(x) shows as \"(-x)\". Add shows as \"(a + b)\". Mul as \"(a * b)\". Num shows just the number.",
+    "trap": "Recursive ADT with 4 variants. LLMs in TS often forget Neg case or get parenthesization wrong. LM's exhaustive matching prevents missing cases.",
+    "lm_expected": "5\n8\n-3\n-10\n5\n(3 + 5)\n(2 * 4)\n(-(3))\n(-((2 + 3)))",
+    "ts_expected": "5\n8\n-3\n-10\n5\n(3 + 5)\n(2 * 4)\n(-(3))\n(-((2 + 3)))",
+    "py_expected": "5\n8\n-3\n-10\n5\n(3 + 5)\n(2 * 4)\n(-(3))\n(-((2 + 3)))"
+  },
+  {
+    "id": "A09",
+    "name": "effect_separation",
+    "category": "purity",
+    "description": "Write a PURE function `process_data(lst)` that takes a list of integers, filters out negatives, doubles each, and returns the sum. Then write an IO wrapper `run(lst)` that calls process_data and prints \"Total: {result}\". The pure function must NOT do any IO.",
+    "trap": "LLMs in TS/Python often mix IO into the processing logic. In LM, calling print from a pure function is a compile error.",
+    "lm_expected": "Total: 12\nTotal: 0\nTotal: 20",
+    "ts_expected": "Total: 12\nTotal: 0\nTotal: 20",
+    "py_expected": "Total: 12\nTotal: 0\nTotal: 20"
+  },
+  {
+    "id": "A10",
+    "name": "multi_error_validation",
+    "category": "error_handling",
+    "description": "Write a user registration validator. `validate_username(s)` returns Err if empty or longer than 20 chars. `validate_email(s)` returns Err if doesn't contain '@'. `validate_password(s)` returns Err if shorter than 8 chars. `register(username, email, password)` chains all three, returning Ok(\"{username} registered with {email}\") or the first error. Format: Ok(value) or Err(message).",
+    "trap": "Complex error chain with 3 validation steps. LLMs in TS often use if/throw instead of Result propagation, or forget to propagate early errors.",
+    "lm_expected": "Ok(alice registered with alice@example.com)\nErr(username must not be empty)\nErr(email must contain @)\nErr(password must be at least 8 characters)\nErr(username must be at most 20 characters)",
+    "ts_expected": "Ok(alice registered with alice@example.com)\nErr(username must not be empty)\nErr(email must contain @)\nErr(password must be at least 8 characters)\nErr(username must be at most 20 characters)",
+    "py_expected": "Ok(alice registered with alice@example.com)\nErr(username must not be empty)\nErr(email must contain @)\nErr(password must be at least 8 characters)\nErr(username must be at most 20 characters)"
+  }
+]

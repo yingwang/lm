@@ -1,0 +1,47 @@
+fn validate_username(s: String) -> Result<String, String> {
+    if str_len(s) == 0 { Err("username must not be empty") }
+    else if str_len(s) > 20 { Err("username must be at most 20 characters") }
+    else { Ok(s) }
+}
+
+fn has_at_helper(s: String, i: Int) -> Bool {
+    if i >= str_len(s) { false }
+    else {
+        let ch = char_at(s, i);
+        if ch == "@" { true }
+        else { has_at_helper(s, i + 1) }
+    }
+}
+
+fn validate_email(s: String) -> Result<String, String> {
+    if has_at_helper(s, 0) { Ok(s) }
+    else { Err("email must contain @") }
+}
+
+fn validate_password(s: String) -> Result<String, String> {
+    if str_len(s) < 8 { Err("password must be at least 8 characters") }
+    else { Ok(s) }
+}
+
+fn register(u: String, e: String, p: String) -> Result<String, String> {
+    match validate_username(u) {
+        Ok(username) -> {
+            match validate_email(e) {
+                Ok(email) -> {
+                    match validate_password(p) {
+                        Ok(_) -> Ok(username ++ " registered with " ++ email),
+                        Err(err) -> Err(err),
+                    }
+                },
+                Err(err) -> Err(err),
+            }
+        },
+        Err(err) -> Err(err),
+    }
+}
+
+let _ = print(to_string(register("alice", "alice@example.com", "password123")));
+let _ = print(to_string(register("", "a@b", "pass1234")));
+let _ = print(to_string(register("alice", "noatsign", "pass1234")));
+let _ = print(to_string(register("alice", "a@b", "short")));
+let _ = print(to_string(register("aaaaabbbbbcccccddddde", "a@b", "pass1234")));

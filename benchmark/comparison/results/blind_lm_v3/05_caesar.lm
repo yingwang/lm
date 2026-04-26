@@ -1,0 +1,30 @@
+fn shift_char(c: String, shift: Int) -> String {
+    let code = char_code(c);
+    if code >= 65 && code <= 90 {
+        let shifted = (code - 65 + shift) % 26;
+        let normalized = if shifted < 0 { shifted + 26 } else { shifted };
+        from_char_code(normalized + 65)
+    }
+    else { c }
+}
+
+fn caesar_helper(text: String, shift: Int, i: Int, acc: String) -> String {
+    if i >= str_len(text) { acc }
+    else {
+        let c = char_at(text, i);
+        caesar_helper(text, shift, i + 1, acc ++ shift_char(c, shift))
+    }
+}
+
+fn caesar_encrypt(text: String, shift: Int) -> String {
+    caesar_helper(text, shift, 0, "")
+}
+
+io fn main() -> Unit {
+    let _ = print(caesar_encrypt("ABC", 1));
+    let _ = print(caesar_encrypt("ABC", 0));
+    let _ = print(caesar_encrypt("HELLO", 13));
+    print(caesar_encrypt("A B!", 2))
+}
+
+let _ = main();

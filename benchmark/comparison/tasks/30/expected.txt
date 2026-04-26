@@ -1,0 +1,8 @@
+Ok(25)
+Err(age must be non-negative)
+Err(age must be under 150)
+Ok(Alice)
+Err(name must not be empty)
+Ok(Alice (age 25))
+Err(name must not be empty)
+Err(age must be non-negative)

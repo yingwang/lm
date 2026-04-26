@@ -891,19 +891,29 @@ impl Parser {
             // Block expression: `{ ... }`
             TokenKind::LBrace => self.parse_block_expr(),
 
-            // Parenthesized expression: `(expr)`
+            // Parenthesized expression: `(expr)` or Unit literal `()`
             TokenKind::LParen => {
                 let start = self.current_span();
                 self.advance(); // eat `(`
-                let inner = self.parse_expr()?;
-                if !self.expect(TokenKind::RParen, "E0104", "unclosed `(`") {
-                    // Try to continue
+                // Check for `()` — Unit literal
+                if self.check(TokenKind::RParen) {
+                    self.advance(); // eat `)`
+                    let span = start.merge(self.previous().span);
+                    Some(Expr {
+                        kind: ExprKind::Literal { value: LitValue::Unit },
+                        span,
+                    })
+                } else {
+                    let inner = self.parse_expr()?;
+                    if !self.expect(TokenKind::RParen, "E0104", "unclosed `(`") {
+                        // Try to continue
+                    }
+                    let span = start.merge(self.previous().span);
+                    Some(Expr {
+                        kind: inner.kind,
+                        span,
+                    })
                 }
-                let span = start.merge(self.previous().span);
-                Some(Expr {
-                    kind: inner.kind,
-                    span,
-                })
             }
 
             _ => {

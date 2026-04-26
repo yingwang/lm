@@ -1,0 +1,60 @@
+fn filter_negatives_helper(lst: List<Int>, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> {
+                let new_acc = if v >= 0 { list_push(acc, v) } else { acc };
+                filter_negatives_helper(lst, i + 1, new_acc)
+            },
+            None -> acc,
+        }
+    }
+}
+
+fn filter_negatives(lst: List<Int>) -> List<Int> {
+    filter_negatives_helper(lst, 0, [])
+}
+
+fn double_helper(lst: List<Int>, i: Int, acc: List<Int>) -> List<Int> {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> double_helper(lst, i + 1, list_push(acc, v * 2)),
+            None -> acc,
+        }
+    }
+}
+
+fn double_all(lst: List<Int>) -> List<Int> {
+    double_helper(lst, 0, [])
+}
+
+fn sum_helper(lst: List<Int>, i: Int, acc: Int) -> Int {
+    if i >= len(lst) { acc }
+    else {
+        match list_get(lst, i) {
+            Some(v) -> sum_helper(lst, i + 1, acc + v),
+            None -> acc,
+        }
+    }
+}
+
+fn sum_list(lst: List<Int>) -> Int {
+    sum_helper(lst, 0, 0)
+}
+
+fn process_data(lst: List<Int>) -> Int {
+    let filtered = filter_negatives(lst);
+    let doubled = double_all(filtered);
+    sum_list(doubled)
+}
+
+io fn run(lst: List<Int>) -> Unit {
+    let result = process_data(lst);
+    let _ = print("Total: " ++ int_to_string(result));
+    ()
+}
+
+let _ = run([1, 2, 3]);
+let _ = run([-1, -2]);
+let _ = run([5, -3, 5]);

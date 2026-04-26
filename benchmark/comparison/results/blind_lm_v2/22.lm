@@ -1,0 +1,31 @@
+type Expr =
+    | Lit(Int)
+    | Add(Int, Int)
+    | Mul(Int, Int)
+
+fn eval(e: Expr) -> Int {
+    match e {
+        Lit(n) -> n,
+        Add(a, b) -> a + b,
+        Mul(a, b) -> a * b,
+    }
+}
+
+fn describe(e: Expr) -> String {
+    match e {
+        Lit(n) -> "Literal: " ++ int_to_string(n),
+        Add(a, b) -> "Add: " ++ int_to_string(a) ++ " + " ++ int_to_string(b),
+        Mul(a, b) -> "Mul: " ++ int_to_string(a) ++ " * " ++ int_to_string(b),
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(eval(Lit(5))));
+    let _ = print(to_string(eval(Add(3, 4))));
+    let _ = print(to_string(eval(Mul(3, 4))));
+    let _ = print(describe(Lit(5)));
+    let _ = print(describe(Add(3, 4)));
+    print(describe(Mul(3, 4)))
+}
+
+let _ = main();

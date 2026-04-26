@@ -1,0 +1,36 @@
+type Color =
+    | Red
+    | Green
+    | Blue
+    | Yellow
+
+fn to_hex(c: Color) -> String {
+    match c {
+        Red -> "#FF0000",
+        Green -> "#00FF00",
+        Blue -> "#0000FF",
+        Yellow -> "#FFFF00",
+    }
+}
+
+fn is_primary(c: Color) -> Bool {
+    match c {
+        Red -> true,
+        Green -> true,
+        Blue -> true,
+        Yellow -> false,
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_hex(Red));
+    let _ = print(to_hex(Green));
+    let _ = print(to_hex(Blue));
+    let _ = print(to_hex(Yellow));
+    let _ = print(to_string(is_primary(Red)));
+    let _ = print(to_string(is_primary(Green)));
+    let _ = print(to_string(is_primary(Blue)));
+    print(to_string(is_primary(Yellow)))
+}
+
+let _ = main();

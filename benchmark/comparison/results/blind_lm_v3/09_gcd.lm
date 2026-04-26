@@ -1,0 +1,20 @@
+fn abs(n: Int) -> Int {
+    if n < 0 { 0 - n } else { n }
+}
+
+fn gcd(a: Int, b: Int) -> Int {
+    let x = abs(a);
+    let y = abs(b);
+    if y == 0 { x }
+    else { gcd(y, x % y) }
+}
+
+io fn main() -> Unit {
+    let _ = print(int_to_string(gcd(12, 8)));
+    let _ = print(int_to_string(gcd(100, 75)));
+    let _ = print(int_to_string(gcd(7, 13)));
+    let _ = print(int_to_string(gcd(0, 5)));
+    print(int_to_string(gcd(10, 0)))
+}
+
+let _ = main();

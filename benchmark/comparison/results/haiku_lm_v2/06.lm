@@ -1,0 +1,22 @@
+fn running_sum_helper(lst: List<Int>, i: Int, acc: Int, result: List<Int>) -> List<Int> {
+    if i >= len(lst) {
+        result
+    } else {
+        match list_get(lst, i) {
+            Some(v) -> {
+                let new_acc = acc + v;
+                running_sum_helper(lst, i + 1, new_acc, list_push(result, new_acc))
+            },
+            None -> result,
+        }
+    }
+}
+
+fn running_sum(lst: List<Int>) -> List<Int> {
+    running_sum_helper(lst, 0, 0, [])
+}
+
+let _ = print(to_string(running_sum([1,2,3,4])));
+let _ = print(to_string(running_sum([])));
+let _ = print(to_string(running_sum([5])));
+let _ = print(to_string(running_sum([-1,2,3])));

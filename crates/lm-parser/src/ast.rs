@@ -200,6 +200,8 @@ pub enum LitValue {
     String(String),
     /// Boolean literal.
     Bool(bool),
+    /// Unit literal `()`.
+    Unit,
 }
 
 /// Binary operators.

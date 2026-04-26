@@ -1,0 +1,16 @@
+type Shape =
+    | Circle(Float)
+    | Rect(Float, Float)
+    | Triangle(Float, Float)
+
+fn area(s: Shape) -> Float {
+    match s {
+        Circle(r) -> 3.14159 * r * r,
+        Rect(w, h) -> w * h,
+        Triangle(b, h) -> 0.5 * b * h,
+    }
+}
+
+let _ = print(to_string(area(Circle(5.0))));
+let _ = print(to_string(area(Rect(3.0, 4.0))));
+let _ = print(to_string(area(Triangle(6.0, 4.0))));

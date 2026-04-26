@@ -1,0 +1,18 @@
+fn fizzbuzz(n: Int) -> String {
+    let rem3 = n - (n / 3) * 3;
+    let rem5 = n - (n / 5) * 5;
+    if rem3 == 0 && rem5 == 0 { "FizzBuzz" }
+    else if rem3 == 0 { "Fizz" }
+    else if rem5 == 0 { "Buzz" }
+    else { int_to_string(n) }
+}
+
+io fn main() -> Unit {
+    let _ = print(fizzbuzz(1));
+    let _ = print(fizzbuzz(3));
+    let _ = print(fizzbuzz(5));
+    let _ = print(fizzbuzz(15));
+    print(fizzbuzz(7))
+}
+
+let _ = main();

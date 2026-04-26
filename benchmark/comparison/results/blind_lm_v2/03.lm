@@ -1,0 +1,20 @@
+fn is_palindrome_helper(s: String, left: Int, right: Int) -> Bool {
+    if left >= right { true }
+    else {
+        if char_at(s, left) == char_at(s, right) { is_palindrome_helper(s, left + 1, right - 1) }
+        else { false }
+    }
+}
+
+fn is_palindrome(s: String) -> Bool {
+    is_palindrome_helper(s, 0, str_len(s) - 1)
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(is_palindrome("racecar")));
+    let _ = print(to_string(is_palindrome("hello")));
+    let _ = print(to_string(is_palindrome("")));
+    print(to_string(is_palindrome("a")))
+}
+
+let _ = main();

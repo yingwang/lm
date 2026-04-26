@@ -1,0 +1,35 @@
+fn validate_age(age: Int) -> Result<Int, String> {
+    if age < 0 { Err("age must be non-negative") }
+    else if age >= 150 { Err("age must be under 150") }
+    else { Ok(age) }
+}
+
+fn validate_name(name: String) -> Result<String, String> {
+    if str_len(name) == 0 { Err("name must not be empty") }
+    else { Ok(name) }
+}
+
+fn validate_user(name: String, age: Int) -> Result<String, String> {
+    match validate_name(name) {
+        Err(e) -> Err(e),
+        Ok(n) -> {
+            match validate_age(age) {
+                Err(e) -> Err(e),
+                Ok(a) -> Ok(n ++ " (age " ++ int_to_string(a) ++ ")"),
+            }
+        },
+    }
+}
+
+io fn main() -> Unit {
+    let _ = print(to_string(validate_age(25)));
+    let _ = print(to_string(validate_age(-1)));
+    let _ = print(to_string(validate_age(200)));
+    let _ = print(to_string(validate_name("Alice")));
+    let _ = print(to_string(validate_name("")));
+    let _ = print(to_string(validate_user("Alice", 25)));
+    let _ = print(to_string(validate_user("", 25)));
+    print(to_string(validate_user("Alice", -1)))
+}
+
+let _ = main();

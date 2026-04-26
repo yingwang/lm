@@ -1,0 +1,35 @@
+fn is_vowel(c: String) -> Bool {
+    if c == "a" { true }
+    else if c == "e" { true }
+    else if c == "i" { true }
+    else if c == "o" { true }
+    else if c == "u" { true }
+    else if c == "A" { true }
+    else if c == "E" { true }
+    else if c == "I" { true }
+    else if c == "O" { true }
+    else if c == "U" { true }
+    else { false }
+}
+
+fn count_vowels_helper(s: String, i: Int, acc: Int) -> Int {
+    if i >= str_len(s) { acc }
+    else {
+        let c = char_at(s, i);
+        if is_vowel(c) { count_vowels_helper(s, i + 1, acc + 1) }
+        else { count_vowels_helper(s, i + 1, acc) }
+    }
+}
+
+fn count_vowels(s: String) -> Int {
+    count_vowels_helper(s, 0, 0)
+}
+
+io fn main() -> Unit {
+    let _ = print(int_to_string(count_vowels("hello")));
+    let _ = print(int_to_string(count_vowels("aeiou")));
+    let _ = print(int_to_string(count_vowels("xyz")));
+    print(int_to_string(count_vowels("")))
+}
+
+let _ = main();
